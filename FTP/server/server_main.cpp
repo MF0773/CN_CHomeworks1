@@ -35,6 +35,7 @@ class FtpServer{
         setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &options , sizeof(int));
 
         if (serverFd < 0){
+            clog << "could not start server"<<endl;
             return false;
         }
 
@@ -56,10 +57,10 @@ class FtpServer{
         {
             eventFdSet = fdSet;
             select(lastFd + 1, &eventFdSet, NULL, NULL, NULL);
+            clog<<"some events";
             for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
                 if (FD_ISSET( fdIter , &eventFdSet)){
                     // gameManager_reactionEvent(gm,fdIter,&eventFdSet);
-                    cout<<"some events";
                     onEventOccur(fdIter,eventFdSet);
                 }
             }
@@ -78,7 +79,7 @@ class FtpServer{
 
 int main(int argc,char** argv){
     FtpServer server;
-    server.start(21);
+    server.start(2121);
 
     server.event_loop();
 
