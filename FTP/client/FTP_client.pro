@@ -7,11 +7,13 @@ QT = core gui widgets
 
 HEADERS = \
     ../../common/include/ftpstatics.h \
-    ftpclient.h
+    ftpclient.h \
+    ftpclienttest.h
 
 SOURCES = \
    $$PWD/client_main.cpp \
-   ftpclient.cpp
+   ftpclient.cpp \
+   ftpclienttest.cpp
 
 INCLUDEPATH =
 

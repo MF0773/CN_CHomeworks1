@@ -18,8 +18,6 @@ bool FtpClient::connectToServer(int port) {
         controlPort = port;
 
         clog<< "connected on port : "<< controlPort<<endl;
-        string buff = "Hello,Iam new client";
-        send(controlFd, buff.c_str(), buff.size(), 0);
         return true;
     }
 

@@ -18,7 +18,6 @@ INCLUDEPATH =
 
 SOURCES += \
     ../server/server_main.cpp \
-    accountinfo.cpp \
     ftpserver.cpp \
     user.cpp
 
