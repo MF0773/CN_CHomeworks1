@@ -10,6 +10,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <memory.h>
+#include <unordered_map>
+#include "user.h"
+#include "accountinfo.h"
 
 using namespace std;
 
@@ -21,8 +24,10 @@ class FtpServer{
     int serverPort,serverFd;
     int lastFd;
     fd_set fdSet;
+    unordered_map<std::string,AccountInfo> accountsMap;
 
-
+private:
+    void addAccountInfo(const AccountInfo& account);
     public:
     FtpServer();
 

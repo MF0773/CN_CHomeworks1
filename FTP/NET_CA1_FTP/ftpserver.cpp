@@ -1,9 +1,15 @@
 #include "ftpserver.h"
 #include <fstream>
 #include <string>
+#include <user.h>
 
 //json library imports
 #include "../../common/include/nlohmann/json.hpp"
+
+void FtpServer::addAccountInfo(const AccountInfo &account)
+{
+    accountsMap.emplace(account.userName,account);
+}
 
 FtpServer::FtpServer(){
     lastFd = 0;
@@ -175,6 +181,16 @@ bool FtpServer::importUsersFromFile(string filePath)
 
     auto jsonObj = json::parse(fileStr);
     for (auto userData:jsonObj["users"]){
-        cout<<userData["password"]<<endl;
+
+        AccountInfo newAccount = {
+                .userName=userData["user"],
+                .password=userData["password"],
+                .admin=userData["admin"]=="true",
+                .maxUsageSize= std::stoi ( (string) userData["size"])
+            };
+
+        addAccountInfo(newAccount);
     }
+
+    return true;
 }

@@ -8,7 +8,9 @@ QT =
 HEADERS =\
     ../../common/include/nlohmann/json.hpp \
     ../../common/include/nlohmann/json_fwd.hpp \
-    ftpserver.h
+    accountinfo.h \
+    ftpserver.h \
+    user.h
 
 INCLUDEPATH =
 
@@ -16,7 +18,9 @@ INCLUDEPATH =
 
 SOURCES += \
     ../server/server_main.cpp \
-    ftpserver.cpp
+    accountinfo.cpp \
+    ftpserver.cpp \
+    user.cpp
 
 DISTFILES += \
     ../server/config.json
