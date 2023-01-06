@@ -6,8 +6,8 @@ int main(int argc,char** argv){
     server.start(2121);
     // server.sample();
 
-    server.event_loop();
+//    server.event_loop();
 
-    server.end();
+//    server.end();
     return 0;
 }

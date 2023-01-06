@@ -14,6 +14,8 @@
 using namespace std;
 
 #define RECEIVE_BUFFER_SIZE 1024
+#define USER_FILE_PATH "../server/config.json"
+
 class FtpServer{
     private:
     int serverPort,serverFd;
@@ -45,8 +47,10 @@ class FtpServer{
 
     void onNewPacketRecived(int fdIter,char* recvBuf);
 
-
     void end();
+
+    //json functions
+    bool importUsersFromFile(std::string filePath);
 };
 
 #endif // FTPSERVER_H

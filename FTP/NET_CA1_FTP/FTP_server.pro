@@ -3,16 +3,21 @@
 
 #TARGET = FTP_server
 
-QT = 
+QT =
 
-HEADERS = \
+HEADERS =\
+    ../../common/include/nlohmann/json.hpp \
+    ../../common/include/nlohmann/json_fwd.hpp \
     ftpserver.h
 
 INCLUDEPATH =
 
-#DEFINES = 
+#DEFINES =
 
 SOURCES += \
     ../server/server_main.cpp \
     ftpserver.cpp
+
+DISTFILES += \
+    ../server/config.json
 

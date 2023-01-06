@@ -1,5 +1,9 @@
 #include "ftpserver.h"
+#include <fstream>
+#include <string>
 
+//json library imports
+#include "../../common/include/nlohmann/json.hpp"
 
 FtpServer::FtpServer(){
     lastFd = 0;
@@ -30,6 +34,8 @@ bool FtpServer::start(int port){
 
 
     listen(serverFd, 4);
+
+    bool result = importUsersFromFile(USER_FILE_PATH);
 
     return true;
 }
@@ -154,4 +160,21 @@ void FtpServer::onNewPacketRecived(int fdIter, char *recvBuf){
 void FtpServer::end(){
     clog<<"ending server at port "<<serverPort<<endl;
     close(serverFd);
+}
+
+bool FtpServer::importUsersFromFile(string filePath)
+{
+    using json = nlohmann::json;
+    string buffer,fileStr;
+    ifstream file(filePath);
+    if (!file){
+        cerr<<"Couldnt open json file:"<<filePath<<endl;
+        return false;
+    }
+    while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
+
+    auto jsonObj = json::parse(fileStr);
+    for (auto userData:jsonObj["users"]){
+        cout<<userData["password"]<<endl;
+    }
 }
