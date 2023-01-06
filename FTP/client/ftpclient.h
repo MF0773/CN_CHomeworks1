@@ -14,6 +14,7 @@ class FtpClient{
     int controlFd,controlPort,dataPort;
     bool loginned;
     int lastResponse;
+    std::string userName;
 
     public:
         FtpClient();
@@ -39,6 +40,8 @@ class FtpClient{
     void displayMessage(char* args);
     int getLastResponse() const;
     void setLastResponse(int newLastResponse);
+    std::string getUserName() const;
+    void setUserName(const std::string &newUserName);
 };
 
 

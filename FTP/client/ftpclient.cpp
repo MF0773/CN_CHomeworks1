@@ -36,6 +36,16 @@ void FtpClient::setLastResponse(int newLastResponse)
     lastResponse = newLastResponse;
 }
 
+std::string FtpClient::getUserName() const
+{
+    return userName;
+}
+
+void FtpClient::setUserName(const std::string &newUserName)
+{
+    userName = newUserName;
+}
+
 FtpClient::FtpClient()
 {
     setLoginned(false);

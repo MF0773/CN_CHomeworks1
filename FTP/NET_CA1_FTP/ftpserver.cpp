@@ -295,8 +295,6 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
         return;
     }
 
-    loginReqSet.erase(fd);
-
     stringstream ss;
     ss.str(buffer);
     string command,user,pass;
@@ -319,6 +317,7 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
 
     addOnlineUser(fd,account);
     apiSendMessage(fd,LOGIN_RESPONSE_COMMAND,230, "Logged in, proceed. Logged out if appropriate.");
+    loginReqSet.erase(fd);
     clog<<"logged in"<<endl;
 }
 

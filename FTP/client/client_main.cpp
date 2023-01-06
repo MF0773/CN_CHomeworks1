@@ -3,6 +3,43 @@
 #include "ftpclienttest.h"
 using namespace std;
 
+bool userNameLoop(FtpClient& client)
+{
+    while(!std::cin.eof()){
+        string userNameIn;
+
+        cout<<"Enter Username:"<<endl;
+        cin>>userNameIn;
+
+        bool result = client.checkUserName(userNameIn);
+        if (result){
+            client.setUserName(userNameIn);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool passwordLoop(FtpClient& client)
+{
+    while(!std::cin.eof()){
+        string passwordIn;
+
+        cout<<"Enter Password:"<<endl;
+        cin>>passwordIn;
+
+        string userName = client.getUserName();
+
+        bool result = client.tryLogin(userName,passwordIn);
+        if (result){
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int main(int argc,char **argv){
     if (argc>1){
         string arg = argv[1];
@@ -13,6 +50,7 @@ int main(int argc,char **argv){
         }
 
     }
+
     cout<<"client started"<<endl;
     FtpClient client;
 
@@ -21,8 +59,13 @@ int main(int argc,char **argv){
         return -1;
     }
 
-    bool isLogined = client.loginLoop();
-    if(!result){
+    bool userNameOK = userNameLoop(client);
+    if(!userNameOK){
+        return 0;
+    }
+
+    bool passOK = passwordLoop(client);
+    if(!passOK){
         return 0;
     }
 
