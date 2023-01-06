@@ -2,4 +2,5 @@
 #define MAX_COMMAND_NAME_LEN 20 
 #define LOGIN_REQUEST_COMMAND "loginRequset"
 #define LOGIN_RESPONSE_COMMAND "loginResponse"
+#define LOGIN_INVALID_USER_PASS 430
 

@@ -162,6 +162,17 @@ void FtpServer::disconnectClient(int clientFd){
     FD_CLR(clientFd, &fdSet );
     close(clientFd);
     clog<<"client "<<clientFd <<" disconnected"<<endl;
+
+    removeOnlineUser(clientFd);
+}
+
+void FtpServer::removeOnlineUser(int fd)
+{
+    auto iter = onlineUsers.find(fd);
+    if (iter == onlineUsers.end())
+        return;
+
+    onlineUsers.erase(fd);
 }
 
 void FtpServer::onNewPacketRecived(int fdIter, char *recvBuf){
@@ -266,18 +277,24 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     auto accountIter = accountsMap.find(user);
     if(accountIter == accountsMap.end()){
         clog<<"invalid username"<<endl;
-        string args = makeResponseMessage(430,"Invalid username or password");
-        apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
+        apiSendMessage(fd, 430,"Invalid username or password");
         return;
     }
 
     auto account = accountIter->second;
     if(account.password != pass){
         clog<<"invalid pass"<<endl;
-        string args = makeResponseMessage(430,"Invalid username or password");
-        apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
+        apiSendMessage(fd, 430,"Invalid username or password");
         return;
     }
 
-    //add to active users
+    addOnlineUser(fd,account);
+    apiSendMessage(fd,230,"Logged in, proceed. Logged out if appropriate.");
+    clog<<"logged in"<<endl;
+}
+
+void FtpServer::apiSendMessage(int fd, int code, string message)
+{
+    string args = makeResponseMessage(code,message);
+    apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
 }

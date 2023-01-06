@@ -14,7 +14,7 @@ public:
     bool run(char** argv);
 
     bool shouldConnect();
-    bool should_login();
+    bool shouldLogin();
     bool should_not_login();
 };
 

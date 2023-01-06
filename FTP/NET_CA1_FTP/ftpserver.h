@@ -50,6 +50,7 @@ private:
     void acceptNewClient();
 
     void disconnectClient(int clientFd);
+    void removeOnlineUser(int fd);
 
     void onNewPacketRecived(int fdIter,char* recvBuf);
 
@@ -67,6 +68,7 @@ private:
     std::string exportCommandName(char *buff, int recivedLen);
     void onNewApiCommandRecived(int fd, char* buffer, int len);
     void onNewLoginRequest(int fd, char* buffer, int len);
+    void apiSendMessage(int fd,int code,std::string message);
 };
 
 #endif // FTPSERVER_H
