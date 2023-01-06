@@ -13,6 +13,7 @@ class FtpClient{
     private:
     int controlFd,controlPort,dataPort;
     bool loginned;
+    int lastResponse;
 
     public:
         FtpClient();
@@ -27,13 +28,17 @@ class FtpClient{
     std::string exportCommandName(char* buff,int recivedLen);
     void apiWaitResponse(int fd, std::string command);
     void apiSend(int fd, std::string commandName, const char *args, int argLen=-1);
+    bool checkUserName(std::string userNameIn);
     bool tryLogin(std::string userNameIn,std::string passwordIn);
     void onNewApiCommand(int fd, string commandName, char *args);
     void onNewLoginResponse(char* args);
+    void onNewUserNameCheckResponse(char* args);
 
     bool getLoginned() const;
     void setLoginned(bool newLoginned);
     void displayMessage(char* args);
+    int getLastResponse() const;
+    void setLastResponse(int newLastResponse);
 };
 
 

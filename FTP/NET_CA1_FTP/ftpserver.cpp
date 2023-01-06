@@ -248,25 +248,54 @@ std::string FtpServer::exportCommandName(char *buff, int recivedLen)
     return commandName;
 }
 
+#define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(fd,buffer,len)
+
 void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
 {
     string commandName = exportCommandName(buffer,len);
 
     try{
-        if (commandName == LOGIN_REQUEST_COMMAND){
-            return onNewLoginRequest(fd,buffer,len);
-        }
-        else
-            clog<<"unknown command: "<<commandName<<endl;
+//        if (commandName == LOGIN_REQUEST_COMMAND){
+//            return onNewLoginRequest(fd,buffer,len);
+//        }
+        COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
+        COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
+
+        clog<<"unknown command: "<<commandName<<endl;
     }
     catch (...){
         clog<<"exception in events!"<<endl;
     }
 }
 
+void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
+{
+    stringstream ss;
+    ss.str(buffer);
+    string command,user;
+    ss>>command>>user;
+    clog<<user<<endl;
+
+    auto iter = accountsMap.find(user);
+    if (iter == accountsMap.end()){
+        clog<<"invalid username"<<endl;
+        apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 430,"Invalid username or password");
+        return;
+    }
+
+    loginReqSet.insert(fd);
+    apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 331,"Username OK, need password.");
+}
+
 void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
 {
     clog<<"new login request"<<endl;
+    if( loginReqSet.count(fd) == 0 ){
+        apiSendMessage(fd, LOGIN_RESPONSE_COMMAND, 503,"Bad sequence of commands.");
+        return;
+    }
+
+    loginReqSet.erase(fd);
 
     stringstream ss;
     ss.str(buffer);
@@ -277,24 +306,24 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     auto accountIter = accountsMap.find(user);
     if(accountIter == accountsMap.end()){
         clog<<"invalid username"<<endl;
-        apiSendMessage(fd, 430,"Invalid username or password");
+        apiSendMessage(fd, LOGIN_RESPONSE_COMMAND, 430,"Invalid username or password");
         return;
     }
 
     auto account = accountIter->second;
     if(account.password != pass){
         clog<<"invalid pass"<<endl;
-        apiSendMessage(fd, 430,"Invalid username or password");
+        apiSendMessage(fd, LOGIN_RESPONSE_COMMAND,430, "Invalid username or password");
         return;
     }
 
     addOnlineUser(fd,account);
-    apiSendMessage(fd,230,"Logged in, proceed. Logged out if appropriate.");
+    apiSendMessage(fd,LOGIN_RESPONSE_COMMAND,230, "Logged in, proceed. Logged out if appropriate.");
     clog<<"logged in"<<endl;
 }
 
-void FtpServer::apiSendMessage(int fd, int code, string message)
+void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)
 {
     string args = makeResponseMessage(code,message);
-    apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
+    apiSend(fd,commandName,args);
 }

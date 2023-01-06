@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include "user.h"
 #include "accountinfo.h"
+#include <set>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ class FtpServer{
     fd_set fdSet;
     unordered_map<std::string,AccountInfo> accountsMap;
     unordered_map<int,User*> onlineUsers;
+    set<int> loginReqSet;
 
 private:
     void addAccountInfo(const AccountInfo& account);
@@ -67,8 +69,9 @@ private:
     void apiSend(int fd, std::string commandName, string str);
     std::string exportCommandName(char *buff, int recivedLen);
     void onNewApiCommandRecived(int fd, char* buffer, int len);
+    void onNewUserCheckRequest(int fd,char* buffer,int len);
     void onNewLoginRequest(int fd, char* buffer, int len);
-    void apiSendMessage(int fd,int code,std::string message);
+    void apiSendMessage(int fd, string commandName, int code, std::string message);
 };
 
 #endif // FTPSERVER_H

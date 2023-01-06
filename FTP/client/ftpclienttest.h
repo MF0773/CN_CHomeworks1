@@ -15,7 +15,10 @@ public:
 
     bool shouldConnect();
     bool shouldLogin();
-    bool should_not_login();
+    bool testBadSequence();
+    bool testWrongUsername();
+    void testWronPassword();
+    void testCorrectLogin();
 };
 
 #endif // FTPCLIENTTEST_H

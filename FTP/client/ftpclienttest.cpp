@@ -5,11 +5,15 @@ FtpClientTest::FtpClientTest()
 
 }
 
+#define ASSERT(COND,MSG) if (!(COND)) throw MSG
+
 void FtpClientTest::_run()
 {
     shouldConnect();
-    should_not_login();
-    shouldLogin();
+    testBadSequence();
+    testWrongUsername();
+    testWronPassword();
+    testCorrectLogin();
 }
 
 bool FtpClientTest::run(char **argv)
@@ -49,13 +53,32 @@ bool FtpClientTest::shouldLogin()
     return true;
 }
 
-bool FtpClientTest::should_not_login()
+bool FtpClientTest::testBadSequence()
 {
-    bool b = client.tryLogin("foo","*****");
-    if(!b)
-        return true;
-    else{
-        throw "wrong login!";
-        return false;
-    }
+    client.tryLogin("Ali","1234");
+    ASSERT(client.getLastResponse() == 503,"Bad sequence not detected");
+}
+
+bool FtpClientTest::testWrongUsername()
+{
+    client.checkUserName("sdlkfja");
+    ASSERT(client.getLastResponse() == 430,"wrong user name not worked");
+}
+
+void FtpClientTest::testWronPassword()
+{
+    client.checkUserName("Ali");
+    ASSERT(client.getLastResponse() == 331,"user name ali");
+
+    client.tryLogin("Ali","wrontpass");
+    ASSERT(client.getLastResponse() == 430,"wrong pass not worked");
+}
+
+void FtpClientTest::testCorrectLogin()
+{
+    client.checkUserName("Ali");
+    ASSERT(client.getLastResponse() == 331,"user name ali");
+
+    client.tryLogin("Ali","1234");
+    ASSERT(client.getLastResponse() == 230,"correct login not worked");
 }

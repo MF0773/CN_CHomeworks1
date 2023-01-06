@@ -23,6 +23,17 @@ void FtpClient::displayMessage(char *args)
     ss>>cmd>>code;
     getline(ss,message);
     cout<<code<<": "<<message<<endl;
+    setLastResponse(code);
+}
+
+int FtpClient::getLastResponse() const
+{
+    return lastResponse;
+}
+
+void FtpClient::setLastResponse(int newLastResponse)
+{
+    lastResponse = newLastResponse;
 }
 
 FtpClient::FtpClient()
@@ -123,6 +134,13 @@ void FtpClient::apiSend(int fd, string commandName,const char *args, int argLen)
 
 }
 
+bool FtpClient::checkUserName(string userNameIn)
+{
+    apiSend(controlFd, USER_CHECK_REUQEST_COMMAND,userNameIn.c_str());
+    apiWaitResponse(controlFd,USER_CHECK_RESPONSE_COMMAND);
+    return getLastResponse()==331;
+}
+
 bool FtpClient::tryLogin(string userNameIn, string passwordIn)
 {
     string args = userNameIn+" "+passwordIn;
@@ -132,11 +150,11 @@ bool FtpClient::tryLogin(string userNameIn, string passwordIn)
     return getLoginned();
 }
 
+#define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(args)
 void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
 {
-    if (commandName == LOGIN_RESPONSE_COMMAND){
-        return onNewLoginResponse(args);
-    }
+    COMMAND_CASE(onNewLoginResponse,LOGIN_RESPONSE_COMMAND);
+    COMMAND_CASE(onNewUserNameCheckResponse,USER_CHECK_RESPONSE_COMMAND);
 }
 
 #define USER_LOGGED_IN_CODE 230
@@ -152,5 +170,10 @@ void FtpClient::onNewLoginResponse(char *args)
     ss>>commandName>>code;
     setLoginned( code==USER_LOGGED_IN_CODE );
 
+    displayMessage(args);
+}
+
+void FtpClient::onNewUserNameCheckResponse(char *args)
+{
     displayMessage(args);
 }
