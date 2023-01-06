@@ -54,8 +54,11 @@ private:
 
     void end();
 
-    //json functions
     bool importUsersFromFile(std::string filePath);
+
+    //communicate commands
+    void apiSend(int fd, std::string commandName, char* args, int argLen=-1);
+
 };
 
 #endif // FTPSERVER_H

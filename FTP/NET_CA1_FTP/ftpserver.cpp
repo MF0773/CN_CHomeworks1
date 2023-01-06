@@ -42,6 +42,9 @@ bool FtpServer::start(int port){
     listen(serverFd, 4);
 
     bool result = importUsersFromFile(USER_FILE_PATH);
+    if (!result){
+        return false;
+    }
 
     return true;
 }
@@ -193,4 +196,9 @@ bool FtpServer::importUsersFromFile(string filePath)
     }
 
     return true;
+}
+
+void FtpServer::apiSend(int fd, string commandName, char *args, int argLen)
+{
+
 }
