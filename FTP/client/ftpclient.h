@@ -12,8 +12,10 @@ using namespace std;
 class FtpClient{
     private:
     int controlFd,controlPort,dataPort;
+    bool loginned;
 
     public:
+        FtpClient();
 
     bool connectToServer(int port);
 
@@ -22,10 +24,16 @@ class FtpClient{
     bool loginLoop();
 // api
     void sendBytes(int fd, const char *bytes, int len);
-    std::string importCommandName(char* buff,int recivedLen);
-    void apiWaitResponse(int fd,std::string command, char* args);
+    std::string exportCommandName(char* buff,int recivedLen);
+    void apiWaitResponse(int fd, std::string command);
     void apiSend(int fd, std::string commandName, const char *args, int argLen=-1);
-    bool sendLoginRequest(std::string userNameIn,std::string passwordIn);
+    bool tryLogin(std::string userNameIn,std::string passwordIn);
+    void onNewApiCommand(int fd, string commandName, char *args);
+    void onNewLoginResponse(char* args);
+
+    bool getLoginned() const;
+    void setLoginned(bool newLoginned);
+    void displayMessage(char* args);
 };
 
 

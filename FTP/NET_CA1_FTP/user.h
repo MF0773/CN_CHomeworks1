@@ -5,10 +5,10 @@
 
 class User
 {
-
+private:
+    AccountInfo accountInfo;
 public:
-    User();
-
+    User(AccountInfo accountInfo);
 
 };
 

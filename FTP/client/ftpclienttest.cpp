@@ -8,6 +8,7 @@ FtpClientTest::FtpClientTest()
 void FtpClientTest::_run()
 {
     shouldConnect();
+    should_not_login();
 }
 
 bool FtpClientTest::run(char **argv)
@@ -36,4 +37,15 @@ bool FtpClientTest::shouldConnect()
         throw "cant connect!";
     }
     return true;
+}
+
+bool FtpClientTest::should_not_login()
+{
+    bool b = client.tryLogin("foo","*****");
+    if(!b)
+        return true;
+    else{
+        throw "wrong login!";
+        return false;
+    }
 }

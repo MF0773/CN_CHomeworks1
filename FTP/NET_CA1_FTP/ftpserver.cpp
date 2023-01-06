@@ -6,6 +6,8 @@
 //json library imports
 #include "../../common/include/nlohmann/json.hpp"
 
+#include "../../common/include/ftpstatics.h"
+
 void FtpServer::addAccountInfo(const AccountInfo &account)
 {
     accountsMap.emplace(account.userName,account);
@@ -137,7 +139,7 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
-    onNewPacketRecived(fdIter,recvBuf);
+    onNewApiCommandRecived(fdIter,recvBuf,recvChars);
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
 }
@@ -198,7 +200,84 @@ bool FtpServer::importUsersFromFile(string filePath)
     return true;
 }
 
+void FtpServer::addOnlineUser(int fd, AccountInfo account)
+{
+    auto newUser = new User(account);
+    onlineUsers.emplace(fd,newUser);
+}
+
+string FtpServer::makeResponseMessage(int code, std::string text)
+{
+    return string()+ std::to_string(code) +" "+text;
+}
+
 void FtpServer::apiSend(int fd, string commandName, char *args, int argLen)
 {
 
+}
+
+void FtpServer::apiSend(int fd, string commandName, string args)
+{
+    stringstream ss;
+    ss<<commandName<<" "<<args;
+    string output = ss.str();
+
+    send(fd,output.c_str(),output.size(),0);
+}
+
+std::string FtpServer::exportCommandName(char *buff, int recivedLen)
+{
+    char nameBuffer[MAX_COMMAND_NAME_LEN];
+    strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );
+
+    stringstream ss;
+    ss.str(nameBuffer);
+    string commandName;
+    ss>>commandName;
+    return commandName;
+}
+
+void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
+{
+    string commandName = exportCommandName(buffer,len);
+
+    try{
+        if (commandName == LOGIN_REQUEST_COMMAND){
+            return onNewLoginRequest(fd,buffer,len);
+        }
+        else
+            clog<<"unknown command: "<<commandName<<endl;
+    }
+    catch (...){
+        clog<<"exception in events!"<<endl;
+    }
+}
+
+void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
+{
+    clog<<"new login request"<<endl;
+
+    stringstream ss;
+    ss.str(buffer);
+    string command,user,pass;
+    ss>>command>>user>>pass;
+    clog<<user<<" "<<pass<<endl;
+
+    auto accountIter = accountsMap.find(user);
+    if(accountIter == accountsMap.end()){
+        clog<<"invalid username"<<endl;
+        string args = makeResponseMessage(430,"Invalid username or password");
+        apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
+        return;
+    }
+
+    auto account = accountIter->second;
+    if(account.password != pass){
+        clog<<"invalid pass"<<endl;
+        string args = makeResponseMessage(430,"Invalid username or password");
+        apiSend(fd,LOGIN_RESPONSE_COMMAND,args);
+        return;
+    }
+
+    //add to active users
 }

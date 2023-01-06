@@ -25,6 +25,7 @@ class FtpServer{
     int lastFd;
     fd_set fdSet;
     unordered_map<std::string,AccountInfo> accountsMap;
+    unordered_map<int,User*> onlineUsers;
 
 private:
     void addAccountInfo(const AccountInfo& account);
@@ -56,9 +57,16 @@ private:
 
     bool importUsersFromFile(std::string filePath);
 
-    //communicate commands
-    void apiSend(int fd, std::string commandName, char* args, int argLen=-1);
+    AccountInfo findAccountInfo(std::string user,std::string pass);
+    void addOnlineUser(int fd, AccountInfo account);
+    std::string makeResponseMessage(int code,std::string text);
 
+    //communicate commands
+    void apiSend(int fd, string commandName, char *args, int argLen);
+    void apiSend(int fd, std::string commandName, string str);
+    std::string exportCommandName(char *buff, int recivedLen);
+    void onNewApiCommandRecived(int fd, char* buffer, int len);
+    void onNewLoginRequest(int fd, char* buffer, int len);
 };
 
 #endif // FTPSERVER_H

@@ -3,6 +3,33 @@
 #include <string.h>
 #include "../../common/include/ftpstatics.h"
 
+bool FtpClient::getLoginned() const
+{
+    return loginned;
+}
+
+void FtpClient::setLoginned(bool newLoginned)
+{
+    loginned = newLoginned;
+}
+
+void FtpClient::displayMessage(char *args)
+{
+    stringstream ss;
+    string cmd,message;
+    int code;
+
+    ss.str(args);
+    ss>>cmd>>code;
+    getline(ss,message);
+    cout<<code<<": "<<message<<endl;
+}
+
+FtpClient::FtpClient()
+{
+    setLoginned(false);
+}
+
 bool FtpClient::connectToServer(int port) {
     int fd;
     struct sockaddr_in server_address;
@@ -40,7 +67,7 @@ bool FtpClient::loginLoop()
         cout<<"Enter Password:"<<endl;
         cin>>passwordIn;
 
-        bool result = sendLoginRequest(userNameIn,passwordIn);
+        bool result = tryLogin(userNameIn,passwordIn);
         if (result){
             cout<<"Logined"<<endl;
             return true;
@@ -58,7 +85,7 @@ void FtpClient::sendBytes(int fd,const char *bytes, int len)
     send(fd, bytes, len, 0);
 }
 
-string FtpClient::importCommandName(char *buff, int recivedLen)
+string FtpClient::exportCommandName(char *buff, int recivedLen)
 {
     char nameBuffer[MAX_COMMAND_NAME_LEN];
     strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );
@@ -70,7 +97,7 @@ string FtpClient::importCommandName(char *buff, int recivedLen)
     return commandName;
 }
 
-void FtpClient::apiWaitResponse(int fd, string command, char *args)
+void FtpClient::apiWaitResponse(int fd, string command)
 {
     int recivedLen=0;
     char buff[RECIVE_BUFFER_SIZE] = {0};
@@ -78,7 +105,11 @@ void FtpClient::apiWaitResponse(int fd, string command, char *args)
     while(true){
         memset(buff, 0, RECIVE_BUFFER_SIZE);
         recivedLen = recv(fd, buff, RECIVE_BUFFER_SIZE, 0);
-        string commandName = importCommandName(buff,recivedLen);
+        string commandName = exportCommandName(buff,recivedLen);
+        onNewApiCommand(fd,command,buff);
+        if (commandName == command){
+            return;
+        }
     }
 
 }
@@ -92,9 +123,34 @@ void FtpClient::apiSend(int fd, string commandName,const char *args, int argLen)
 
 }
 
-bool FtpClient::sendLoginRequest(string userNameIn, string passwordIn)
+bool FtpClient::tryLogin(string userNameIn, string passwordIn)
 {
     string args = userNameIn+" "+passwordIn;
     apiSend(controlFd,LOGIN_REQUEST_COMMAND,args.c_str());
 
+    apiWaitResponse(controlFd,LOGIN_RESPONSE_COMMAND);
+    return getLoginned();
+}
+
+void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
+{
+    if (commandName == LOGIN_RESPONSE_COMMAND){
+        return onNewLoginResponse(args);
+    }
+}
+
+#define USER_LOGGED_IN_CODE 230
+
+void FtpClient::onNewLoginResponse(char *args)
+{
+    stringstream ss;
+    string commandName;
+    int code;
+    string message;
+
+    ss.str(args);
+    ss>>commandName>>code;
+    setLoginned( code==USER_LOGGED_IN_CODE );
+
+    displayMessage(args);
 }
