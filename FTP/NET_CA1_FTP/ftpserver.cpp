@@ -132,7 +132,7 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
     }
 
     int recvChars = recv(fdIter , recvBuf, RECEIVE_BUFFER_SIZE, 0);
-    if (recvChars == 0) {//player disconnected
+    if (recvChars == 0) {//client disconnected
         disconnectClient(fdIter);
         return;
     }

@@ -15,11 +15,17 @@ class FtpClient{
 
     public:
 
-    int sampleConnect(int port);
-
     bool connectToServer(int port);
 
     void disconnectFromServer();
+
+    bool loginLoop();
+// api
+    void sendBytes(int fd, const char *bytes, int len);
+    std::string importCommandName(char* buff,int recivedLen);
+    void apiWaitResponse(int fd,std::string command, char* args);
+    void apiSend(int fd, std::string commandName, const char *args, int argLen=-1);
+    bool sendLoginRequest(std::string userNameIn,std::string passwordIn);
 };
 
 
