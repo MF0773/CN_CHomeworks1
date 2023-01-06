@@ -5,12 +5,14 @@
 
 QT = 
 
-HEADERS =
+HEADERS = \
+    ftpserver.h
 
 INCLUDEPATH =
 
 #DEFINES = 
 
 SOURCES += \
-    ../server/server_main.cpp
+    ../server/server_main.cpp \
+    ftpserver.cpp
 
