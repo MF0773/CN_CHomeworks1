@@ -1,78 +1,77 @@
 #include<iostream>
-#include <arpa/inet.h>
-#include <unistd.h>
-
-#define LOCAL_HOST_ADDR "127.0.0.1"
-
+#include "ftpclient.h"
+#include "ftpclienttest.h"
 using namespace std;
 
-class FtpClient{
-    private:
-    int controlFd,controlPort,dataPort;
+bool userNameLoop(FtpClient& client)
+{
+    while(!std::cin.eof()){
+        string userNameIn;
 
-    public:
-    FtpClient(){
-        
-    }
+        cout<<"Enter Username:"<<endl;
+        cin>>userNameIn;
 
-    int sampleConnect(int port) {
-        int fd;
-        struct sockaddr_in server_address;
-        
-        fd = socket(AF_INET, SOCK_STREAM, 0);
-        
-        server_address.sin_family = AF_INET; 
-        server_address.sin_port = htons(port); 
-        server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-        if (connect(fd, (struct sockaddr *)&server_address, sizeof(server_address)) >= 0) { // checking for errors
-            controlFd = fd;
-            controlPort = port;
-
-            clog<< "connected on port : "<< controlPort;
-            string buff = "Hello,Iam new client";
-            send(controlFd, buff.c_str(), buff.size(), 0);
+        bool result = client.checkUserName(userNameIn);
+        if (result){
+            client.setUserName(userNameIn);
             return true;
         }
-
-        clog<< "could not connected on port : "<< controlPort;
-        return false;        
     }
 
-    bool connectToServer(int port){
-        struct sockaddr_in serverAdrr;
-        sockaddr_in serverAdrress;
-        controlPort = port;
-        controlFd = socket(AF_INET, SOCK_STREAM, 0);
-        serverAdrress.sin_family = AF_INET;
-        serverAdrress.sin_port = htons(controlPort);
-        serverAdrress.sin_addr.s_addr = inet_addr(LOCAL_HOST_ADDR);
+    return false;
+}
 
-        int result;
-        result = connect( controlFd,(sockaddr *)&serverAdrr, sizeof(serverAdrr) ) ;
-        if ( result >= 0 ) {
-            clog<< "connected on port : "<< controlPort;
-            string buff = "Hello,Iam new client";
-            send(controlFd, buff.c_str(), buff.size(), 0);
+bool passwordLoop(FtpClient& client)
+{
+    while(!std::cin.eof()){
+        string passwordIn;
+
+        cout<<"Enter Password:"<<endl;
+        cin>>passwordIn;
+
+        string userName = client.getUserName();
+
+        bool result = client.tryLogin(userName,passwordIn);
+        if (result){
             return true;
         }
-        else{
-            clog<< "could not connected on port : "<< controlPort;
-            return false;
-        }
     }
 
-    void disconnectFromServer(){
-        close(controlFd);
-    }
-};
-
+    return false;
+}
 
 int main(int argc,char **argv){
+    if (argc>1){
+        string arg = argv[1];
+        if (arg=="test"){
+            FtpClientTest tester;
+            tester.run(argv);
+            return 0;
+        }
+
+    }
+
     cout<<"client started"<<endl;
     FtpClient client;
-    // client.connectToServer(2121);
-    client.sampleConnect(2121);
+
+    bool result = client.connectToServer(2121);
+    if (!result){
+        return -1;
+    }
+
+    bool userNameOK = userNameLoop(client);
+    if(!userNameOK){
+        return 0;
+    }
+
+    bool passOK = passwordLoop(client);
+    if(!passOK){
+        return 0;
+    }
+
     client.disconnectFromServer();
+    char ch;
+    cout<<"enter somthing to exit"<<endl;
+    cin>>ch;
     return 0;
 }
