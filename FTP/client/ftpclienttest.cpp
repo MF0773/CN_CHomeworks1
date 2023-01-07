@@ -108,7 +108,7 @@ void FtpClientTest::getFileList()
     ASSERT(findResult!=files.end(),"sample file in the list");
 
     cout<<"file list: ";
-    for (auto a:files)
+    for (const auto &a:files)
         cout<<a<<", ";
     cout<<endl;
 }
