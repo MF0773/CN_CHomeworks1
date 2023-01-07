@@ -49,6 +49,10 @@ void FtpClient::setUserName(const std::string &newUserName)
 void FtpClient::cliLs(stringstream &ss)
 {
     auto fileList = getListFiles();
+    cout<<"file list: ";
+    for (const auto &a:fileList)
+        cout<<a<<", ";
+    cout<<endl;
 }
 
 list<std::string> FtpClient::getCatchedFileList() const

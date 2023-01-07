@@ -45,8 +45,7 @@ void commandLoop(FtpClient& client){
     string commandLine,commandName;
     stringstream ss;
     while(!std::cin.eof()){
-        getline(cin,commandLine);
-        ss>>commandName;
+        cin>>commandName;
 
         if (commandName=="ls"){
             client.cliLs(ss);
@@ -86,9 +85,8 @@ int main(int argc,char **argv){
         return 0;
     }
 
+    commandLoop(client);
+
     client.disconnectFromServer();
-    char ch;
-    cout<<"enter somthing to exit"<<endl;
-    cin>>ch;
     return 0;
 }
