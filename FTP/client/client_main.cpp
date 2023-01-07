@@ -1,6 +1,7 @@
 #include<iostream>
 #include "ftpclient.h"
 #include "ftpclienttest.h"
+#include <sstream>
 using namespace std;
 
 bool userNameLoop(FtpClient& client)
@@ -38,6 +39,22 @@ bool passwordLoop(FtpClient& client)
     }
 
     return false;
+}
+
+void commandLoop(FtpClient& client){
+    string commandLine,commandName;
+    stringstream ss;
+    while(!std::cin.eof()){
+        getline(cin,commandLine);
+        ss>>commandName;
+
+        if (commandName=="ls"){
+            client.cliLs(ss);
+        }
+        else if(commandName=="quit"){
+            break;
+        }
+    }
 }
 
 int main(int argc,char **argv){

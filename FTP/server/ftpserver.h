@@ -62,6 +62,7 @@ private:
 
     AccountInfo findAccountInfo(std::string user,std::string pass);
     void addOnlineUser(int fd, AccountInfo account);
+    User* findUser(int fd);
     std::string makeResponseMessage(int code,std::string text);
 
     //communicate commands
@@ -71,6 +72,7 @@ private:
     void onNewApiCommandRecived(int fd, char* buffer, int len);
     void onNewUserCheckRequest(int fd,char* buffer,int len);
     void onNewLoginRequest(int fd, char* buffer, int len);
+    void onLsRequest(int fd, char* buffer,int len);
     void apiSendMessage(int fd, string commandName, int code, std::string message);
 };
 

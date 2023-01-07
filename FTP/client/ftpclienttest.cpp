@@ -1,13 +1,22 @@
 #include "ftpclienttest.h"
+#include <algorithm>
+#define ASSERT(COND,MSG) if (!(COND)) throw MSG
+
+bool FtpClientTest::doLogin(string user, string pass)
+{
+    client.checkUserName(user);
+    ASSERT(client.getLastResponse() == 331,"user name stage");
+
+    client.tryLogin(user,pass);
+    ASSERT(client.getLastResponse() == 230,"login stage");
+}
 
 FtpClientTest::FtpClientTest()
 {
 
 }
 
-#define ASSERT(COND,MSG) if (!(COND)) throw MSG
-
-void FtpClientTest::_run()
+void FtpClientTest::testAccount()
 {
     shouldConnect();
     testBadSequence();
@@ -19,7 +28,8 @@ void FtpClientTest::_run()
 bool FtpClientTest::run(char **argv)
 {
     try{
-        _run();
+//        testAccount();
+        testFile();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -81,4 +91,24 @@ void FtpClientTest::testCorrectLogin()
 
     client.tryLogin("Ali","1234");
     ASSERT(client.getLastResponse() == 230,"correct login not worked");
+}
+
+void FtpClientTest::testFile()
+{
+    getFileList();
+}
+
+void FtpClientTest::getFileList()
+{
+    shouldConnect();
+    doLogin("Ali","1234");
+    auto files = client.getListFiles();
+    ASSERT(files.size()>3,"file count");
+    auto findResult = std::find(files.begin(),files.end(),"text1.txt");
+    ASSERT(findResult!=files.end(),"sample file in the list");
+
+    cout<<"file list: ";
+    for (auto a:files)
+        cout<<a<<", ";
+    cout<<endl;
 }

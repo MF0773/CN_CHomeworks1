@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <iostream>
+#include <list>
 
 #define LOCAL_HOST_ADDR "127.0.0.1"
 
@@ -15,6 +16,7 @@ class FtpClient{
     bool loginned;
     int lastResponse;
     std::string userName;
+    list<std::string> catchedFileList;
 
     public:
         FtpClient();
@@ -24,6 +26,7 @@ class FtpClient{
     void disconnectFromServer();
 
     bool loginLoop();
+
 // api
     void sendBytes(int fd, const char *bytes, int len);
     std::string exportCommandName(char* buff,int recivedLen);
@@ -34,6 +37,8 @@ class FtpClient{
     void onNewApiCommand(int fd, string commandName, char *args);
     void onNewLoginResponse(char* args);
     void onNewUserNameCheckResponse(char* args);
+    void onLsResponse(char* args);
+    list<std::string> getListFiles();
 
     bool getLoginned() const;
     void setLoginned(bool newLoginned);
@@ -42,6 +47,13 @@ class FtpClient{
     void setLastResponse(int newLastResponse);
     std::string getUserName() const;
     void setUserName(const std::string &newUserName);
+
+
+
+// cli
+    void cliLs(std::stringstream &ss);
+    list<std::string> getCatchedFileList() const;
+    void setCatchedFileList(const list<std::string> &newCatchedFileList);
 };
 
 

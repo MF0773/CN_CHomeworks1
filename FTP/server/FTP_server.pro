@@ -6,6 +6,7 @@
 HEADERS =\
     ../../common/include/nlohmann/json.hpp \
     ../../common/include/nlohmann/json_fwd.hpp \
+    ../../common/include/utils.h \
     accountinfo.h \
     ftpserver.h \
     user.h
@@ -15,6 +16,7 @@ INCLUDEPATH =
 #DEFINES =
 
 SOURCES += \
+    ../../common/include/utils.cpp \
     server_main.cpp \
     ftpserver.cpp \
     user.cpp

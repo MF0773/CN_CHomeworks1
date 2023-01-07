@@ -46,6 +46,21 @@ void FtpClient::setUserName(const std::string &newUserName)
     userName = newUserName;
 }
 
+void FtpClient::cliLs(stringstream &ss)
+{
+    auto fileList = getListFiles();
+}
+
+list<std::string> FtpClient::getCatchedFileList() const
+{
+    return catchedFileList;
+}
+
+void FtpClient::setCatchedFileList(const list<std::string> &newCatchedFileList)
+{
+    catchedFileList = newCatchedFileList;
+}
+
 FtpClient::FtpClient()
 {
     setLoginned(false);
@@ -109,6 +124,11 @@ void FtpClient::sendBytes(int fd,const char *bytes, int len)
 string FtpClient::exportCommandName(char *buff, int recivedLen)
 {
     char nameBuffer[MAX_COMMAND_NAME_LEN];
+
+    if (recivedLen<0){
+        throw "command recive error!";
+    }
+
     strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );
 
     stringstream ss;
@@ -165,6 +185,7 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
 {
     COMMAND_CASE(onNewLoginResponse,LOGIN_RESPONSE_COMMAND);
     COMMAND_CASE(onNewUserNameCheckResponse,USER_CHECK_RESPONSE_COMMAND);
+    COMMAND_CASE(onLsResponse,LS_COMMAND);
 }
 
 #define USER_LOGGED_IN_CODE 230
@@ -186,4 +207,26 @@ void FtpClient::onNewLoginResponse(char *args)
 void FtpClient::onNewUserNameCheckResponse(char *args)
 {
     displayMessage(args);
+}
+
+void FtpClient::onLsResponse(char *args)
+{
+    stringstream ss;
+    string cmd;
+    list<string> tockens;
+    ss.str(args);
+    ss>>cmd;
+    while(!ss.eof()){
+        string newTocken;
+        ss>>newTocken;
+        tockens.push_back(newTocken);
+    }
+    setCatchedFileList(tockens);
+}
+
+list<string> FtpClient::getListFiles()
+{
+    apiSend(controlFd,LS_COMMAND,"");
+    apiWaitResponse(controlFd,LS_COMMAND);
+    return getCatchedFileList();
 }

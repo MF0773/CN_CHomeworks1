@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <user.h>
-
+#include "../../common/include/utils.h"
 //json library imports
 #include "../../common/include/nlohmann/json.hpp"
 
@@ -217,6 +217,16 @@ void FtpServer::addOnlineUser(int fd, AccountInfo account)
     onlineUsers.emplace(fd,newUser);
 }
 
+User *FtpServer::findUser(int fd)
+{
+    auto iter = onlineUsers.find(fd);
+    if(iter == onlineUsers.end()){
+        return nullptr;
+    }
+
+    return iter->second;
+}
+
 string FtpServer::makeResponseMessage(int code, std::string text)
 {
     return string()+ std::to_string(code) +" "+text;
@@ -260,6 +270,7 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
 //        }
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
+        COMMAND_CASE(onLsRequest,LS_COMMAND);
 
         clog<<"unknown command: "<<commandName<<endl;
     }
@@ -319,6 +330,13 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     apiSendMessage(fd,LOGIN_RESPONSE_COMMAND,230, "Logged in, proceed. Logged out if appropriate.");
     loginReqSet.erase(fd);
     clog<<"logged in"<<endl;
+}
+
+void FtpServer::onLsRequest(int fd, char *buffer, int len)
+{
+    string cmd = string()+ "ls "+ SERVER_BASE_DIR;
+    string lsOutput = exec(cmd.c_str());
+    apiSend(fd,LS_COMMAND,lsOutput);
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)
