@@ -3,8 +3,6 @@
 
 #TARGET = FTP_client
 
-QT = core gui widgets
-
 HEADERS = \
     ../../common/include/ftpstatics.h \
     ftpclient.h \
