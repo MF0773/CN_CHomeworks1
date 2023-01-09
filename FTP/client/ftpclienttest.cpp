@@ -7,17 +7,17 @@
 #include <thread>
 #include <chrono>
 
-#define ASSERT(COND,MSG) if (!(COND)) throw MSG
+#define ASSERT(COND,MSG) if ((COND)) clog<<"PASSED: "<<MSG<<endl; else throw MSG
 
 
 bool FtpClientTest::run(char **argv)
 {
     try{
         testAccount();
-//        testDownloadFile();
+        testDownloadFile();
         testUpload();
-//        testMultiDownload();
-//        testMultiUpload();
+        testMultiDownload();
+        testMultiUpload();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -314,7 +314,7 @@ void FtpClientTest::testMultiUpload()
     else {
         clog << "printed from child process " << getpid() << endl;
         try{
-//            testUploadUser2();
+            testUploadUser2();
             exit(0);
         }
         catch (...){
@@ -328,7 +328,7 @@ void FtpClientTest::testUploadUser1()
     FtpClient client1;
     shouldConnect(client1);
     doLogin(client1, "Mahdi", "1234");
-    _baseUploadFile(client1,"image2.png");
+    _baseUploadFile(client1,"image2.jpg");
     client1.disconnectFromServer();
 }
 
@@ -337,6 +337,6 @@ void FtpClientTest::testUploadUser2()
     FtpClient client2;
     shouldConnect(client2);
     doLogin(client2, "Ali", "1234");
-    _baseUploadFile(client2,"image3.png");
+    _baseUploadFile(client2,"image3.jpg");
     client2.disconnectFromServer();
 }

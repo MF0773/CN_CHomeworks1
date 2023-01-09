@@ -128,7 +128,7 @@ int FilePipe::sendNextBlock()
     int len = file.gcount();
     send(dataFd,fileBuffer,len,0);
     fileBuffer[len] = 0;
-    clog<<"a block sended"<<fileBuffer<<endl;
+//    clog<<"a block sended"<<fileBuffer<<endl;
     debugDelay();
     return len;
 }
