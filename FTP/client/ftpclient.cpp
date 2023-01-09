@@ -291,6 +291,9 @@ int FtpClient::retFile(string fileName)
 {
     apiSend(controlFd,RETR_COMMAND,fileName.c_str());
     apiWaitResponse(controlFd, RETR_COMMAND);
+    if (!is_ok_code(getLastResponse())){
+        return getLastResponse();
+    }
     apiWaitResponse(controlFd, RETR_ACK_COMMAND);
     return getLastResponse();
 }

@@ -115,9 +115,9 @@ void FtpClientTest::_baseDownloadFile(std::string fileName)
 
 void FtpClientTest::testDownloadFile()
 {
-//    getFileList();
-//    shouldntAccessAdminFile();
-//    testNotExitingFile();
+    getFileList();
+    shouldntAccessAdminFile();
+    testNotExitingFile();
     testDownloadText();
     testDownloadMovie();
     testDownloadPdf();
@@ -144,7 +144,7 @@ void FtpClientTest::shouldntAccessAdminFile()
     shouldConnect();
     doLogin("Mohsen","1234");
     int r = client.retFile("config.json");
-    ASSERT( !r ,"no admin access");
+    ASSERT( !FtpClient::is_ok_code(r) ,"no admin access");
 }
 
 void FtpClientTest::testNotExitingFile()
@@ -152,7 +152,7 @@ void FtpClientTest::testNotExitingFile()
     shouldConnect();
     doLogin("Mohsen","1234");
     int r = client.retFile("abbas_bou_azar.mp4");
-    ASSERT( !r ,"test Not Exiting File");
+    ASSERT( !FtpClient::is_ok_code(r) ,"test Not Exiting File");
 }
 
 void FtpClientTest::testDownloadText()
