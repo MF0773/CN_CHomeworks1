@@ -93,6 +93,7 @@ bool FilePipe::setupClient()
 
 int FilePipe::sendNextBlock()
 {
+    reciveAck();
     if(!file){
         fileBuffer[0] = 0;
         send(dataFd,fileBuffer,0,0);
@@ -103,17 +104,29 @@ int FilePipe::sendNextBlock()
     int len = file.gcount();
     send(dataFd,fileBuffer,len,0);
     fileBuffer[len] = 0;
-//    clog<<"a block sended"<<fileBuffer<<endl;
+    clog<<"a block sended"<<fileBuffer<<endl;
     return len;
 }
 
 int FilePipe::reciveNextBlock()
 {
+    sendAck();
     int len = recv(dataFd, fileBuffer, FILE_PIPE_BUFFER_SIZE, 0);
     fileBuffer[len] = 0;
 //    clog<<"a block recived "<<fileBuffer;
     file.write((char*) &fileBuffer, len);
     return len;
+}
+
+void FilePipe::sendAck()
+{
+    send(dataFd,"1",2,0);
+}
+
+void FilePipe::reciveAck()
+{
+    char buf[2];
+    recv(dataFd,buf,2,0);
 }
 
 void FilePipe::endConnection()
@@ -149,6 +162,7 @@ bool FilePipe::setup(int port)
     else{
         return setupClient();
     }
+    firstBlock = true;
 }
 
 void FilePipe::run()
@@ -162,7 +176,14 @@ void FilePipe::run()
     endConnection();
 }
 
-void FilePipe::eventloop(int fd, char *data, int len)
+int FilePipe::eventloop()
 {
-
+    int len=-1;
+    if (dir == FilePipe::sender){
+        len = sendNextBlock();
+    }
+    else{
+        len = reciveNextBlock();
+    }
+    return len;
 }

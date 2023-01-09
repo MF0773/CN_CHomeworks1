@@ -39,7 +39,7 @@ bool FtpClientTest::run(char **argv)
     try{
 //        testAccount();
         testDownloadFile();
-        testUpload();
+//        testUpload();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;

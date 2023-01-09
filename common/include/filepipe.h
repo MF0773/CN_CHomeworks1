@@ -12,7 +12,7 @@ private:
     std::string path;
     std::fstream file;
     char fileBuffer[FILE_PIPE_BUFFER_SIZE];
-
+    bool firstBlock;
 
     void reciverRun();
     void senderRun();
@@ -21,7 +21,8 @@ private:
 
     int sendNextBlock();
     int reciveNextBlock();
-    void endConnection();
+    void sendAck();
+    void reciveAck();
 public:
     enum Dir{
         sender,reciver
@@ -34,9 +35,9 @@ public:
     FilePipe(Role pipeRole, Dir pipeDir, std::string filePath);
 
     bool setup(int port);
-
+    void endConnection();
     void run();
-    void eventloop(int fd, char* data, int len);
+    int eventloop();
     int getServerFd() const;
     int getDataFd() const;
     void sleep_ms(int ms);

@@ -47,9 +47,9 @@ bool FtpServer::start(int port){
     addressIn.sin_family = AF_INET;
 
     bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
-    FD_SET(serverFd ,&fdSet );
-
     listen(serverFd, 4);
+
+    FD_SET(serverFd, &fdSet);
 
     return true;
 }
@@ -106,26 +106,29 @@ void FtpServer::sample(){
 }
 
 void FtpServer::event_loop(){
-    fd_set eventFdSet;
-    FD_ZERO(&eventFdSet);
-    FD_SET(serverFd, &eventFdSet);
-
     setLastFd(serverFd);
-    while (true)//SOS
+    fd_set fdSetClone;
+    while (true)
     {
-        eventFdSet = fdSet;
-
-        select(getLastFd() + 1, &eventFdSet, NULL, NULL, NULL);
+        fdSetClone = fdSet;
+        select(getLastFd() + 1, &fdSetClone, NULL, NULL, NULL);
         clog<<"some events"<<endl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
-            if (FD_ISSET( fdIter , &eventFdSet)){
-                onEventOccur(fdIter,eventFdSet);
+            if (FD_ISSET( fdIter , &fdSetClone)){
+                onEventOccur(fdIter,fdSetClone);
             }
         }
     }
 }
 
 void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
+    auto pipeIter = filepipes.find(fdIter);
+    if(pipeIter != filepipes.end()){
+        clog<<"pipe event"<<endl;
+        onNewFilePipeEvent(fdIter);
+        return;
+    }
+
     char recvBuf[RECEIVE_BUFFER_SIZE];
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     if (fdIter == serverFd){ //new client
@@ -139,11 +142,6 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
-//    auto pipeIter = filepipes.find(fdIter);
-//    if(pipeIter != filepipes.end()){
-//        clog<<"pipe event"<<endl;
-//        return;
-//    }
     onNewApiCommandRecived(fdIter,recvBuf,recvChars);
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
@@ -227,6 +225,18 @@ void FtpServer::addOnlineUser(int fd, AccountInfo account)
     onlineUsers.emplace(fd,newUser);
 }
 
+void FtpServer::addFilePipe(FilePipe* pipe)
+{
+    filepipes.emplace(pipe->getDataFd(), pipe);
+    FD_SET(pipe->getDataFd() ,&fdSet );
+}
+
+void FtpServer::removeFilePipe(FilePipe *pipe)
+{
+    filepipes.erase(pipe->getDataFd());
+    FD_CLR(pipe->getDataFd() ,&fdSet);
+}
+
 User *FtpServer::findUser(int fd)
 {
     auto iter = onlineUsers.find(fd);
@@ -294,6 +304,16 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
     }
     catch (...){
         clog<<"exception in events!"<<endl;
+    }
+}
+
+void FtpServer::onNewFilePipeEvent(int pipeIter)
+{
+    auto pipe = filepipes[pipeIter];
+    int len = pipe->eventloop();
+    if(len == 0){
+        pipe->endConnection();
+        removeFilePipe(pipe);
     }
 }
 
@@ -398,11 +418,8 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
         return;
     }
-    filepipes.emplace(dataFd,pipe);
-    FD_SET(dataFd,& this->fdSet);
-
-    pipe->run();
-    sendRetrAck(fd);
+    addFilePipe(pipe);
+    onNewFilePipeEvent(dataFd);
 }
 
 void FtpServer::sendRetrAck(int fd)
