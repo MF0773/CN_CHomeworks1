@@ -139,11 +139,11 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
-    auto pipeIter = filepipes.find(fdIter);
-    if(pipeIter != filepipes.end()){
-        clog<<"pipe event"<<endl;
-        return;
-    }
+//    auto pipeIter = filepipes.find(fdIter);
+//    if(pipeIter != filepipes.end()){
+//        clog<<"pipe event"<<endl;
+//        return;
+//    }
     onNewApiCommandRecived(fdIter,recvBuf,recvChars);
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
@@ -288,6 +288,7 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
         COMMAND_CASE(onLsRequest,LS_COMMAND);
         COMMAND_CASE(onRetrRequest,RETR_COMMAND);
+        COMMAND_CASE(onUploadRequest,UPLOAD_COMMAND);
 
         clog<<"unknown command: "<<commandName<<endl;
     }
@@ -407,6 +408,50 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
 void FtpServer::sendRetrAck(int fd)
 {
     apiSendMessage(fd,RETR_ACK_COMMAND, 226, "Successful Download");
+}
+
+void FtpServer::onUploadRequest(int fd, char *buffer, int len)
+{
+    clog<<"new upload request from "<<fd<<endl;
+    auto user = findUser(fd);
+    if (user == nullptr){
+        clog<<"rejected, not loginned"<<endl;
+        apiSendMessage(fd, UPLOAD_COMMAND, 332, NEED_ACCOUNT_ERROR);
+        return;
+    }
+    auto userInfo = user->getAccountInfo();
+    if (userInfo.admin == false){
+        clog<<"rejected, not admin"<<endl;
+        apiSendMessage(fd, UPLOAD_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
+        return;
+    }
+
+    stringstream ss(buffer);
+    string fileName,commandName;
+    ss>>commandName>>fileName;
+    string filePath = SERVER_BASE_DIR + fileName;
+
+    int dataPort = generateNewDataPort();
+
+    auto pipe = new FilePipe(FilePipe::server,FilePipe::reciver,filePath);
+    string args = std::to_string(dataPort)+" "+ fileName + " - server started reciving";
+    apiSendMessage(fd, UPLOAD_COMMAND, 226, args);
+    clog<<"reciving "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
+
+    pipe->setup(dataPort);
+    int dataFd = pipe->getDataFd();
+    if( dataFd < 0 ){
+        cerr<<"cant open file pipe"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
+        return;
+    }
+    pipe->run();
+    sendUploadAck(fd);
+}
+
+void FtpServer::sendUploadAck(int fd)
+{
+    apiSendMessage(fd,UPLOAD_ACK_COMMAND, 226, "Successful Upload");
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)

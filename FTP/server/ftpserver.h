@@ -85,6 +85,8 @@ private:
     void onLsRequest(int fd, char* buffer,int len);
     void onRetrRequest(int fd, char* buffer,int len);
     void sendRetrAck(int fd);
+    void onUploadRequest(int fd, char* buffer,int len);
+    void sendUploadAck(int fd);
     void apiSendMessage(int fd, string commandName, int code, std::string message);
 };
 

@@ -29,10 +29,6 @@ void FilePipe::reciverRun()
     do{
         recivedCount = reciveNextBlock();
     }while(recivedCount > 0);
-//    char buff[1025] = {0};
-//    clog<<"reciver run"<<endl;
-//    int recivedLen = recv(dataFd, buff, 1024, 0);
-//    clog<<"recived"<<buff<<endl;
 }
 
 void FilePipe::senderRun()
@@ -42,14 +38,6 @@ void FilePipe::senderRun()
         sendLen = sendNextBlock();
         sleep_ms(1);
     }while(sendLen > 0);
-//    clog<<"sender run"<<endl;
-//    string str = "AA";
-
-//    int client_fd;
-//    struct sockaddr_in client_address;
-//    int address_len = sizeof(client_address);
-
-//    send(dataFd,str.c_str(),str.size(),0);
 }
 
 bool FilePipe::setupServer()
@@ -115,7 +103,7 @@ int FilePipe::sendNextBlock()
     int len = file.gcount();
     send(dataFd,fileBuffer,len,0);
     fileBuffer[len] = 0;
-//    clog<<"a block sended"<<fileBuffer;
+//    clog<<"a block sended"<<fileBuffer<<endl;
     return len;
 }
 
@@ -143,7 +131,7 @@ void FilePipe::endConnection()
 
 FilePipe::FilePipe(Role pipeRole, Dir pipeDir, string filePath) : role(pipeRole), dir(pipeDir),path(filePath)
 {
-    if (this->role == Dir::sender){
+    if (this->dir == Dir::sender){
         file.open(path,std::ios_base::in);
     }
     else{
@@ -165,7 +153,7 @@ bool FilePipe::setup(int port)
 
 void FilePipe::run()
 {
-    if (role == FilePipe::sender){
+    if (dir == FilePipe::sender){
         senderRun();
     }
     else{

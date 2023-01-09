@@ -39,6 +39,7 @@ bool FtpClientTest::run(char **argv)
     try{
 //        testAccount();
         testDownloadFile();
+        testUpload();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -121,6 +122,8 @@ void FtpClientTest::testDownloadFile()
     testDownloadText();
     testDownloadMovie();
     testDownloadPdf();
+
+    client.disconnectFromServer();
 }
 
 void FtpClientTest::getFileList()
@@ -174,4 +177,45 @@ void FtpClientTest::testDownloadMovie()
     shouldConnect();
     doLogin("Ali","1234");
     _baseDownloadFile("movie1.mp4");
+}
+
+void FtpClientTest::_baseUploadFile(string fileName)
+{
+    int code = client.uploadFile(fileName);
+    ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
+
+    string path1 = CLIENTS_BASE_DIR + fileName;
+    string path2 = string("../server/")+SERVER_BASE_DIR + fileName;
+    ASSERT(checkSameFiles(path1,path2),"same upload file file :"+ fileName);
+
+}
+
+void FtpClientTest::testUpload()
+{
+    nonAdminCantUpload();
+    adminUploadText();
+    adminUploadImage();
+    client.disconnectFromServer();
+}
+
+void FtpClientTest::nonAdminCantUpload()
+{
+    shouldConnect();
+    doLogin("Mohsen","1234");
+    int code = client.uploadFile("text2.txt");
+    ASSERT(!FtpClient::is_ok_code(code),"non admin block upload");
+}
+
+void FtpClientTest::adminUploadText()
+{
+    shouldConnect();
+    doLogin("Ali","1234");
+    _baseUploadFile("text2.txt");
+}
+
+void FtpClientTest::adminUploadImage()
+{
+    shouldConnect();
+    doLogin("Ali","1234");
+    _baseUploadFile("image2.jpg");
 }
