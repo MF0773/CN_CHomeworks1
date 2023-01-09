@@ -7,7 +7,32 @@
 #include <thread>
 #include <chrono>
 
-#define ASSERT(COND,MSG) if (!(COND)) throw MSG
+#define ASSERT(COND,MSG) if ((COND)) clog<<"PASSED: "<<MSG<<endl; else throw MSG
+
+
+bool FtpClientTest::run(char **argv)
+{
+    try{
+        testAccount();
+        testDownloadFile();
+        testUpload();
+        testMultiDownload();
+        testMultiUpload();
+    }
+    catch (const char* msg){
+        cout<<"failed : "<<msg<<endl;
+        return false;
+    }
+    catch (...){
+        cout<<"failed"<<endl;
+        return false;
+    }
+
+    testClient.disconnectFromServer();
+    cout<<"test completed"<<endl;
+    return true;
+}
+
 
 bool FtpClientTest::doLogin(FtpClient &client, string user, string pass)
 {
@@ -66,28 +91,6 @@ bool FtpClientTest::shouldConnect(FtpClient &client)
 bool FtpClientTest::shouldConnect()
 {
     return shouldConnect(testClient);
-}
-
-bool FtpClientTest::run(char **argv)
-{
-    try{
-        testAccount();
-        testDownloadFile();
-//        testUpload();
-        testMultiDownload();
-    }
-    catch (const char* msg){
-        cout<<"failed : "<<msg<<endl;
-        return false;
-    }
-    catch (...){
-        cout<<"failed"<<endl;
-        return false;
-    }
-
-    testClient.disconnectFromServer();
-    cout<<"test completed"<<endl;
-    return true;
 }
 
 
@@ -200,15 +203,20 @@ void FtpClientTest::testDownloadMovie()
     _baseDownloadFile("movie1.mp4");
 }
 
-void FtpClientTest::_baseUploadFile(string fileName)
+void FtpClientTest::_baseUploadFile(FtpClient& client,string fileName)
 {
-    int code = testClient.uploadFile(fileName);
+    int code = client.uploadFile(fileName);
     ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
 
     string path1 = CLIENTS_BASE_DIR + fileName;
     string path2 = string("../server/")+SERVER_BASE_DIR + fileName;
     ASSERT(checkSameFiles(path1,path2),"same upload file file :"+ fileName);
 
+}
+
+void FtpClientTest::_baseUploadFile(string fileName)
+{
+    return _baseUploadFile(testClient, fileName);
 }
 
 void FtpClientTest::testUpload()
@@ -284,5 +292,51 @@ void FtpClientTest::testDownloadUser2()
     shouldConnect(client2);
     doLogin(client2, "Mohsen", "1234");
     _baseDownloadFile(client2,"movie1.mp4");
+    client2.disconnectFromServer();
+}
+
+void FtpClientTest::testMultiUpload()
+{
+    pid_t c_pid = fork();
+
+    if (c_pid == -1) {
+        ASSERT(false, "fork process");
+    }
+    else if (c_pid > 0) {
+        clog << "printed from parent process " << getpid() << endl;
+        testUploadUser1();
+        pid_t wpid;
+        int status = 0;
+        while ((wpid = wait(&status)) > 0)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));;
+        ASSERT(status == 0, "second user upload");
+    }
+    else {
+        clog << "printed from child process " << getpid() << endl;
+        try{
+            testUploadUser2();
+            exit(0);
+        }
+        catch (...){
+            exit(-1);
+        }
+    }
+}
+
+void FtpClientTest::testUploadUser1()
+{
+    FtpClient client1;
+    shouldConnect(client1);
+    doLogin(client1, "Mahdi", "1234");
+    _baseUploadFile(client1,"image2.jpg");
+    client1.disconnectFromServer();
+}
+
+void FtpClientTest::testUploadUser2()
+{
+    FtpClient client2;
+    shouldConnect(client2);
+    doLogin(client2, "Ali", "1234");
+    _baseUploadFile(client2,"image3.jpg");
     client2.disconnectFromServer();
 }
