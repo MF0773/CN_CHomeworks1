@@ -48,8 +48,6 @@ bool FtpServer::start(int port){
 
     bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
     FD_SET(serverFd ,&fdSet );
-    // FD_SET(serverPort ,fdSet.set );
-
 
     listen(serverFd, 4);
 
@@ -386,10 +384,14 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
     }
 
     int dataPort = generateNewDataPort();
-    auto pipe = new FilePipe();
-    pipe->connectToPort(dataPort);
+    string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
+    apiSendMessage(fd, RETR_COMMAND, 226, args);
+    clog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
 
-    int dataFd = pipe->initSender(filePath);
+    auto pipe = new FilePipe(FilePipe::server,FilePipe::sender,filePath);
+    pipe->setup(dataPort);
+
+    int dataFd = pipe->getDataFd();
     if( dataFd < 0 ){
         cerr<<"cant open file pipe"<<endl;
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
@@ -398,12 +400,13 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
     filepipes.emplace(dataFd,pipe);
     FD_SET(dataFd,& this->fdSet);
 
-    string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
-    apiSendMessage(fd, RETR_COMMAND, 226, args);
-    clog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
-
     pipe->run();
+    sendRetrAck(fd);
+}
 
+void FtpServer::sendRetrAck(int fd)
+{
+    apiSendMessage(fd,RETR_ACK_COMMAND, 226, "Successful Download");
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)

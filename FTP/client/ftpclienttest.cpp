@@ -1,5 +1,7 @@
 #include "ftpclienttest.h"
 #include <algorithm>
+#include "../../common/include/utils.h"
+#include "../../common/include/ftpstatics.h"
 #define ASSERT(COND,MSG) if (!(COND)) throw MSG
 
 bool FtpClientTest::doLogin(string user, string pass)
@@ -9,6 +11,13 @@ bool FtpClientTest::doLogin(string user, string pass)
 
     client.tryLogin(user,pass);
     ASSERT(client.getLastResponse() == 230,"login stage");
+}
+
+bool FtpClientTest::checkSameFiles(string path1, string path2)
+{
+    string cmd = "cmp "+path1+" "+path2;
+    string output = exec(cmd.c_str());
+    return output.size()==0;
 }
 
 FtpClientTest::FtpClientTest()
@@ -93,12 +102,25 @@ void FtpClientTest::testCorrectLogin()
     ASSERT(client.getLastResponse() == 230,"correct login not worked");
 }
 
+void FtpClientTest::_baseDownloadFile(std::string fileName)
+{
+
+    int code = client.retFile(fileName);
+    ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
+
+    string path1 = CLIENTS_BASE_DIR + fileName;
+    string path2 = string("../server/")+SERVER_BASE_DIR + fileName;
+    ASSERT(checkSameFiles(path1,path2),"same download file file :"+ fileName);
+}
+
 void FtpClientTest::testDownloadFile()
 {
 //    getFileList();
 //    shouldntAccessAdminFile();
 //    testNotExitingFile();
-    testDownloadNoneAdminFile();
+    testDownloadText();
+    testDownloadMovie();
+    testDownloadPdf();
 }
 
 void FtpClientTest::getFileList()
@@ -133,10 +155,23 @@ void FtpClientTest::testNotExitingFile()
     ASSERT( !r ,"test Not Exiting File");
 }
 
-void FtpClientTest::testDownloadNoneAdminFile()
+void FtpClientTest::testDownloadText()
 {
     shouldConnect();
     doLogin("Mohsen","1234");
-    int r = client.retFile("text1.txt");
-    ASSERT( r ,"download a file");
+    _baseDownloadFile("text1.txt");
+}
+
+void FtpClientTest::testDownloadPdf()
+{
+    shouldConnect();
+    doLogin("Ali","1234");
+    _baseDownloadFile("doc1.pdf");
+}
+
+void FtpClientTest::testDownloadMovie()
+{
+    shouldConnect();
+    doLogin("Ali","1234");
+    _baseDownloadFile("movie1.mp4");
 }

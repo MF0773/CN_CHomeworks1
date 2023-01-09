@@ -3,28 +3,53 @@
 #include <iostream>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <chrono>
+#include <thread>
+
 using namespace std;
 
-void FilePipe::reciver_run()
+int FilePipe::getServerFd() const
 {
-    char buff[1025] = {0};
-    clog<<"reciver run"<<endl;
-    int recivedLen = recv(this->socketFd, buff, 1024, 0);
-    clog<<"recived"<<buff<<endl;
+    return serverFd;
 }
 
-void FilePipe::sender_run()
+int FilePipe::getDataFd() const
 {
-    clog<<"sender run"<<endl;
-    string str = "AA";
+    return dataFd;
+}
 
-    int client_fd;
-    struct sockaddr_in client_address;
-    int address_len = sizeof(client_address);
+void FilePipe::sleep_ms(int ms)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
 
-    int clientFd = accept(socketFd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
+void FilePipe::reciverRun()
+{
+    int recivedCount = 0;
+    do{
+        recivedCount = reciveNextBlock();
+    }while(recivedCount > 0);
+//    char buff[1025] = {0};
+//    clog<<"reciver run"<<endl;
+//    int recivedLen = recv(dataFd, buff, 1024, 0);
+//    clog<<"recived"<<buff<<endl;
+}
 
-    send(clientFd,str.c_str(),str.size(),0);
+void FilePipe::senderRun()
+{
+    int sendLen = 0;
+    do{
+        sendLen = sendNextBlock();
+        sleep_ms(1);
+    }while(sendLen > 0);
+//    clog<<"sender run"<<endl;
+//    string str = "AA";
+
+//    int client_fd;
+//    struct sockaddr_in client_address;
+//    int address_len = sizeof(client_address);
+
+//    send(dataFd,str.c_str(),str.size(),0);
 }
 
 bool FilePipe::setupServer()
@@ -41,8 +66,13 @@ bool FilePipe::setupServer()
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
 
-    listen(server_fd, 4);
-    socketFd = server_fd;
+    serverFd = server_fd;
+    listen(serverFd, 4);
+
+    struct sockaddr_in client_address;
+    int address_len = sizeof(client_address);
+
+    dataFd = accept(serverFd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
 
     return true;
 }
@@ -57,75 +87,91 @@ bool FilePipe::setupClient()
     server_address.sin_port = htons(dataPort);
     server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    if (connect(fd, (struct sockaddr *)&server_address, sizeof(server_address)) < 0) { // checking for errors
-        printf("Error in connecting to server\n");
-        return false;
-    }
+    bool connectResult = -1;
+    int attemps=0;
+    do{
+        sleep_ms(10);
+        connectResult = connect(fd, (struct sockaddr *)&server_address, sizeof(server_address));
+        attemps++;
+        if (attemps > 100) { // checking for errors
+            cerr<< "Error in connecting to server"<<endl;
+            return false;
+        }
+    }while(connectResult<0);
 
-    this->socketFd = fd;
+    this->dataFd = fd;
     return true;
 }
 
-FilePipe::FilePipe()
+int FilePipe::sendNextBlock()
 {
+    if(!file){
+        fileBuffer[0] = 0;
+        send(dataFd,fileBuffer,0,0);
+        return 0;
+    }
 
+    file.readsome(fileBuffer,FILE_PIPE_BUFFER_SIZE-1);
+    int len = file.gcount();
+    send(dataFd,fileBuffer,len,0);
+    fileBuffer[len] = 0;
+//    clog<<"a block sended"<<fileBuffer;
+    return len;
 }
 
-int FilePipe::connectToPort(int port)
+int FilePipe::reciveNextBlock()
+{
+    int len = recv(dataFd, fileBuffer, FILE_PIPE_BUFFER_SIZE, 0);
+    fileBuffer[len] = 0;
+//    clog<<"a block recived "<<fileBuffer;
+    file.write((char*) &fileBuffer, len);
+    return len;
+}
+
+void FilePipe::endConnection()
+{
+    file.flush();
+    file.close();
+    if (this->role == Role::server){
+        close(serverFd);
+        close(dataFd);
+    }
+    else{
+        close(dataFd);
+    }
+}
+
+FilePipe::FilePipe(Role pipeRole, Dir pipeDir, string filePath) : role(pipeRole), dir(pipeDir),path(filePath)
+{
+    if (this->role == Dir::sender){
+        file.open(path,std::ios_base::in);
+    }
+    else{
+        file.open(path,std::ios_base::out | std::ios_base::binary);
+    }
+}
+
+bool FilePipe::setup(int port)
 {
     this->dataPort = port;
-//    int fd;
-//    struct sockaddr_in server_address;
 
-//    int options = 1;
-//    sockaddr_in addressIn;
-//    int serverFd = socket(AF_INET, SOCK_STREAM , 0);
-//    setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &options , sizeof(int));
-
-//    if (serverFd < 0){
-//        cerr << "could not pipe server"<<endl;
-//        return serverFd;
-//    }
-
-//    addressIn.sin_addr.s_addr = INADDR_ANY;
-//    addressIn.sin_port = htons(port);
-//    addressIn.sin_family = AF_INET;
-
-//    bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
-//    socketFd = serverFd;
-//    return serverFd;
-}
-
-int FilePipe::initSender(std::string path)
-{
-    setupServer();
-    file.open(path,fstream::in);
-    if(!file){
-        return -1;
+    if (this->role == Role::server){
+        return setupServer();
     }
-    this->role = Role::sender;
-    return socketFd;
-}
-
-int FilePipe::initReciver(std::string path)
-{
-    setupClient();
-    file.open(path,fstream::out);
-    if (!file){
-        return -1;
+    else{
+        return setupClient();
     }
-    this->role = Role::reciver;
-    return socketFd;
 }
 
 void FilePipe::run()
 {
-    if (role == Role::reciver){
-        reciver_run();
+    if (role == FilePipe::sender){
+        senderRun();
     }
     else{
-        sender_run();
+        reciverRun();
     }
+    endConnection();
 }
 
 void FilePipe::eventloop(int fd, char *data, int len)
