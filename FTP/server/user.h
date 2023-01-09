@@ -10,6 +10,8 @@ private:
 public:
     User(AccountInfo accountInfo);
 
+
+    AccountInfo getAccountInfo() const;
 };
 
 #endif // USER_H

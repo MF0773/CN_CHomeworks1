@@ -70,7 +70,7 @@ int main(int argc,char **argv){
     cout<<"client started"<<endl;
     FtpClient client;
 
-    bool result = client.connectToServer(2121);
+    bool result = client.connectToServer();
     if (!result){
         return -1;
     }

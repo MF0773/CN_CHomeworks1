@@ -47,7 +47,7 @@ bool FtpClientTest::run(char **argv)
 
 bool FtpClientTest::shouldConnect()
 {
-    bool r = client.connectToServer(2121);
+    bool r = client.connectToServer();
     if (!r){
         throw "cant connect!";
     }
@@ -96,6 +96,7 @@ void FtpClientTest::testCorrectLogin()
 void FtpClientTest::testFile()
 {
     getFileList();
+    shouldntAccessAdminFile();
 }
 
 void FtpClientTest::getFileList()
@@ -111,4 +112,13 @@ void FtpClientTest::getFileList()
     for (const auto &a:files)
         cout<<a<<", ";
     cout<<endl;
+    client.disconnectFromServer();
+}
+
+void FtpClientTest::shouldntAccessAdminFile()
+{
+    shouldConnect();
+    doLogin("Mohsen","1234");
+    int r = client.retFile("config.json");
+    ASSERT( !r ,"no admin access");
 }

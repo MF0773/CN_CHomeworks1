@@ -7,3 +7,7 @@
 #define LOGIN_INVALID_USER_PASS 430
 #define LS_COMMAND "ls"
 #define SERVER_BASE_DIR "server_disk/"
+#define CONFIG_FILE_PATH "../../common/ftp_config.json"
+#define RETR_COMMAND "retr"
+#define NEED_ACCOUNT_ERROR "Need Account for login"
+#define FILE_UNAVAILABLE_ERROR "File unavailable"

@@ -25,6 +25,7 @@ public:
     //file tests
     void testFile();
     void getFileList();
+    void shouldntAccessAdminFile();
 };
 
 #endif // FTPCLIENTTEST_H

@@ -18,8 +18,17 @@ FtpServer::FtpServer(){
     FD_ZERO(&fdSet);
 }
 
+int FtpServer::generateNewDataPort()
+{
+    return lastDataPort++;
+}
+
 bool FtpServer::start(int port){
-    this->serverPort = port;
+    bool result = importConfigFromFile();
+    if(!result){
+        return false;
+    }
+
     clog<<"starting server on port "<<port<<endl;
 
     int options = 1;
@@ -33,7 +42,7 @@ bool FtpServer::start(int port){
     }
 
     addressIn.sin_addr.s_addr = INADDR_ANY;
-    addressIn.sin_port = htons(serverPort);
+    addressIn.sin_port = htons(controlPort);
     addressIn.sin_family = AF_INET;
 
     bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
@@ -42,11 +51,6 @@ bool FtpServer::start(int port){
 
 
     listen(serverFd, 4);
-
-    bool result = importUsersFromFile(USER_FILE_PATH);
-    if (!result){
-        return false;
-    }
 
     return true;
 }
@@ -64,8 +68,6 @@ int FtpServer::sample_setup(){
     address.sin_port = htons(2121);
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
-
-
 
     return server_fd;
 }
@@ -180,34 +182,39 @@ void FtpServer::onNewPacketRecived(int fdIter, char *recvBuf){
 }
 
 void FtpServer::end(){
-    clog<<"ending server at port "<<serverPort<<endl;
+    clog<<"ending server at port "<<controlPort<<endl;
     close(serverFd);
 }
 
-bool FtpServer::importUsersFromFile(string filePath)
+bool FtpServer::importConfigFromFile()
 {
     using json = nlohmann::json;
     string buffer,fileStr;
-    ifstream file(filePath);
+    ifstream file(CONFIG_FILE_PATH);
     if (!file){
-        cerr<<"Couldnt open json file:"<<filePath<<endl;
+        cerr<<"Couldnt open json file:"<<CONFIG_FILE_PATH<<endl;
         return false;
     }
     while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
-
     auto jsonObj = json::parse(fileStr);
-    for (auto userData:jsonObj["users"]){
 
+
+    controlPort = jsonObj["commandChannelPort"];
+    lastDataPort = jsonObj["dataChannelPort"];
+    adminFiles = jsonObj["files"];
+
+    for (auto userData:jsonObj["users"]){
         AccountInfo newAccount = {
                 .userName=userData["user"],
                 .password=userData["password"],
                 .admin=userData["admin"]=="true",
                 .maxUsageSize= std::stoi ( (string) userData["size"])
             };
-
         addAccountInfo(newAccount);
     }
 
+    file.close();
+    clog<<"config imported"<<endl;
     return true;
 }
 
@@ -230,6 +237,12 @@ User *FtpServer::findUser(int fd)
 string FtpServer::makeResponseMessage(int code, std::string text)
 {
     return string()+ std::to_string(code) +" "+text;
+}
+
+bool FtpServer::isAdminFile(string fileName)
+{
+    auto iter = adminFiles.find(fileName);
+    return iter != adminFiles.end();
 }
 
 void FtpServer::apiSend(int fd, string commandName, char *args, int argLen)
@@ -271,6 +284,7 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
         COMMAND_CASE(onLsRequest,LS_COMMAND);
+        COMMAND_CASE(onRetrRequest,RETR_COMMAND);
 
         clog<<"unknown command: "<<commandName<<endl;
     }
@@ -337,6 +351,27 @@ void FtpServer::onLsRequest(int fd, char *buffer, int len)
     string cmd = string()+ "ls "+ SERVER_BASE_DIR;
     string lsOutput = exec(cmd.c_str());
     apiSend(fd,LS_COMMAND,lsOutput);
+}
+
+void FtpServer::onRetrRequest(int fd, char *buffer, int len)
+{
+    auto user = findUser(fd);
+    if (user == nullptr){
+        apiSendMessage(fd, RETR_COMMAND, 332, NEED_ACCOUNT_ERROR);
+        return;
+    }
+    auto userInfo = user->getAccountInfo();
+    stringstream ss(buffer);
+    string fileName,commandName;
+    ss>>commandName>>fileName;
+    if (isAdminFile(fileName) && userInfo.admin == false ){
+        apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
+        return;
+    }
+
+    int dataPort = generateNewDataPort();
+    string args = std::to_string(dataPort) + " - server started sending";
+    apiSendMessage(fd, RETR_COMMAND, 226, args);
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)

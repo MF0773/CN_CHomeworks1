@@ -21,7 +21,7 @@ class FtpClient{
     public:
         FtpClient();
 
-    bool connectToServer(int port);
+    bool connectToServer();
 
     void disconnectFromServer();
 
@@ -38,7 +38,9 @@ class FtpClient{
     void onNewLoginResponse(char* args);
     void onNewUserNameCheckResponse(char* args);
     void onLsResponse(char* args);
+    void onRetrResonse(char* args);
     list<std::string> getListFiles();
+    int retFile(std::string fileName);
 
     bool getLoginned() const;
     void setLoginned(bool newLoginned);
@@ -54,6 +56,10 @@ class FtpClient{
     void cliLs(std::stringstream &ss);
     list<std::string> getCatchedFileList() const;
     void setCatchedFileList(const list<std::string> &newCatchedFileList);
+
+
+    static bool is_ok_code(int code){return 200<=code && code <= 300;}
+
 };
 
 
