@@ -115,9 +115,9 @@ void FtpClientTest::_baseDownloadFile(std::string fileName)
 
 void FtpClientTest::testDownloadFile()
 {
-//    getFileList();
-//    shouldntAccessAdminFile();
-//    testNotExitingFile();
+    getFileList();
+    shouldntAccessAdminFile();
+    testNotExitingFile();
     testDownloadText();
     testDownloadMovie();
     testDownloadPdf();
