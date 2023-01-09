@@ -37,6 +37,8 @@ class FtpServer{
 
 private:
     void addAccountInfo(const AccountInfo& account);
+    void addFdSet(int fd);
+    void removeFdSet(int fd);
     public:
     FtpServer();
 

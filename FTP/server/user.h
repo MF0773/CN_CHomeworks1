@@ -9,9 +9,10 @@ private:
     AccountInfo accountInfo;
 public:
     User(AccountInfo accountInfo);
-
-
     AccountInfo getAccountInfo() const;
+    int dataPort;
+    int getDataPort() const;
+    void setDataPort(int newDataPort);
 };
 
 #endif // USER_H

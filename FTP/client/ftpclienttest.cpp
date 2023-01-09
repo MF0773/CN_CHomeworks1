@@ -37,7 +37,7 @@ void FtpClientTest::testAccount()
 bool FtpClientTest::run(char **argv)
 {
     try{
-//        testAccount();
+        testAccount();
         testDownloadFile();
 //        testUpload();
     }

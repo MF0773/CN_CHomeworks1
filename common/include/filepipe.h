@@ -9,10 +9,12 @@ class FilePipe
 private:
     int dataPort,dataFd;
     int serverFd;
+    int userFd;
     std::string path;
     std::fstream file;
     char fileBuffer[FILE_PIPE_BUFFER_SIZE];
     bool firstBlock;
+    int debugDelayInterval;
 
     void reciverRun();
     void senderRun();
@@ -40,7 +42,11 @@ public:
     int eventloop();
     int getServerFd() const;
     int getDataFd() const;
-    void sleep_ms(int ms);
+    void debugDelay();
+    int getDataPort() const;
+    int getUserFd() const;
+    void setUserFd(int newUserFd);
+    void setDebugDelay(int newDebugDelay);
 };
 
 #endif // FILEPIPE_H
