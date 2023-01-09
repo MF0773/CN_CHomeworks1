@@ -47,6 +47,7 @@ public:
     int getUserFd() const;
     void setUserFd(int newUserFd);
     void setDebugDelay(int newDebugDelay);
+    Dir getDir() const;
 };
 
 #endif // FILEPIPE_H

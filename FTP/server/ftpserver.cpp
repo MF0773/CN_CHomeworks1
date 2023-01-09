@@ -326,7 +326,11 @@ void FtpServer::onNewFilePipeEvent(int pipeIter)
     auto pipe = filepipes[pipeIter];
     int len = pipe->eventloop();
     if(len == 0){
-        sendRetrAck(pipe->getUserFd());
+        if(pipe->getDir() == FilePipe::sender)
+            sendRetrAck(pipe->getUserFd());
+        else
+            sendUploadAck(pipe->getUserFd());
+
         pipe->endConnection();
         removeFilePipe(pipe);
     }
@@ -477,8 +481,8 @@ void FtpServer::onUploadRequest(int fd, char *buffer, int len)
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
         return;
     }
-    pipe->run();
-    sendUploadAck(fd);
+    pipe->setUserFd(fd);
+    addFilePipe(pipe);
 }
 
 void FtpServer::sendUploadAck(int fd)

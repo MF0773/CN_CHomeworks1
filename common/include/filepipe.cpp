@@ -135,11 +135,11 @@ int FilePipe::sendNextBlock()
 
 int FilePipe::reciveNextBlock()
 {
-    sendAck();
     int len = recv(dataFd, fileBuffer, FILE_PIPE_BUFFER_SIZE, 0);
     fileBuffer[len] = 0;
 //    clog<<"a block recived "<<fileBuffer;
     file.write((char*) &fileBuffer, len);
+    sendAck();
     debugDelay();
     return len;
 }
@@ -153,6 +153,11 @@ void FilePipe::reciveAck()
 {
     char buf[2];
     recv(dataFd,buf,2,0);
+}
+
+FilePipe::Dir FilePipe::getDir() const
+{
+    return dir;
 }
 
 void FilePipe::endConnection()
@@ -181,14 +186,19 @@ FilePipe::FilePipe(Role pipeRole, Dir pipeDir, string filePath) : role(pipeRole)
 bool FilePipe::setup(int port)
 {
     this->dataPort = port;
-
+    bool r;
     if (this->role == Role::server){
-        return setupServer();
+        r = setupServer();
     }
     else{
-        return setupClient();
+        r = setupClient();
     }
     firstBlock = true;
+
+    if(dir == Dir::reciver){
+        sendAck();
+    }
+    return r;
 }
 
 void FilePipe::run()

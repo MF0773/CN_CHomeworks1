@@ -14,6 +14,9 @@ private:
 
     void _baseDownloadFile(FtpClient& client,string fileName);
     void _baseDownloadFile(string fileName);
+
+    void _baseUploadFile(FtpClient& client, string fileName);
+    void _baseUploadFile(string fileName);
 public:
     FtpClientTest();
     bool run(char** argv);
@@ -38,7 +41,6 @@ public:
     void testDownloadMovie();
 
     //one user upload tests
-    void _baseUploadFile(string fileName);
     void testUpload();
     void nonAdminCantUpload();
     void adminUploadText();
@@ -48,6 +50,11 @@ public:
     void testMultiDownload();
     void testDownloadUser1();
     void testDownloadUser2();
+
+    //multi upload tests
+    void testMultiUpload();
+    void testUploadUser1();
+    void testUploadUser2();
 };
 
 #endif // FTPCLIENTTEST_H
