@@ -3,7 +3,11 @@
 #include <string.h>
 #include "../../common/include/ftpstatics.h"
 #include "../../common/include/nlohmann/json.hpp"
+#include "../../common/include/filepipe.h"
 #include <fstream>
+
+#include <arpa/inet.h>
+#include <unistd.h>
 
 bool FtpClient::getLoginned() const
 {
@@ -163,6 +167,12 @@ void FtpClient::apiWaitResponse(int fd, string command)
     while(true){
         memset(buff, 0, RECIVE_BUFFER_SIZE);
         recivedLen = recv(fd, buff, RECIVE_BUFFER_SIZE, 0);
+
+        if( recivedLen == 0){
+            cerr<<"server down when waiting for response"<<endl;
+            lastResponse = 400;
+            return;
+        }
         string commandName = exportCommandName(buff,recivedLen);
         onNewApiCommand(fd,command,buff);
         if (commandName == command){
@@ -245,6 +255,21 @@ void FtpClient::onLsResponse(char *args)
 void FtpClient::onRetrResonse(char *args)
 {
     displayMessage(args);
+    int code = getLastResponse();
+    if(! FtpClient::is_ok_code(code)){
+        return;
+    }
+
+    clog<<"initializing download pipe."<<endl;
+
+    stringstream ss(args);
+    string cmd,status,port,fileName;
+    ss>>cmd>>status>>port>>fileName;
+
+    FilePipe pipe;
+    pipe.connectToPort(std::stoi(port));
+    int fd = pipe.initReciver(CLIENTS_BASE_DIR+fileName);
+    pipe.run();
 }
 
 list<string> FtpClient::getListFiles()

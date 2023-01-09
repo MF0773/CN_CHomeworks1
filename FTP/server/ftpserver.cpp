@@ -7,6 +7,7 @@
 #include "../../common/include/nlohmann/json.hpp"
 
 #include "../../common/include/ftpstatics.h"
+#include "../../common/include/filepipe.h"
 
 void FtpServer::addAccountInfo(const AccountInfo &account)
 {
@@ -117,10 +118,9 @@ void FtpServer::event_loop(){
         eventFdSet = fdSet;
 
         select(getLastFd() + 1, &eventFdSet, NULL, NULL, NULL);
-        clog<<"some events";
+        clog<<"some events"<<endl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
             if (FD_ISSET( fdIter , &eventFdSet)){
-                // gameManager_reactionEvent(gm,fdIter,&eventFdSet);
                 onEventOccur(fdIter,eventFdSet);
             }
         }
@@ -130,7 +130,7 @@ void FtpServer::event_loop(){
 void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
     char recvBuf[RECEIVE_BUFFER_SIZE];
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
-    if (fdIter == serverFd){
+    if (fdIter == serverFd){ //new client
         acceptNewClient();
         return;
     }
@@ -141,6 +141,11 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
+    auto pipeIter = filepipes.find(fdIter);
+    if(pipeIter != filepipes.end()){
+        clog<<"pipe event"<<endl;
+        return;
+    }
     onNewApiCommandRecived(fdIter,recvBuf,recvChars);
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
@@ -355,23 +360,50 @@ void FtpServer::onLsRequest(int fd, char *buffer, int len)
 
 void FtpServer::onRetrRequest(int fd, char *buffer, int len)
 {
+    clog<<"new donwnload request from "<<fd<<endl;
     auto user = findUser(fd);
     if (user == nullptr){
         apiSendMessage(fd, RETR_COMMAND, 332, NEED_ACCOUNT_ERROR);
         return;
     }
     auto userInfo = user->getAccountInfo();
+
     stringstream ss(buffer);
     string fileName,commandName;
     ss>>commandName>>fileName;
+
     if (isAdminFile(fileName) && userInfo.admin == false ){
+        clog<<"rejected, not admin"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
+        return;
+    }
+
+    string filePath = SERVER_BASE_DIR + fileName;
+    if(!isFileExist(filePath)){
+        clog<<"rejected, not exist file"<<endl;
         apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
         return;
     }
 
     int dataPort = generateNewDataPort();
-    string args = std::to_string(dataPort) + " - server started sending";
+    auto pipe = new FilePipe();
+    pipe->connectToPort(dataPort);
+
+    int dataFd = pipe->initSender(filePath);
+    if( dataFd < 0 ){
+        cerr<<"cant open file pipe"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
+        return;
+    }
+    filepipes.emplace(dataFd,pipe);
+    FD_SET(dataFd,& this->fdSet);
+
+    string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
     apiSendMessage(fd, RETR_COMMAND, 226, args);
+    clog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
+
+    pipe->run();
+
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)

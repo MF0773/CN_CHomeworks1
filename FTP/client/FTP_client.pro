@@ -5,6 +5,7 @@
 
 HEADERS = \
     ../../common/command.h \
+    ../../common/include/filepipe.h \
     ../../common/include/ftpstatics.h \
     ../../common/include/nlohmann/json.hpp \
     ../../common/include/nlohmann/json_fwd.hpp \
@@ -15,6 +16,7 @@ HEADERS = \
 SOURCES = \
    $$PWD/client_main.cpp \
    ../../common/command.c \
+   ../../common/include/filepipe.cpp \
    ../../common/include/utils.cpp \
    ftpclient.cpp \
    ftpclienttest.cpp

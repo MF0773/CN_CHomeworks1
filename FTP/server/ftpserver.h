@@ -15,6 +15,7 @@
 #include "accountinfo.h"
 #include <set>
 
+#include "../../common/include/filepipe.h"
 using namespace std;
 
 #define RECEIVE_BUFFER_SIZE 1024
@@ -25,8 +26,10 @@ class FtpServer{
     int controlPort,serverFd;
     int lastFd;
     fd_set fdSet;
+    fd_set eventFdSet;
     unordered_map<std::string,AccountInfo> accountsMap;
     unordered_map<int,User*> onlineUsers;
+    unordered_map<int,FilePipe*> filepipes;
     set<std::string> adminFiles;
     set<int> loginReqSet;
     int lastDataPort;

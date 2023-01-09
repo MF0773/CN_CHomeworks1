@@ -23,9 +23,11 @@ public:
     void testCorrectLogin();
 
     //file tests
-    void testFile();
+    void testDownloadFile();
     void getFileList();
     void shouldntAccessAdminFile();
+    void testNotExitingFile();
+    void testDownloadNoneAdminFile();
 };
 
 #endif // FTPCLIENTTEST_H

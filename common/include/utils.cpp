@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <string>
+#include <fstream>
+using namespace std;
 
 std::string exec(const char* cmd) {
     char buffer[128];
@@ -18,4 +20,22 @@ std::string exec(const char* cmd) {
     }
     pclose(pipe);
     return result;
+}
+
+bool isFileExist(std::string path)
+{
+    string cmdOut = exec(string("ls " + path).c_str());
+    int pos = cmdOut.find("No such file or directory");
+    bool found = pos <0;
+    return found;
+}
+
+int getFileSize(std::string path)
+{
+    ifstream mySource;
+    mySource.open(path, ios_base::binary);
+    mySource.seekg(0,ios_base::end);
+    int size = mySource.tellg();
+    mySource.close();
+    return size;
 }

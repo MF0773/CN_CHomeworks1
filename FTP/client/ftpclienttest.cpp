@@ -29,7 +29,7 @@ bool FtpClientTest::run(char **argv)
 {
     try{
 //        testAccount();
-        testFile();
+        testDownloadFile();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -93,10 +93,12 @@ void FtpClientTest::testCorrectLogin()
     ASSERT(client.getLastResponse() == 230,"correct login not worked");
 }
 
-void FtpClientTest::testFile()
+void FtpClientTest::testDownloadFile()
 {
-    getFileList();
-    shouldntAccessAdminFile();
+//    getFileList();
+//    shouldntAccessAdminFile();
+//    testNotExitingFile();
+    testDownloadNoneAdminFile();
 }
 
 void FtpClientTest::getFileList()
@@ -121,4 +123,20 @@ void FtpClientTest::shouldntAccessAdminFile()
     doLogin("Mohsen","1234");
     int r = client.retFile("config.json");
     ASSERT( !r ,"no admin access");
+}
+
+void FtpClientTest::testNotExitingFile()
+{
+    shouldConnect();
+    doLogin("Mohsen","1234");
+    int r = client.retFile("abbas_bou_azar.mp4");
+    ASSERT( !r ,"test Not Exiting File");
+}
+
+void FtpClientTest::testDownloadNoneAdminFile()
+{
+    shouldConnect();
+    doLogin("Mohsen","1234");
+    int r = client.retFile("text1.txt");
+    ASSERT( r ,"download a file");
 }

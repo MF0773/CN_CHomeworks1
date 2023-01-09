@@ -1,8 +1,6 @@
 #ifndef FTPCLIENT_H
 #define FTPCLIENT_H
 
-#include <arpa/inet.h>
-#include <unistd.h>
 #include <iostream>
 #include <list>
 
