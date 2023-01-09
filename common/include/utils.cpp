@@ -25,8 +25,8 @@ std::string exec(const char* cmd) {
 bool isFileExist(std::string path)
 {
     string cmdOut = exec(string("ls " + path).c_str());
-    int pos = cmdOut.find("No such file or directory");
-    bool found = pos <0;
+    int pos = cmdOut.find(path);
+    bool found = pos >= 0;
     return found;
 }
 
