@@ -2,11 +2,12 @@
 #include <fstream>
 #include <string>
 #include <user.h>
-
+#include "../../common/include/utils.h"
 //json library imports
 #include "../../common/include/nlohmann/json.hpp"
 
 #include "../../common/include/ftpstatics.h"
+#include "../../common/include/filepipe.h"
 
 void FtpServer::addAccountInfo(const AccountInfo &account)
 {
@@ -18,8 +19,17 @@ FtpServer::FtpServer(){
     FD_ZERO(&fdSet);
 }
 
+int FtpServer::generateNewDataPort()
+{
+    return lastDataPort++;
+}
+
 bool FtpServer::start(int port){
-    this->serverPort = port;
+    bool result = importConfigFromFile();
+    if(!result){
+        return false;
+    }
+
     clog<<"starting server on port "<<port<<endl;
 
     int options = 1;
@@ -33,20 +43,13 @@ bool FtpServer::start(int port){
     }
 
     addressIn.sin_addr.s_addr = INADDR_ANY;
-    addressIn.sin_port = htons(serverPort);
+    addressIn.sin_port = htons(controlPort);
     addressIn.sin_family = AF_INET;
 
     bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
     FD_SET(serverFd ,&fdSet );
-    // FD_SET(serverPort ,fdSet.set );
-
 
     listen(serverFd, 4);
-
-    bool result = importUsersFromFile(USER_FILE_PATH);
-    if (!result){
-        return false;
-    }
 
     return true;
 }
@@ -64,8 +67,6 @@ int FtpServer::sample_setup(){
     address.sin_port = htons(2121);
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
-
-
 
     return server_fd;
 }
@@ -115,10 +116,9 @@ void FtpServer::event_loop(){
         eventFdSet = fdSet;
 
         select(getLastFd() + 1, &eventFdSet, NULL, NULL, NULL);
-        clog<<"some events";
+        clog<<"some events"<<endl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
             if (FD_ISSET( fdIter , &eventFdSet)){
-                // gameManager_reactionEvent(gm,fdIter,&eventFdSet);
                 onEventOccur(fdIter,eventFdSet);
             }
         }
@@ -128,7 +128,7 @@ void FtpServer::event_loop(){
 void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
     char recvBuf[RECEIVE_BUFFER_SIZE];
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
-    if (fdIter == serverFd){
+    if (fdIter == serverFd){ //new client
         acceptNewClient();
         return;
     }
@@ -139,6 +139,11 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
+    auto pipeIter = filepipes.find(fdIter);
+    if(pipeIter != filepipes.end()){
+        clog<<"pipe event"<<endl;
+        return;
+    }
     onNewApiCommandRecived(fdIter,recvBuf,recvChars);
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
@@ -180,34 +185,39 @@ void FtpServer::onNewPacketRecived(int fdIter, char *recvBuf){
 }
 
 void FtpServer::end(){
-    clog<<"ending server at port "<<serverPort<<endl;
+    clog<<"ending server at port "<<controlPort<<endl;
     close(serverFd);
 }
 
-bool FtpServer::importUsersFromFile(string filePath)
+bool FtpServer::importConfigFromFile()
 {
     using json = nlohmann::json;
     string buffer,fileStr;
-    ifstream file(filePath);
+    ifstream file(CONFIG_FILE_PATH);
     if (!file){
-        cerr<<"Couldnt open json file:"<<filePath<<endl;
+        cerr<<"Couldnt open json file:"<<CONFIG_FILE_PATH<<endl;
         return false;
     }
     while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
-
     auto jsonObj = json::parse(fileStr);
-    for (auto userData:jsonObj["users"]){
 
+
+    controlPort = jsonObj["commandChannelPort"];
+    lastDataPort = jsonObj["dataChannelPort"];
+    adminFiles = jsonObj["files"];
+
+    for (auto userData:jsonObj["users"]){
         AccountInfo newAccount = {
                 .userName=userData["user"],
                 .password=userData["password"],
                 .admin=userData["admin"]=="true",
                 .maxUsageSize= std::stoi ( (string) userData["size"])
             };
-
         addAccountInfo(newAccount);
     }
 
+    file.close();
+    clog<<"config imported"<<endl;
     return true;
 }
 
@@ -217,9 +227,25 @@ void FtpServer::addOnlineUser(int fd, AccountInfo account)
     onlineUsers.emplace(fd,newUser);
 }
 
+User *FtpServer::findUser(int fd)
+{
+    auto iter = onlineUsers.find(fd);
+    if(iter == onlineUsers.end()){
+        return nullptr;
+    }
+
+    return iter->second;
+}
+
 string FtpServer::makeResponseMessage(int code, std::string text)
 {
     return string()+ std::to_string(code) +" "+text;
+}
+
+bool FtpServer::isAdminFile(string fileName)
+{
+    auto iter = adminFiles.find(fileName);
+    return iter != adminFiles.end();
 }
 
 void FtpServer::apiSend(int fd, string commandName, char *args, int argLen)
@@ -260,6 +286,8 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
 //        }
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
+        COMMAND_CASE(onLsRequest,LS_COMMAND);
+        COMMAND_CASE(onRetrRequest,RETR_COMMAND);
 
         clog<<"unknown command: "<<commandName<<endl;
     }
@@ -319,6 +347,66 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     apiSendMessage(fd,LOGIN_RESPONSE_COMMAND,230, "Logged in, proceed. Logged out if appropriate.");
     loginReqSet.erase(fd);
     clog<<"logged in"<<endl;
+}
+
+void FtpServer::onLsRequest(int fd, char *buffer, int len)
+{
+    string cmd = string()+ "ls "+ SERVER_BASE_DIR;
+    string lsOutput = exec(cmd.c_str());
+    apiSend(fd,LS_COMMAND,lsOutput);
+}
+
+void FtpServer::onRetrRequest(int fd, char *buffer, int len)
+{
+    clog<<"new donwnload request from "<<fd<<endl;
+    auto user = findUser(fd);
+    if (user == nullptr){
+        apiSendMessage(fd, RETR_COMMAND, 332, NEED_ACCOUNT_ERROR);
+        return;
+    }
+    auto userInfo = user->getAccountInfo();
+
+    stringstream ss(buffer);
+    string fileName,commandName;
+    ss>>commandName>>fileName;
+
+    if (isAdminFile(fileName) && userInfo.admin == false ){
+        clog<<"rejected, not admin"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
+        return;
+    }
+
+    string filePath = SERVER_BASE_DIR + fileName;
+    if(!isFileExist(filePath)){
+        clog<<"rejected, not exist file"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
+        return;
+    }
+
+    int dataPort = generateNewDataPort();
+    string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
+    apiSendMessage(fd, RETR_COMMAND, 226, args);
+    clog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
+
+    auto pipe = new FilePipe(FilePipe::server,FilePipe::sender,filePath);
+    pipe->setup(dataPort);
+
+    int dataFd = pipe->getDataFd();
+    if( dataFd < 0 ){
+        cerr<<"cant open file pipe"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
+        return;
+    }
+    filepipes.emplace(dataFd,pipe);
+    FD_SET(dataFd,& this->fdSet);
+
+    pipe->run();
+    sendRetrAck(fd);
+}
+
+void FtpServer::sendRetrAck(int fd)
+{
+    apiSendMessage(fd,RETR_ACK_COMMAND, 226, "Successful Download");
 }
 
 void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string message)

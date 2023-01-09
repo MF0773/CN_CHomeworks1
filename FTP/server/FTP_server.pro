@@ -4,8 +4,10 @@
 #TARGET = FTP_server
 
 HEADERS =\
+    ../../common/include/filepipe.h \
     ../../common/include/nlohmann/json.hpp \
     ../../common/include/nlohmann/json_fwd.hpp \
+    ../../common/include/utils.h \
     accountinfo.h \
     ftpserver.h \
     user.h
@@ -15,6 +17,8 @@ INCLUDEPATH =
 #DEFINES =
 
 SOURCES += \
+    ../../common/include/filepipe.cpp \
+    ../../common/include/utils.cpp \
     server_main.cpp \
     ftpserver.cpp \
     user.cpp

@@ -4,6 +4,7 @@
 
 struct AccountInfo
 {
+public:
     std::string userName,password;
     bool admin;
     int maxUsageSize;

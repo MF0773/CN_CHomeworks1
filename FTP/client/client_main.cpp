@@ -1,6 +1,7 @@
 #include<iostream>
 #include "ftpclient.h"
 #include "ftpclienttest.h"
+#include <sstream>
 using namespace std;
 
 bool userNameLoop(FtpClient& client)
@@ -40,6 +41,21 @@ bool passwordLoop(FtpClient& client)
     return false;
 }
 
+void commandLoop(FtpClient& client){
+    string commandLine,commandName;
+    stringstream ss;
+    while(!std::cin.eof()){
+        cin>>commandName;
+
+        if (commandName=="ls"){
+            client.cliLs(ss);
+        }
+        else if(commandName=="quit"){
+            break;
+        }
+    }
+}
+
 int main(int argc,char **argv){
     if (argc>1){
         string arg = argv[1];
@@ -54,7 +70,7 @@ int main(int argc,char **argv){
     cout<<"client started"<<endl;
     FtpClient client;
 
-    bool result = client.connectToServer(2121);
+    bool result = client.connectToServer();
     if (!result){
         return -1;
     }
@@ -69,9 +85,8 @@ int main(int argc,char **argv){
         return 0;
     }
 
+    commandLoop(client);
+
     client.disconnectFromServer();
-    char ch;
-    cout<<"enter somthing to exit"<<endl;
-    cin>>ch;
     return 0;
 }

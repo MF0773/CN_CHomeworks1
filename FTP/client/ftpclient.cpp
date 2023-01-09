@@ -2,6 +2,12 @@
 #include <sstream>
 #include <string.h>
 #include "../../common/include/ftpstatics.h"
+#include "../../common/include/nlohmann/json.hpp"
+#include "../../common/include/filepipe.h"
+#include <fstream>
+
+#include <arpa/inet.h>
+#include <unistd.h>
 
 bool FtpClient::getLoginned() const
 {
@@ -46,30 +52,60 @@ void FtpClient::setUserName(const std::string &newUserName)
     userName = newUserName;
 }
 
+void FtpClient::cliLs(stringstream &ss)
+{
+    auto fileList = getListFiles();
+    cout<<"file list: ";
+    for (const auto &a:fileList)
+        cout<<a<<", ";
+    cout<<endl;
+}
+
+list<std::string> FtpClient::getCatchedFileList() const
+{
+    return catchedFileList;
+}
+
+void FtpClient::setCatchedFileList(const list<std::string> &newCatchedFileList)
+{
+    catchedFileList = newCatchedFileList;
+}
+
 FtpClient::FtpClient()
 {
     setLoginned(false);
+
+    using json = nlohmann::json;
+    string buffer,fileStr;
+    ifstream file(CONFIG_FILE_PATH);
+    if (!file){
+        cerr<<"Couldnt open json file:"<<CONFIG_FILE_PATH<<endl;
+        return ;
+    }
+    while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
+    auto jsonObj = json::parse(fileStr);
+
+    controlPort = jsonObj["commandChannelPort"];
 }
 
-bool FtpClient::connectToServer(int port) {
+bool FtpClient::connectToServer() {
     int fd;
     struct sockaddr_in server_address;
 
     fd = socket(AF_INET, SOCK_STREAM, 0);
 
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(port);
+    server_address.sin_port = htons(controlPort);
     server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if (connect(fd, (struct sockaddr *)&server_address, sizeof(server_address)) >= 0) { // checking for errors
         controlFd = fd;
-        controlPort = port;
 
         clog<< "connected on port : "<< controlPort<<endl;
         return true;
     }
 
-    clog<< "could not connected on port : "<< port<<endl;
+    clog<< "could not connected on port : "<< controlPort<<endl;
     return false;
 }
 
@@ -109,6 +145,11 @@ void FtpClient::sendBytes(int fd,const char *bytes, int len)
 string FtpClient::exportCommandName(char *buff, int recivedLen)
 {
     char nameBuffer[MAX_COMMAND_NAME_LEN];
+
+    if (recivedLen<0){
+        throw "command recive error!";
+    }
+
     strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );
 
     stringstream ss;
@@ -126,6 +167,12 @@ void FtpClient::apiWaitResponse(int fd, string command)
     while(true){
         memset(buff, 0, RECIVE_BUFFER_SIZE);
         recivedLen = recv(fd, buff, RECIVE_BUFFER_SIZE, 0);
+
+        if( recivedLen == 0){
+            cerr<<"server down when waiting for response"<<endl;
+            lastResponse = 400;
+            return;
+        }
         string commandName = exportCommandName(buff,recivedLen);
         onNewApiCommand(fd,command,buff);
         if (commandName == command){
@@ -165,6 +212,9 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
 {
     COMMAND_CASE(onNewLoginResponse,LOGIN_RESPONSE_COMMAND);
     COMMAND_CASE(onNewUserNameCheckResponse,USER_CHECK_RESPONSE_COMMAND);
+    COMMAND_CASE(onLsResponse,LS_COMMAND);
+    COMMAND_CASE(onRetrResonse,RETR_COMMAND);
+    COMMAND_CASE(onRetrAckResonse,RETR_ACK_COMMAND);
 }
 
 #define USER_LOGGED_IN_CODE 230
@@ -186,4 +236,61 @@ void FtpClient::onNewLoginResponse(char *args)
 void FtpClient::onNewUserNameCheckResponse(char *args)
 {
     displayMessage(args);
+}
+
+void FtpClient::onLsResponse(char *args)
+{
+    stringstream ss;
+    string cmd;
+    list<string> tockens;
+    ss.str(args);
+    ss>>cmd;
+    while(!ss.eof()){
+        string newTocken;
+        ss>>newTocken;
+        tockens.push_back(newTocken);
+    }
+    setCatchedFileList(tockens);
+}
+
+void FtpClient::onRetrResonse(char *args)
+{
+    displayMessage(args);
+    int code = getLastResponse();
+    if(! FtpClient::is_ok_code(code)){
+        return;
+    }
+
+    clog<<"initializing download pipe."<<endl;
+
+    stringstream ss(args);
+    string cmd,status,port,fileName;
+    ss>>cmd>>status>>port>>fileName;
+
+    string filePath = CLIENTS_BASE_DIR + fileName;
+    FilePipe pipe(FilePipe::client, FilePipe::reciver,filePath);
+    pipe.setup(std::stoi(port));
+    int fd = pipe.getServerFd();
+    pipe.run();
+    setLastResponse(code);
+}
+
+void FtpClient::onRetrAckResonse(char *args)
+{
+    displayMessage(args);
+}
+
+list<string> FtpClient::getListFiles()
+{
+    apiSend(controlFd,LS_COMMAND,"");
+    apiWaitResponse(controlFd,LS_COMMAND);
+    return getCatchedFileList();
+}
+
+int FtpClient::retFile(string fileName)
+{
+    apiSend(controlFd,RETR_COMMAND,fileName.c_str());
+    apiWaitResponse(controlFd, RETR_COMMAND);
+    apiWaitResponse(controlFd, RETR_ACK_COMMAND);
+    return getLastResponse();
 }

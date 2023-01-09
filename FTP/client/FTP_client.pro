@@ -4,16 +4,27 @@
 #TARGET = FTP_client
 
 HEADERS = \
+    ../../common/command.h \
+    ../../common/include/filepipe.h \
     ../../common/include/ftpstatics.h \
+    ../../common/include/nlohmann/json.hpp \
+    ../../common/include/nlohmann/json_fwd.hpp \
+    ../../common/include/utils.h \
     ftpclient.h \
     ftpclienttest.h
 
 SOURCES = \
    $$PWD/client_main.cpp \
+   ../../common/command.c \
+   ../../common/include/filepipe.cpp \
+   ../../common/include/utils.cpp \
    ftpclient.cpp \
    ftpclienttest.cpp
 
 INCLUDEPATH =
 
 #DEFINES = 
+
+DISTFILES += \
+    ../../common/ftp_config.json
 
