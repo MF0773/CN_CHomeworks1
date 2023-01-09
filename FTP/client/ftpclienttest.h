@@ -5,17 +5,22 @@
 class FtpClientTest
 {
 private:
-    FtpClient client;
+    FtpClient testClient;
 
+    bool doLogin(FtpClient &client, std::string user,std::string pass);
     bool doLogin(std::string user,std::string pass);
     bool connect(int port);
     bool checkSameFiles(std::string path1,std::string path2);
+
+    void _baseDownloadFile(FtpClient& client,string fileName);
+    void _baseDownloadFile(string fileName);
 public:
     FtpClientTest();
     bool run(char** argv);
 
     //account tests
     void testAccount();
+    bool shouldConnect(FtpClient& client);
     bool shouldConnect();
     bool shouldLogin();
     bool testBadSequence();
@@ -24,7 +29,6 @@ public:
     void testCorrectLogin();
 
     //file tests
-    void _baseDownloadFile(string fileName);
     void testDownloadFile();
     void getFileList();
     void shouldntAccessAdminFile();
@@ -39,6 +43,11 @@ public:
     void nonAdminCantUpload();
     void adminUploadText();
     void adminUploadImage();
+
+    //multi user download tests
+    void testMultiDownload();
+    void testDownloadUser1();
+    void testDownloadUser2();
 };
 
 #endif // FTPCLIENTTEST_H

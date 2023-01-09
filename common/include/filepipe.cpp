@@ -18,9 +18,32 @@ int FilePipe::getDataFd() const
     return dataFd;
 }
 
-void FilePipe::sleep_ms(int ms)
+void FilePipe::debugDelay()
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    if(debugDelayInterval<=0){
+        return ;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(debugDelayInterval));
+}
+
+int FilePipe::getDataPort() const
+{
+    return dataPort;
+}
+
+int FilePipe::getUserFd() const
+{
+    return userFd;
+}
+
+void FilePipe::setUserFd(int newUserFd)
+{
+    userFd = newUserFd;
+}
+
+void FilePipe::setDebugDelay(int newDebugDelay)
+{
+    debugDelayInterval = newDebugDelay;
 }
 
 void FilePipe::reciverRun()
@@ -36,7 +59,6 @@ void FilePipe::senderRun()
     int sendLen = 0;
     do{
         sendLen = sendNextBlock();
-        sleep_ms(1);
     }while(sendLen > 0);
 }
 
@@ -62,6 +84,8 @@ bool FilePipe::setupServer()
 
     dataFd = accept(serverFd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
 
+    setDebugDelay(0);
+
     return true;
 }
 
@@ -78,7 +102,6 @@ bool FilePipe::setupClient()
     bool connectResult = -1;
     int attemps=0;
     do{
-        sleep_ms(10);
         connectResult = connect(fd, (struct sockaddr *)&server_address, sizeof(server_address));
         attemps++;
         if (attemps > 100) { // checking for errors
@@ -86,13 +109,15 @@ bool FilePipe::setupClient()
             return false;
         }
     }while(connectResult<0);
-
     this->dataFd = fd;
+
+    setDebugDelay(1);
     return true;
 }
 
 int FilePipe::sendNextBlock()
 {
+    reciveAck();
     if(!file){
         fileBuffer[0] = 0;
         send(dataFd,fileBuffer,0,0);
@@ -103,17 +128,31 @@ int FilePipe::sendNextBlock()
     int len = file.gcount();
     send(dataFd,fileBuffer,len,0);
     fileBuffer[len] = 0;
-//    clog<<"a block sended"<<fileBuffer<<endl;
+    clog<<"a block sended"<<fileBuffer<<endl;
+    debugDelay();
     return len;
 }
 
 int FilePipe::reciveNextBlock()
 {
+    sendAck();
     int len = recv(dataFd, fileBuffer, FILE_PIPE_BUFFER_SIZE, 0);
     fileBuffer[len] = 0;
 //    clog<<"a block recived "<<fileBuffer;
     file.write((char*) &fileBuffer, len);
+    debugDelay();
     return len;
+}
+
+void FilePipe::sendAck()
+{
+    send(dataFd,"1",2,0);
+}
+
+void FilePipe::reciveAck()
+{
+    char buf[2];
+    recv(dataFd,buf,2,0);
 }
 
 void FilePipe::endConnection()
@@ -149,6 +188,7 @@ bool FilePipe::setup(int port)
     else{
         return setupClient();
     }
+    firstBlock = true;
 }
 
 void FilePipe::run()
@@ -162,7 +202,14 @@ void FilePipe::run()
     endConnection();
 }
 
-void FilePipe::eventloop(int fd, char *data, int len)
+int FilePipe::eventloop()
 {
-
+    int len=-1;
+    if (dir == FilePipe::sender){
+        len = sendNextBlock();
+    }
+    else{
+        len = reciveNextBlock();
+    }
+    return len;
 }

@@ -2,9 +2,14 @@
 #include <algorithm>
 #include "../../common/include/utils.h"
 #include "../../common/include/ftpstatics.h"
+#include <unistd.h>
+#include <sys/wait.h>
+#include <thread>
+#include <chrono>
+
 #define ASSERT(COND,MSG) if (!(COND)) throw MSG
 
-bool FtpClientTest::doLogin(string user, string pass)
+bool FtpClientTest::doLogin(FtpClient &client, string user, string pass)
 {
     client.checkUserName(user);
     ASSERT(client.getLastResponse() == 331,"user name stage");
@@ -13,11 +18,26 @@ bool FtpClientTest::doLogin(string user, string pass)
     ASSERT(client.getLastResponse() == 230,"login stage");
 }
 
+bool FtpClientTest::doLogin(string user, string pass)
+{
+    return doLogin(testClient, user, pass);
+}
+
 bool FtpClientTest::checkSameFiles(string path1, string path2)
 {
     string cmd = "cmp "+path1+" "+path2;
     string output = exec(cmd.c_str());
     return output.size()==0;
+}
+
+void FtpClientTest::_baseDownloadFile(FtpClient &client, string fileName)
+{
+    int code = client.retFile(fileName);
+    ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
+
+    string path1 = CLIENTS_BASE_DIR + fileName;
+    string path2 = string("../server/")+SERVER_BASE_DIR + fileName;
+    ASSERT(checkSameFiles(path1,path2),"same download file file :"+ fileName);
 }
 
 FtpClientTest::FtpClientTest()
@@ -34,12 +54,27 @@ void FtpClientTest::testAccount()
     testCorrectLogin();
 }
 
+bool FtpClientTest::shouldConnect(FtpClient &client)
+{
+    bool r = client.connectToServer();
+    if (!r){
+        throw "cant connect!";
+    }
+    return true;
+}
+
+bool FtpClientTest::shouldConnect()
+{
+    return shouldConnect(testClient);
+}
+
 bool FtpClientTest::run(char **argv)
 {
     try{
-//        testAccount();
+        testAccount();
         testDownloadFile();
-        testUpload();
+//        testUpload();
+        testMultiDownload();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -50,23 +85,15 @@ bool FtpClientTest::run(char **argv)
         return false;
     }
 
-    client.disconnectFromServer();
+    testClient.disconnectFromServer();
     cout<<"test completed"<<endl;
     return true;
 }
 
-bool FtpClientTest::shouldConnect()
-{
-    bool r = client.connectToServer();
-    if (!r){
-        throw "cant connect!";
-    }
-    return true;
-}
 
 bool FtpClientTest::shouldLogin()
 {
-    bool r = client.tryLogin("Ali","1234");
+    bool r = testClient.tryLogin("Ali","1234");
     if (!r){
 //        throw "cant login!";
     }
@@ -75,43 +102,37 @@ bool FtpClientTest::shouldLogin()
 
 bool FtpClientTest::testBadSequence()
 {
-    client.tryLogin("Ali","1234");
-    ASSERT(client.getLastResponse() == 503,"Bad sequence not detected");
+    testClient.tryLogin("Ali","1234");
+    ASSERT(testClient.getLastResponse() == 503,"Bad sequence not detected");
 }
 
 bool FtpClientTest::testWrongUsername()
 {
-    client.checkUserName("sdlkfja");
-    ASSERT(client.getLastResponse() == 430,"wrong user name not worked");
+    testClient.checkUserName("sdlkfja");
+    ASSERT(testClient.getLastResponse() == 430,"wrong user name not worked");
 }
 
 void FtpClientTest::testWronPassword()
 {
-    client.checkUserName("Ali");
-    ASSERT(client.getLastResponse() == 331,"user name ali");
+    testClient.checkUserName("Ali");
+    ASSERT(testClient.getLastResponse() == 331,"user name ali");
 
-    client.tryLogin("Ali","wrontpass");
-    ASSERT(client.getLastResponse() == 430,"wrong pass not worked");
+    testClient.tryLogin("Ali","wrontpass");
+    ASSERT(testClient.getLastResponse() == 430,"wrong pass not worked");
 }
 
 void FtpClientTest::testCorrectLogin()
 {
-    client.checkUserName("Ali");
-    ASSERT(client.getLastResponse() == 331,"user name ali");
+    testClient.checkUserName("Ali");
+    ASSERT(testClient.getLastResponse() == 331,"user name ali");
 
-    client.tryLogin("Ali","1234");
-    ASSERT(client.getLastResponse() == 230,"correct login not worked");
+    testClient.tryLogin("Ali","1234");
+    ASSERT(testClient.getLastResponse() == 230,"correct login not worked");
 }
 
 void FtpClientTest::_baseDownloadFile(std::string fileName)
 {
-
-    int code = client.retFile(fileName);
-    ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
-
-    string path1 = CLIENTS_BASE_DIR + fileName;
-    string path2 = string("../server/")+SERVER_BASE_DIR + fileName;
-    ASSERT(checkSameFiles(path1,path2),"same download file file :"+ fileName);
+    return _baseDownloadFile(testClient, fileName);
 }
 
 void FtpClientTest::testDownloadFile()
@@ -123,14 +144,14 @@ void FtpClientTest::testDownloadFile()
     testDownloadMovie();
     testDownloadPdf();
 
-    client.disconnectFromServer();
+    testClient.disconnectFromServer();
 }
 
 void FtpClientTest::getFileList()
 {
     shouldConnect();
     doLogin("Ali","1234");
-    auto files = client.getListFiles();
+    auto files = testClient.getListFiles();
     ASSERT(files.size()>3,"file count");
     auto findResult = std::find(files.begin(),files.end(),"text1.txt");
     ASSERT(findResult!=files.end(),"sample file in the list");
@@ -139,14 +160,14 @@ void FtpClientTest::getFileList()
     for (const auto &a:files)
         cout<<a<<", ";
     cout<<endl;
-    client.disconnectFromServer();
+    testClient.disconnectFromServer();
 }
 
 void FtpClientTest::shouldntAccessAdminFile()
 {
     shouldConnect();
     doLogin("Mohsen","1234");
-    int r = client.retFile("config.json");
+    int r = testClient.retFile("config.json");
     ASSERT( !FtpClient::is_ok_code(r) ,"no admin access");
 }
 
@@ -154,7 +175,7 @@ void FtpClientTest::testNotExitingFile()
 {
     shouldConnect();
     doLogin("Mohsen","1234");
-    int r = client.retFile("abbas_bou_azar.mp4");
+    int r = testClient.retFile("abbas_bou_azar.mp4");
     ASSERT( !FtpClient::is_ok_code(r) ,"test Not Exiting File");
 }
 
@@ -181,7 +202,7 @@ void FtpClientTest::testDownloadMovie()
 
 void FtpClientTest::_baseUploadFile(string fileName)
 {
-    int code = client.uploadFile(fileName);
+    int code = testClient.uploadFile(fileName);
     ASSERT(FtpClient::is_ok_code(code),"download code :" + fileName);
 
     string path1 = CLIENTS_BASE_DIR + fileName;
@@ -195,14 +216,14 @@ void FtpClientTest::testUpload()
     nonAdminCantUpload();
     adminUploadText();
     adminUploadImage();
-    client.disconnectFromServer();
+    testClient.disconnectFromServer();
 }
 
 void FtpClientTest::nonAdminCantUpload()
 {
     shouldConnect();
     doLogin("Mohsen","1234");
-    int code = client.uploadFile("text2.txt");
+    int code = testClient.uploadFile("text2.txt");
     ASSERT(!FtpClient::is_ok_code(code),"non admin block upload");
 }
 
@@ -218,4 +239,50 @@ void FtpClientTest::adminUploadImage()
     shouldConnect();
     doLogin("Ali","1234");
     _baseUploadFile("image2.jpg");
+}
+
+void FtpClientTest::testMultiDownload()
+{
+    pid_t c_pid = fork();
+
+    if (c_pid == -1) {
+        ASSERT(false, "fork process");
+    }
+    else if (c_pid > 0) {
+        clog << "printed from parent process " << getpid() << endl;
+        testDownloadUser1();
+        pid_t wpid;
+        int status = 0;
+        while ((wpid = wait(&status)) > 0)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));;
+        ASSERT(status == 0, "second user download");
+    }
+    else {
+        clog << "printed from child process " << getpid() << endl;
+        try{
+            testDownloadUser2();
+            exit(0);
+        }
+        catch (...){
+            exit(-1);
+        }
+    }
+}
+
+void FtpClientTest::testDownloadUser1()
+{
+    FtpClient client1;
+    shouldConnect(client1);
+    doLogin(client1, "Ali", "1234");
+    _baseDownloadFile(client1,"image1.png");
+    client1.disconnectFromServer();
+}
+
+void FtpClientTest::testDownloadUser2()
+{
+    FtpClient client2;
+    shouldConnect(client2);
+    doLogin(client2, "Mohsen", "1234");
+    _baseDownloadFile(client2,"movie1.mp4");
+    client2.disconnectFromServer();
 }

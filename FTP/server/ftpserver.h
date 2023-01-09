@@ -37,6 +37,8 @@ class FtpServer{
 
 private:
     void addAccountInfo(const AccountInfo& account);
+    void addFdSet(int fd);
+    void removeFdSet(int fd);
     public:
     FtpServer();
 
@@ -72,6 +74,8 @@ private:
 
     AccountInfo findAccountInfo(std::string user,std::string pass);
     void addOnlineUser(int fd, AccountInfo account);
+    void addFilePipe(FilePipe *pipe);
+    void removeFilePipe(FilePipe *pipe);
     User* findUser(int fd);
     std::string makeResponseMessage(int code,std::string text);
     bool isAdminFile(std::string fileName);
@@ -80,6 +84,7 @@ private:
     void apiSend(int fd, std::string commandName, string str);
     std::string exportCommandName(char *buff, int recivedLen);
     void onNewApiCommandRecived(int fd, char* buffer, int len);
+    void onNewFilePipeEvent(int pipeIter);
     void onNewUserCheckRequest(int fd,char* buffer,int len);
     void onNewLoginRequest(int fd, char* buffer, int len);
     void onLsRequest(int fd, char* buffer,int len);
