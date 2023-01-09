@@ -14,3 +14,5 @@
 #define FILE_UNAVAILABLE_ERROR "File unavailable"
 #define FILE_PIPE_BUFFER_SIZE 128
 #define RETR_ACK_COMMAND "retrAck"
+#define UPLOAD_COMMAND "up"
+#define UPLOAD_ACK_COMMAND "upAck"

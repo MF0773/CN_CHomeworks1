@@ -215,6 +215,8 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
     COMMAND_CASE(onLsResponse,LS_COMMAND);
     COMMAND_CASE(onRetrResonse,RETR_COMMAND);
     COMMAND_CASE(onRetrAckResonse,RETR_ACK_COMMAND);
+    COMMAND_CASE(onUploadResponse,UPLOAD_COMMAND);
+    COMMAND_CASE(onUploadAckResponse,UPLOAD_ACK_COMMAND);
 }
 
 #define USER_LOGGED_IN_CODE 230
@@ -296,4 +298,42 @@ int FtpClient::retFile(string fileName)
     }
     apiWaitResponse(controlFd, RETR_ACK_COMMAND);
     return getLastResponse();
+}
+
+int FtpClient::uploadFile(string fileName)
+{
+    apiSend(controlFd,UPLOAD_COMMAND,fileName.c_str());
+    apiWaitResponse(controlFd, UPLOAD_COMMAND);
+    if (!is_ok_code(getLastResponse())){
+        return getLastResponse();
+    }
+    apiWaitResponse(controlFd, UPLOAD_ACK_COMMAND);
+    return getLastResponse();
+}
+
+void FtpClient::onUploadResponse(char *args)
+{
+    displayMessage(args);
+    int code = getLastResponse();
+    if(! FtpClient::is_ok_code(code)){
+        return;
+    }
+
+    clog<<"initializing upload pipe."<<endl;
+
+    stringstream ss(args);
+    string cmd,status,port,fileName;
+    ss>>cmd>>status>>port>>fileName;
+
+    string filePath = CLIENTS_BASE_DIR + fileName;
+    FilePipe pipe(FilePipe::client, FilePipe::sender,filePath);
+    pipe.setup(std::stoi(port));
+    int fd = pipe.getServerFd();
+    pipe.run();
+    setLastResponse(code);
+}
+
+void FtpClient::onUploadAckResponse(char *args)
+{
+
 }

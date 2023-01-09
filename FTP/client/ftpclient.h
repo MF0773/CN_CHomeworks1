@@ -41,6 +41,10 @@ class FtpClient{
     list<std::string> getListFiles();
     int retFile(std::string fileName);
 
+    int uploadFile(std::string fileName);
+    void onUploadResponse(char* args);
+    void onUploadAckResponse(char* args);
+
     bool getLoginned() const;
     void setLoginned(bool newLoginned);
     void displayMessage(char* args);

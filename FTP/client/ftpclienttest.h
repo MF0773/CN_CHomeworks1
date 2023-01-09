@@ -32,6 +32,13 @@ public:
     void testDownloadText();
     void testDownloadPdf();
     void testDownloadMovie();
+
+    //one user upload tests
+    void _baseUploadFile(string fileName);
+    void testUpload();
+    void nonAdminCantUpload();
+    void adminUploadText();
+    void adminUploadImage();
 };
 
 #endif // FTPCLIENTTEST_H
