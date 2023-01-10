@@ -102,9 +102,10 @@ bool FilePipe::setupClient()
     bool connectResult = -1;
     int attemps=0;
     do{
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         connectResult = connect(fd, (struct sockaddr *)&server_address, sizeof(server_address));
         attemps++;
-        if (attemps > 10000) { // checking for errors
+        if (attemps > 1000) { // checking for errors
             cerr<< "Error in connecting to server"<<endl;
             return false;
         }
@@ -126,8 +127,8 @@ int FilePipe::sendNextBlock()
 
     file.readsome(fileBuffer,FILE_PIPE_BUFFER_SIZE-1);
     int len = file.gcount();
-    send(dataFd,fileBuffer,len,0);
     fileBuffer[len] = 0;
+    send(dataFd,fileBuffer,len,0);
 //    clog<<"a block sended"<<fileBuffer<<endl;
     debugDelay();
     return len;

@@ -1,0 +1,14 @@
+In the name of GOD
+It's tried to describe each command in usage order.
+user <name>
+    checks username of <name> with the server. If the user was exist you can login with "pass" command.
+pass <password>
+    This command must be used after 'user' command. It will send the password to the server. If authorization was ok, clients will login to given account.
+retr <filename>
+    Download the file with name of 'filename' from server. After login you can use this command.
+upload <filename>
+    Upload file with name 'filename' to the server. Note that you should loginned with an admin account for using this command.
+help
+    Show the help.
+quit
+    logout from account.

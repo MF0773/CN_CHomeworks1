@@ -13,11 +13,11 @@
 bool FtpClientTest::run(char **argv)
 {
     try{
-//        testAccount();
-//        testDownloadFile();
-//        testUpload();
-//        testMultiDownload();
-//        testMultiUpload();
+        testAccount();
+        testDownloadFile();
+        testUpload();
+        testMultiDownload();
+        testMultiUpload();
         testSizeLimit();
     }
     catch (const char* msg){

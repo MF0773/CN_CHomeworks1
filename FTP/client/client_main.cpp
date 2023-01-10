@@ -75,17 +75,7 @@ int main(int argc,char **argv){
         return -1;
     }
 
-    bool userNameOK = userNameLoop(client);
-    if(!userNameOK){
-        return 0;
-    }
-
-    bool passOK = passwordLoop(client);
-    if(!passOK){
-        return 0;
-    }
-
-    commandLoop(client);
+    client.commandLoop();
 
     client.disconnectFromServer();
     return 0;

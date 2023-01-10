@@ -1,0 +1,4 @@
+user Ali
+pass 1234
+retr text1.txt
+retr doc1.pdf

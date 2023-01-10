@@ -14,6 +14,7 @@
 #include "user.h"
 #include "accountinfo.h"
 #include <set>
+#include "../../common/include/utils.h"
 
 #include "../../common/include/filepipe.h"
 using namespace std;
@@ -31,7 +32,8 @@ class FtpServer{
     unordered_map<int,User*> onlineUsers;
     unordered_map<int,FilePipe*> filepipes;
     set<std::string> adminFiles;
-    set<int> loginReqSet;
+    unordered_map<int,std::string> loginReqSet;
+    MyLogger mlog;
     int lastDataPort;
 
 
@@ -39,6 +41,7 @@ private:
     void addAccountInfo(const AccountInfo& account);
     void addFdSet(int fd);
     void removeFdSet(int fd);
+    void initLogFile();
     public:
     FtpServer();
 
@@ -69,6 +72,8 @@ private:
 
     bool importConfigFromFile();
 
+    bool checkSyntax(stringstream &ss);
+
     template<typename Json>
     bool importUsersFromFile(Json &jsonObj);
 
@@ -79,6 +84,7 @@ private:
     User* findUser(int fd);
     std::string makeResponseMessage(int code,std::string text);
     bool isAdminFile(std::string fileName);
+
     //communicate commands
     void apiSend(int fd, string commandName, char *args, int argLen);
     void apiSend(int fd, std::string commandName, string str);
@@ -93,6 +99,9 @@ private:
     void onUploadRequest(int fd, char* buffer,int len);
     void sendUploadAck(int fd);
     void apiSendMessage(int fd, string commandName, int code, std::string message);
+    void sendSyntaxMessage(int fd, string commandName);
+    void onHelpRequest(int fd, char *buffer, int len);
+    void onQuitRequest(int fd, char *buffer, int len);
 };
 
 #endif // FTPSERVER_H

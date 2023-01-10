@@ -30,8 +30,15 @@ void FtpServer::removeFdSet(int fd)
     }
 }
 
-FtpServer::FtpServer(){
+void FtpServer::initLogFile()
+{
+
+}
+
+FtpServer::FtpServer()
+{
     lastFd = 0;
+    mlog.setFilePath(LOG_PATH);
     FD_ZERO(&fdSet);
 }
 
@@ -46,7 +53,7 @@ bool FtpServer::start(int port){
         return false;
     }
 
-    clog<<"starting server on port "<<port<<endl;
+    mlog<<"starting server on port "<<port<<mendl;
 
     int options = 1;
     sockaddr_in addressIn;
@@ -54,7 +61,7 @@ bool FtpServer::start(int port){
     setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &options , sizeof(int));
 
     if (serverFd < 0){
-        clog << "could not start server"<<endl;
+        mlog << "could not start server"<<mendl;
         return false;
     }
 
@@ -128,7 +135,7 @@ void FtpServer::event_loop(){
     {
         fdSetClone = fdSet;
         select(getLastFd() + 1, &fdSetClone, NULL, NULL, NULL);
-//        clog<<"some events"<<endl;
+//        mlog<<"some events"<<mendl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
             if (FD_ISSET( fdIter , &fdSetClone)){
                 onEventOccur(fdIter,fdSetClone);
@@ -140,7 +147,7 @@ void FtpServer::event_loop(){
 void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
     auto pipeIter = filepipes.find(fdIter);
     if(pipeIter != filepipes.end()){
-//        clog<<"pipe event"<<endl;
+//        mlog<<"pipe event"<<mendl;
         onNewFilePipeEvent(fdIter);
         return;
     }
@@ -172,13 +179,13 @@ void FtpServer::acceptNewClient(){
 
     addFdSet(clientControlFd);
 
-    clog<<"new client accepted "<<clientControlFd<<endl;
+    mlog<<"new client accepted "<<clientControlFd<<mendl;
 }
 
 void FtpServer::disconnectClient(int clientFd){
     removeFdSet(clientFd);
     close(clientFd);
-    clog<<"client "<<clientFd <<" disconnected"<<endl;
+    mlog<<"client "<<clientFd <<" disconnected"<<mendl;
 
     removeOnlineUser(clientFd);
 }
@@ -197,11 +204,11 @@ void FtpServer::removeOnlineUser(int fd)
 }
 
 void FtpServer::onNewPacketRecived(int fdIter, char *recvBuf){
-    clog<<"new packet from "<<fdIter<<": "<<recvBuf<<endl;
+    mlog<<"new packet from "<<fdIter<<": "<<recvBuf<<mendl;
 }
 
 void FtpServer::end(){
-    clog<<"ending server at port "<<controlPort<<endl;
+    mlog<<"ending server at port "<<controlPort<<mendl;
     close(serverFd);
 }
 
@@ -211,7 +218,7 @@ bool FtpServer::importConfigFromFile()
     string buffer,fileStr;
     ifstream file(CONFIG_FILE_PATH);
     if (!file){
-        cerr<<"Couldnt open json file:"<<CONFIG_FILE_PATH<<endl;
+        cerr<<"Couldnt open json file:"<<CONFIG_FILE_PATH<<mendl;
         return false;
     }
     while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
@@ -233,8 +240,18 @@ bool FtpServer::importConfigFromFile()
     }
 
     file.close();
-    clog<<"config imported"<<endl;
+    mlog<<"config imported"<<mendl;
     return true;
+}
+
+bool FtpServer::checkSyntax(stringstream& ss)
+{
+    if(!ss){
+        return false;
+    }
+    string temp;
+    ss>>temp;
+    return !ss;
 }
 
 void FtpServer::addOnlineUser(int fd, AccountInfo account)
@@ -293,7 +310,9 @@ void FtpServer::apiSend(int fd, string commandName, string args)
 std::string FtpServer::exportCommandName(char *buff, int recivedLen)
 {
     char nameBuffer[MAX_COMMAND_NAME_LEN];
-    strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );
+    int exportLen = min(recivedLen,MAX_COMMAND_NAME_LEN) ;
+    strncpy(nameBuffer,buff, exportLen);
+    nameBuffer[exportLen] = 0;
 
     stringstream ss;
     ss.str(nameBuffer);
@@ -309,19 +328,19 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
     string commandName = exportCommandName(buffer,len);
 
     try{
-//        if (commandName == LOGIN_REQUEST_COMMAND){
-//            return onNewLoginRequest(fd,buffer,len);
-//        }
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
         COMMAND_CASE(onLsRequest,LS_COMMAND);
         COMMAND_CASE(onRetrRequest,RETR_COMMAND);
         COMMAND_CASE(onUploadRequest,UPLOAD_COMMAND);
+        COMMAND_CASE(onHelpRequest,HELP_COMMAND);
+        COMMAND_CASE(onQuitRequest,QUIT_COMMAND);
 
-        clog<<"unknown command: "<<commandName<<endl;
+        mlog<<"unknown command: "<<commandName<<mendl;
+        sendSyntaxMessage(fd,commandName);
     }
     catch (...){
-        clog<<"exception in events!"<<endl;
+        mlog<<"exception in events!"<<mendl;
     }
 }
 
@@ -346,28 +365,32 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
     ss.str(buffer);
     string command,user;
     ss>>command>>user;
-    clog<<user<<endl;
+    mlog<<user<<mendl;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
 
     auto user_iter = onlineUsers.find(fd);
     if (user_iter != onlineUsers.end() ){
-        clog<<"resetting username of "<<fd<<endl;
+        mlog<<"resetting username of "<<fd<<mendl;
         removeOnlineUser(fd);
     }
 
     auto iter = accountsMap.find(user);
     if (iter == accountsMap.end()){
-        clog<<"invalid username"<<endl;
+        mlog<<"invalid username"<<mendl;
         apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 430,"Invalid username or password");
         return;
     }
 
-    loginReqSet.insert(fd);
+    loginReqSet.emplace(fd,user);
     apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 331,"Username OK, need password.");
 }
 
 void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
 {
-    clog<<"new login request"<<endl;
+    mlog<<"new login request"<<mendl;
     if( loginReqSet.count(fd) == 0 ){
         apiSendMessage(fd, LOGIN_RESPONSE_COMMAND, 503,"Bad sequence of commands.");
         return;
@@ -376,19 +399,24 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     stringstream ss;
     ss.str(buffer);
     string command,user,pass;
-    ss>>command>>user>>pass;
-    clog<<user<<" "<<pass<<endl;
+    ss>>command>>pass;
+    user = loginReqSet[fd];
+    mlog<<user<<" "<<pass<<mendl;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
 
     auto accountIter = accountsMap.find(user);
     if(accountIter == accountsMap.end()){
-        clog<<"invalid username"<<endl;
+        mlog<<"invalid username"<<mendl;
         apiSendMessage(fd, LOGIN_RESPONSE_COMMAND, 430,"Invalid username or password");
         return;
     }
 
     auto account = accountIter->second;
     if(account.password != pass){
-        clog<<"invalid pass"<<endl;
+        mlog<<"invalid pass"<<mendl;
         apiSendMessage(fd, LOGIN_RESPONSE_COMMAND,430, "Invalid username or password");
         return;
     }
@@ -396,11 +424,19 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     addOnlineUser(fd,account);
     apiSendMessage(fd,LOGIN_RESPONSE_COMMAND,230, "Logged in, proceed. Logged out if appropriate.");
     loginReqSet.erase(fd);
-    clog<<"logged in"<<endl;
+    mlog<<"logged in"<<mendl;
 }
 
 void FtpServer::onLsRequest(int fd, char *buffer, int len)
 {
+    stringstream ss(buffer);
+    string command;
+    ss>>command;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
+
     string cmd = string()+ "ls "+ SERVER_BASE_DIR;
     string lsOutput = exec(cmd.c_str());
     apiSend(fd,LS_COMMAND,lsOutput);
@@ -408,7 +444,7 @@ void FtpServer::onLsRequest(int fd, char *buffer, int len)
 
 void FtpServer::onRetrRequest(int fd, char *buffer, int len)
 {
-    clog<<"new donwnload request from "<<fd<<endl;
+    mlog<<"new donwnload request from "<<fd<<mendl;
     auto user = findUser(fd);
     if (user == nullptr){
         apiSendMessage(fd, RETR_COMMAND, 332, NEED_ACCOUNT_ERROR);
@@ -419,22 +455,26 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
     stringstream ss(buffer);
     string fileName,commandName;
     ss>>commandName>>fileName;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,commandName);
+        return;
+    }
 
     if (isAdminFile(fileName) && userInfo.admin == false ){
-        clog<<"rejected, not admin"<<endl;
+        mlog<<"rejected, not admin"<<mendl;
         apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
         return;
     }
 
     string filePath = SERVER_BASE_DIR + fileName;
     if(!isFileExist(filePath)){
-        clog<<"rejected, not exist file"<<endl;
+        mlog<<"rejected, not exist file"<<mendl;
         apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
         return;
     }
     int fileSize = getFileSize(filePath);
     if(fileSize > user->getSize() ){
-        clog<<"rejected, not enough size"<<endl;
+        mlog<<"rejected, not enough size"<<mendl;
         apiSendMessage(fd, RETR_COMMAND, 425, SIZE_ERROR);
         return;
     }
@@ -442,20 +482,20 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
     int dataPort = generateNewDataPort();
     string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
     apiSendMessage(fd, RETR_COMMAND, 226, args);
-    clog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
+    mlog<<"sending "<<fileName<<" to "<<user->getAccountInfo().userName<<mendl;
 
     auto pipe = new FilePipe(FilePipe::server,FilePipe::sender,filePath);
     pipe->setup(dataPort);
 
     int dataFd = pipe->getDataFd();
     if( dataFd < 0 ){
-        cerr<<"cant open file pipe"<<endl;
+        cerr<<"cant open file pipe"<<mendl;
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
         return;
     }
 
     user->reduceSize(fileSize);
-    clog<<"remaining size: "<<user->getSize();
+    mlog<<"remaining size: "<<user->getSize();
     pipe->setUserFd(fd);
     addFilePipe(pipe);
 }
@@ -467,16 +507,16 @@ void FtpServer::sendRetrAck(int fd)
 
 void FtpServer::onUploadRequest(int fd, char *buffer, int len)
 {
-    clog<<"new upload request from "<<fd<<endl;
+    mlog<<"new upload request from "<<fd<<mendl;
     auto user = findUser(fd);
     if (user == nullptr){
-        clog<<"rejected, not loginned"<<endl;
+        mlog<<"rejected, not loginned"<<mendl;
         apiSendMessage(fd, UPLOAD_COMMAND, 332, NEED_ACCOUNT_ERROR);
         return;
     }
     auto userInfo = user->getAccountInfo();
     if (userInfo.admin == false){
-        clog<<"rejected, not admin"<<endl;
+        mlog<<"rejected, not admin"<<mendl;
         apiSendMessage(fd, UPLOAD_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
         return;
     }
@@ -485,18 +525,22 @@ void FtpServer::onUploadRequest(int fd, char *buffer, int len)
     string fileName,commandName;
     ss>>commandName>>fileName;
     string filePath = SERVER_BASE_DIR + fileName;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,commandName);
+        return;
+    }
 
     int dataPort = generateNewDataPort();
 
     auto pipe = new FilePipe(FilePipe::server,FilePipe::reciver,filePath);
     string args = std::to_string(dataPort)+" "+ fileName + " - server started reciving";
     apiSendMessage(fd, UPLOAD_COMMAND, 226, args);
-    clog<<"reciving "<<fileName<<" to "<<user->getAccountInfo().userName<<endl;
+    mlog<<"reciving "<<fileName<<" to "<<user->getAccountInfo().userName<<mendl;
 
     pipe->setup(dataPort);
     int dataFd = pipe->getDataFd();
     if( dataFd < 0 ){
-        cerr<<"cant open file pipe"<<endl;
+        cerr<<"cant open file pipe"<<mendl;
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
         return;
     }
@@ -513,4 +557,41 @@ void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string 
 {
     string args = makeResponseMessage(code,message);
     apiSend(fd,commandName,args);
+}
+
+void FtpServer::sendSyntaxMessage(int fd, std::string commandName)
+{
+    apiSendMessage(fd, commandName, 501, "Syntax error in parameters or arguments");
+}
+
+void FtpServer::onHelpRequest(int fd, char *buffer, int len)
+{
+    string fileBuffer,fileStr;
+    ifstream file(HELP_FILE_PATH);
+    if (!file){
+        cerr<<"Couldnt open help file:"<<HELP_FILE_PATH<<mendl;
+        apiSendMessage(fd,"help" ,500 , "Internal Error");
+        return;
+    }
+    while(std::getline(file,fileBuffer)) fileStr += string() + "\n" + fileBuffer;
+    apiSendMessage(fd, "help", 214, fileStr);
+}
+
+void FtpServer::onQuitRequest(int fd, char *buffer, int len)
+{
+    stringstream ss(buffer);
+    string fileName,commandName;
+    ss>>commandName;
+    if( !checkSyntax(ss) ){
+        sendSyntaxMessage(fd,QUIT_COMMAND);
+        return;
+    }
+    auto userIter = findUser(fd);
+    if(userIter == nullptr){
+        apiSendMessage(fd,QUIT_COMMAND, 332,NEED_ACCOUNT_ERROR);
+        return;
+    }
+
+    removeOnlineUser(fd);
+    apiSendMessage(fd,QUIT_COMMAND, 221, "successful quit");
 }
