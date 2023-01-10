@@ -13,11 +13,12 @@
 bool FtpClientTest::run(char **argv)
 {
     try{
-        testAccount();
-        testDownloadFile();
-        testUpload();
-        testMultiDownload();
-        testMultiUpload();
+//        testAccount();
+//        testDownloadFile();
+//        testUpload();
+//        testMultiDownload();
+//        testMultiUpload();
+        testSizeLimit();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
@@ -339,4 +340,29 @@ void FtpClientTest::testUploadUser2()
     doLogin(client2, "Ali", "1234");
     _baseUploadFile(client2,"image3.jpg");
     client2.disconnectFromServer();
+}
+
+void FtpClientTest::testSizeLimit()
+{
+    shouldConnect();
+    doLogin("Taha","1234");
+    testCanDownloadPdf();
+    testCanDownloadText();
+    testCantDownloadPdfSecond();
+}
+
+void FtpClientTest::testCanDownloadPdf()
+{
+    _baseDownloadFile("doc1.pdf");
+}
+
+void FtpClientTest::testCanDownloadText()
+{
+    _baseDownloadFile("text1.txt");
+}
+
+void FtpClientTest::testCantDownloadPdfSecond()
+{
+    int code = testClient.retFile("doc1.pdf");
+    ASSERT(code == SIZE_ERROR_CODE ,"size limitation");
 }

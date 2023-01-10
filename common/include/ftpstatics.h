@@ -12,6 +12,8 @@
 #define RETR_COMMAND "retr"
 #define NEED_ACCOUNT_ERROR "Need Account for login"
 #define FILE_UNAVAILABLE_ERROR "File unavailable"
+#define SIZE_ERROR "Can't open data connection"
+#define SIZE_ERROR_CODE 425
 #define FILE_PIPE_BUFFER_SIZE 128
 #define RETR_ACK_COMMAND "retrAck"
 #define UPLOAD_COMMAND "up"

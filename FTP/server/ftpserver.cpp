@@ -128,7 +128,7 @@ void FtpServer::event_loop(){
     {
         fdSetClone = fdSet;
         select(getLastFd() + 1, &fdSetClone, NULL, NULL, NULL);
-        clog<<"some events"<<endl;
+//        clog<<"some events"<<endl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
             if (FD_ISSET( fdIter , &fdSetClone)){
                 onEventOccur(fdIter,fdSetClone);
@@ -140,7 +140,7 @@ void FtpServer::event_loop(){
 void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
     auto pipeIter = filepipes.find(fdIter);
     if(pipeIter != filepipes.end()){
-        clog<<"pipe event"<<endl;
+//        clog<<"pipe event"<<endl;
         onNewFilePipeEvent(fdIter);
         return;
     }
@@ -189,6 +189,10 @@ void FtpServer::removeOnlineUser(int fd)
     if (iter == onlineUsers.end())
         return;
 
+    string userName = iter->second->getUserName();
+    auto &info = accountsMap[userName];
+    info.maxUsageSize = iter->second->getSize();
+    accountsMap.emplace(userName,info);
     onlineUsers.erase(fd);
 }
 
@@ -223,7 +227,7 @@ bool FtpServer::importConfigFromFile()
                 .userName=userData["user"],
                 .password=userData["password"],
                 .admin=userData["admin"]=="true",
-                .maxUsageSize= std::stoi ( (string) userData["size"])
+                .maxUsageSize= std::stoi ( (string) userData["size"]) * 1000//to bytes
             };
         addAccountInfo(newAccount);
     }
@@ -344,6 +348,12 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
     ss>>command>>user;
     clog<<user<<endl;
 
+    auto user_iter = onlineUsers.find(fd);
+    if (user_iter != onlineUsers.end() ){
+        clog<<"resetting username of "<<fd<<endl;
+        removeOnlineUser(fd);
+    }
+
     auto iter = accountsMap.find(user);
     if (iter == accountsMap.end()){
         clog<<"invalid username"<<endl;
@@ -422,6 +432,12 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
         apiSendMessage(fd, RETR_COMMAND, 550, FILE_UNAVAILABLE_ERROR);
         return;
     }
+    int fileSize = getFileSize(filePath);
+    if(fileSize > user->getSize() ){
+        clog<<"rejected, not enough size"<<endl;
+        apiSendMessage(fd, RETR_COMMAND, 425, SIZE_ERROR);
+        return;
+    }
 
     int dataPort = generateNewDataPort();
     string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
@@ -437,6 +453,9 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
         apiSendMessage(fd, RETR_COMMAND, 500, "Internal server error");
         return;
     }
+
+    user->reduceSize(fileSize);
+    clog<<"remaining size: "<<user->getSize();
     pipe->setUserFd(fd);
     addFilePipe(pipe);
 }

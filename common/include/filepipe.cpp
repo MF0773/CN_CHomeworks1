@@ -104,7 +104,7 @@ bool FilePipe::setupClient()
     do{
         connectResult = connect(fd, (struct sockaddr *)&server_address, sizeof(server_address));
         attemps++;
-        if (attemps > 100) { // checking for errors
+        if (attemps > 10000) { // checking for errors
             cerr<< "Error in connecting to server"<<endl;
             return false;
         }

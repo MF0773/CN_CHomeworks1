@@ -13,6 +13,9 @@ public:
     int dataPort;
     int getDataPort() const;
     void setDataPort(int newDataPort);
+    int getSize();
+    int reduceSize(int value);
+    std::string getUserName();
 };
 
 #endif // USER_H
