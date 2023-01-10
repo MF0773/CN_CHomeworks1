@@ -26,5 +26,6 @@ INCLUDEPATH =
 #DEFINES = 
 
 DISTFILES += \
-    ../../common/ftp_config.json
+    ../../common/ftp_config.json \
+    input.txt
 

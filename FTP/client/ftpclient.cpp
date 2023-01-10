@@ -52,6 +52,34 @@ void FtpClient::setUserName(const std::string &newUserName)
     userName = newUserName;
 }
 
+void FtpClient::commandLoop()
+{
+    string commandLine;
+    stringstream ss;
+    while(!std::cin.eof()){
+        std::getline(cin,commandLine);
+        ss.clear();
+        ss.flush();
+        if(commandLine.size()==0)
+            continue;
+        apiSend(controlFd, "" , commandLine.c_str());
+
+        string command;
+        ss.str(commandLine);
+        ss>>command;
+        apiWaitResponse(controlFd, command);
+    }
+}
+
+void FtpClient::cliCheckUserName(stringstream &ss)
+{
+    string name;
+    ss>>name;
+    if(!ss){
+
+    }
+}
+
 void FtpClient::cliLs(stringstream &ss)
 {
     auto fileList = getListFiles();
@@ -86,6 +114,9 @@ FtpClient::FtpClient()
     auto jsonObj = json::parse(fileStr);
 
     controlPort = jsonObj["commandChannelPort"];
+    allCommands = {
+        "user", "pass", "retr", "upload", "ls", "help", "quit"
+    };
 }
 
 bool FtpClient::connectToServer() {
@@ -175,9 +206,10 @@ void FtpClient::apiWaitResponse(int fd, string command)
         }
         string commandName = exportCommandName(buff,recivedLen);
         onNewApiCommand(fd,command,buff);
-        if (commandName == command){
-            return;
-        }
+        return;
+//        if (commandName == command){
+//            return;
+//        }
     }
 
 }
@@ -188,7 +220,6 @@ void FtpClient::apiSend(int fd, string commandName,const char *args, int argLen)
         string sendBuf = commandName + " " + string(args);
         sendBytes(fd, sendBuf.c_str(),sendBuf.size());
     }
-
 }
 
 bool FtpClient::checkUserName(string userNameIn)
@@ -200,7 +231,7 @@ bool FtpClient::checkUserName(string userNameIn)
 
 bool FtpClient::tryLogin(string userNameIn, string passwordIn)
 {
-    string args = userNameIn+" "+passwordIn;
+    string args = passwordIn;
     apiSend(controlFd,LOGIN_REQUEST_COMMAND,args.c_str());
 
     apiWaitResponse(controlFd,LOGIN_RESPONSE_COMMAND);
@@ -217,6 +248,8 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
     COMMAND_CASE(onRetrAckResonse,RETR_ACK_COMMAND);
     COMMAND_CASE(onUploadResponse,UPLOAD_COMMAND);
     COMMAND_CASE(onUploadAckResponse,UPLOAD_ACK_COMMAND);
+
+    displayMessage(args);
 }
 
 #define USER_LOGGED_IN_CODE 230
@@ -273,8 +306,15 @@ void FtpClient::onRetrResonse(char *args)
     FilePipe pipe(FilePipe::client, FilePipe::reciver,filePath);
     pipe.setup(std::stoi(port));
     int fd = pipe.getServerFd();
+
+    clog<<"downloading the file..."<<endl;
     pipe.run();
-    setLastResponse(code);
+    clog<<"download finished."<<endl;
+
+    if (!is_ok_code(getLastResponse())){
+        return ;
+    }
+    apiWaitResponse(controlFd, RETR_ACK_COMMAND);
 }
 
 void FtpClient::onRetrAckResonse(char *args)
@@ -293,10 +333,6 @@ int FtpClient::retFile(string fileName)
 {
     apiSend(controlFd,RETR_COMMAND,fileName.c_str());
     apiWaitResponse(controlFd, RETR_COMMAND);
-    if (!is_ok_code(getLastResponse())){
-        return getLastResponse();
-    }
-    apiWaitResponse(controlFd, RETR_ACK_COMMAND);
     return getLastResponse();
 }
 

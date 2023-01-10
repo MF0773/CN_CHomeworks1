@@ -31,7 +31,7 @@ class FtpServer{
     unordered_map<int,User*> onlineUsers;
     unordered_map<int,FilePipe*> filepipes;
     set<std::string> adminFiles;
-    set<int> loginReqSet;
+    unordered_map<int,std::string> loginReqSet;
     int lastDataPort;
 
 
@@ -69,6 +69,8 @@ private:
 
     bool importConfigFromFile();
 
+    bool checkSyntax(stringstream &ss);
+
     template<typename Json>
     bool importUsersFromFile(Json &jsonObj);
 
@@ -93,6 +95,7 @@ private:
     void onUploadRequest(int fd, char* buffer,int len);
     void sendUploadAck(int fd);
     void apiSendMessage(int fd, string commandName, int code, std::string message);
+    void sendSyntaxMessage(int fd, string commandName);
 };
 
 #endif // FTPSERVER_H

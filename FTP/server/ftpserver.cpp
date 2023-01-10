@@ -237,6 +237,16 @@ bool FtpServer::importConfigFromFile()
     return true;
 }
 
+bool FtpServer::checkSyntax(stringstream& ss)
+{
+    if(!ss){
+        return false;
+    }
+    string temp;
+    ss>>temp;
+    return !ss;
+}
+
 void FtpServer::addOnlineUser(int fd, AccountInfo account)
 {
     auto newUser = new User(account);
@@ -309,9 +319,6 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
     string commandName = exportCommandName(buffer,len);
 
     try{
-//        if (commandName == LOGIN_REQUEST_COMMAND){
-//            return onNewLoginRequest(fd,buffer,len);
-//        }
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
         COMMAND_CASE(onLsRequest,LS_COMMAND);
@@ -319,6 +326,7 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
         COMMAND_CASE(onUploadRequest,UPLOAD_COMMAND);
 
         clog<<"unknown command: "<<commandName<<endl;
+        sendSyntaxMessage(fd,commandName);
     }
     catch (...){
         clog<<"exception in events!"<<endl;
@@ -347,6 +355,10 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
     string command,user;
     ss>>command>>user;
     clog<<user<<endl;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
 
     auto user_iter = onlineUsers.find(fd);
     if (user_iter != onlineUsers.end() ){
@@ -361,7 +373,7 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
         return;
     }
 
-    loginReqSet.insert(fd);
+    loginReqSet.emplace(fd,user);
     apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 331,"Username OK, need password.");
 }
 
@@ -376,8 +388,13 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     stringstream ss;
     ss.str(buffer);
     string command,user,pass;
-    ss>>command>>user>>pass;
+    ss>>command>>pass;
+    user = loginReqSet[fd];
     clog<<user<<" "<<pass<<endl;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
 
     auto accountIter = accountsMap.find(user);
     if(accountIter == accountsMap.end()){
@@ -401,6 +418,14 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
 
 void FtpServer::onLsRequest(int fd, char *buffer, int len)
 {
+    stringstream ss(buffer);
+    string command;
+    ss>>command;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,command);
+        return;
+    }
+
     string cmd = string()+ "ls "+ SERVER_BASE_DIR;
     string lsOutput = exec(cmd.c_str());
     apiSend(fd,LS_COMMAND,lsOutput);
@@ -419,6 +444,10 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
     stringstream ss(buffer);
     string fileName,commandName;
     ss>>commandName>>fileName;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,commandName);
+        return;
+    }
 
     if (isAdminFile(fileName) && userInfo.admin == false ){
         clog<<"rejected, not admin"<<endl;
@@ -485,6 +514,10 @@ void FtpServer::onUploadRequest(int fd, char *buffer, int len)
     string fileName,commandName;
     ss>>commandName>>fileName;
     string filePath = SERVER_BASE_DIR + fileName;
+    if(!checkSyntax(ss)){
+        sendSyntaxMessage(fd,commandName);
+        return;
+    }
 
     int dataPort = generateNewDataPort();
 
@@ -513,4 +546,9 @@ void FtpServer::apiSendMessage(int fd,std::string commandName ,int code, string 
 {
     string args = makeResponseMessage(code,message);
     apiSend(fd,commandName,args);
+}
+
+void FtpServer::sendSyntaxMessage(int fd, std::string commandName)
+{
+    apiSendMessage(fd, commandName, 501, "Syntax error in parameters or arguments");
 }

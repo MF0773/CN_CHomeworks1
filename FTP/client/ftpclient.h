@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <set>
 
 #define LOCAL_HOST_ADDR "127.0.0.1"
 
@@ -15,6 +16,7 @@ class FtpClient{
     int lastResponse;
     std::string userName;
     list<std::string> catchedFileList;
+    std::set<string> allCommands;
 
     public:
         FtpClient();
@@ -56,6 +58,8 @@ class FtpClient{
 
 
 // cli
+    void commandLoop();
+    void cliCheckUserName(std::stringstream &ss);
     void cliLs(std::stringstream &ss);
     list<std::string> getCatchedFileList() const;
     void setCatchedFileList(const list<std::string> &newCatchedFileList);
