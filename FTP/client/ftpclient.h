@@ -40,6 +40,8 @@ class FtpClient{
     void onLsResponse(char* args);
     void onRetrResonse(char* args);
     void onRetrAckResonse(char* args);
+    void onHelpResponse(char* args);
+    void onQuitResponse(char* args);
     list<std::string> getListFiles();
     int retFile(std::string fileName);
 

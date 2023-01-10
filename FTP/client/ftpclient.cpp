@@ -198,6 +198,7 @@ void FtpClient::apiWaitResponse(int fd, string command)
     while(true){
         memset(buff, 0, RECIVE_BUFFER_SIZE);
         recivedLen = recv(fd, buff, RECIVE_BUFFER_SIZE, 0);
+        buff[recivedLen] = 0;
 
         if( recivedLen == 0){
             cerr<<"server down when waiting for response"<<endl;
@@ -248,6 +249,7 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
     COMMAND_CASE(onRetrAckResonse,RETR_ACK_COMMAND);
     COMMAND_CASE(onUploadResponse,UPLOAD_COMMAND);
     COMMAND_CASE(onUploadAckResponse,UPLOAD_ACK_COMMAND);
+    COMMAND_CASE(onHelpResponse,HELP_COMMAND);
 
     displayMessage(args);
 }
@@ -322,6 +324,26 @@ void FtpClient::onRetrAckResonse(char *args)
     displayMessage(args);
 }
 
+void FtpClient::onHelpResponse(char *args)
+{
+    stringstream ss;
+    string cmd,message;
+    int code;
+
+    ss.str(args);
+    ss>>cmd>>code;
+    cout<<ss.str()<<endl;
+    setLastResponse(code);
+}
+
+void FtpClient::onQuitResponse(char *args)
+{
+    displayMessage(args);
+    if(FtpClient::is_ok_code(getLastResponse())){
+        setLoginned(false);
+    }
+}
+
 list<string> FtpClient::getListFiles()
 {
     apiSend(controlFd,LS_COMMAND,"");
@@ -340,10 +362,6 @@ int FtpClient::uploadFile(string fileName)
 {
     apiSend(controlFd,UPLOAD_COMMAND,fileName.c_str());
     apiWaitResponse(controlFd, UPLOAD_COMMAND);
-    if (!is_ok_code(getLastResponse())){
-        return getLastResponse();
-    }
-    apiWaitResponse(controlFd, UPLOAD_ACK_COMMAND);
     return getLastResponse();
 }
 
@@ -365,11 +383,17 @@ void FtpClient::onUploadResponse(char *args)
     FilePipe pipe(FilePipe::client, FilePipe::sender,filePath);
     pipe.setup(std::stoi(port));
     int fd = pipe.getServerFd();
+    clog<<"upload started..."<<endl;
     pipe.run();
-    setLastResponse(code);
+    clog<<"upload finished."<<endl;
+
+    if (!is_ok_code(getLastResponse())){
+        return ;
+    }
+    apiWaitResponse(controlFd, UPLOAD_ACK_COMMAND);
 }
 
 void FtpClient::onUploadAckResponse(char *args)
 {
-
+    displayMessage(args);
 }

@@ -15,10 +15,10 @@ bool FtpClientTest::run(char **argv)
     try{
         testAccount();
         testDownloadFile();
-//        testUpload();
+        testUpload();
         testMultiDownload();
-//        testMultiUpload();
-//        testSizeLimit();
+        testMultiUpload();
+        testSizeLimit();
     }
     catch (const char* msg){
         cout<<"failed : "<<msg<<endl;
