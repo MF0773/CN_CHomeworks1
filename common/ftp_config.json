@@ -12,13 +12,19 @@
 		"user": "Mohsen",
 		"password": "1234",
 		"admin": "false",
-		"size": "2048"
+		"size": "20048"
     },
     {
 		"user": "Mahdi",
 		"password": "1234",
 		"admin": "true",
-		"size": "2048"
+		"size": "20048"
+    },
+    {
+		"user": "Taha",
+		"password": "1234",
+		"admin": "false",
+		"size": "150"
     }
   ],
     "files": [

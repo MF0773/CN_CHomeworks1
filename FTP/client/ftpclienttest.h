@@ -55,6 +55,12 @@ public:
     void testMultiUpload();
     void testUploadUser1();
     void testUploadUser2();
+
+    //size limit tests
+    void testSizeLimit();
+    void testCanDownloadPdf();
+    void testCanDownloadText();
+    void testCantDownloadPdfSecond();
 };
 
 #endif // FTPCLIENTTEST_H
