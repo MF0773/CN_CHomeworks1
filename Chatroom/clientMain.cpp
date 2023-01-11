@@ -49,7 +49,7 @@ int main(int argc, char const *argv[])
         username = argv[2];
     }
 
-    while (true)
+    // while (true)
     {
         /*
         std::cin >> order;
@@ -64,17 +64,17 @@ int main(int argc, char const *argv[])
         else
         {
         */
-        std::cout << sizeof(buff);
-        std::cin >> usernameRecvi >> message_str;
-        msg.M.mess_id = 0;
+        std::cout << sizeof(msg);
+        // std::cin >> usernameRecvi >> message_str;
+        msg.M.mess_id = 12;
         msg.M.lentgh = 10;
         // set_to_buff(usernameRecvi, message_str, buff);
-        send(fd, buff, sizeof(buff), 0);
+        send(fd, msg.buff, sizeof(msg), 0);
         //}
-        recv(fd, buff, 1024, 0);
+        // recv(fd, buff, 1024, 0);
 
-        printf("Server said: %s\n", buff);
-
+        // printf("Server said: %s\n", buff);
+        std::cin >> message_str;
         close(fd);
     }
 }
