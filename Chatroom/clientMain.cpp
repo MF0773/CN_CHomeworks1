@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 {
     int fd;
     msgStruct msg;
-    char buff[1024] = {0};
+    // char buff[1024] = {0};
     std::string username, usernameRecvi, message_str, order;
 
     if (argc >= 3)
@@ -49,13 +49,11 @@ int main(int argc, char const *argv[])
         username = argv[2];
     }
 
-    // while (true)
+    while (true)
     {
-        /*
-        std::cin >> order;
+        // std::cin >> order;
         if (order == "List")
         {
-
         }
         else if (order == "Exit")
         {
@@ -63,18 +61,16 @@ int main(int argc, char const *argv[])
         }
         else
         {
-        */
-        std::cout << sizeof(msg);
-        // std::cin >> usernameRecvi >> message_str;
-        msg.M.mess_id = 12;
-        msg.M.lentgh = 10;
-        // set_to_buff(usernameRecvi, message_str, buff);
-        send(fd, msg.buff, sizeof(msg), 0);
-        //}
-        // recv(fd, buff, 1024, 0);
+            // std::cin >> usernameRecvi >> message_str;
+            msg.M.mess_id = 12;
+            msg.M.lentgh = 10;
+            // set_to_buff(usernameRecvi, message_str, buff);
+            send(fd, msg.buff, sizeof(msg), 0);
 
-        // printf("Server said: %s\n", buff);
+            recv(fd, msg.buff, 1024, 0);
+            printf("Server said: %d\n", msg.M.mess_id);
+            printf("Server said: %d\n", msg.M.lentgh);
+        }
         std::cin >> message_str;
-        close(fd);
     }
 }

@@ -45,7 +45,7 @@ int acceptClient(int server_fd)
 int main(int argc, char const *argv[])
 {
     int server_fd, client_fd;
-    char buff[1024] = {0};
+    // char buff[1024] = {0};
 
     msgStruct msg;
 
@@ -58,9 +58,7 @@ int main(int argc, char const *argv[])
         memset(msg.buff, 0, 1024);
         recv(client_fd, msg.buff, 1024, 0);
 
-        // send(client_fd, msg.buff, strlen(msg.buff), 0);
-
-        printf("Client said: %s\n", msg.buff);
+        send(client_fd, msg.buff, strlen(msg.buff), 0);
 
         printf("Client said: %d\n", msg.M.mess_id);
         printf("Client said: %d\n", msg.M.lentgh);
