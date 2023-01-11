@@ -9,6 +9,7 @@
 #include <sys/time.h>
 
 #include <iostream>
+#include "msgStruct.hpp"
 
 int connectServer(int port)
 {
@@ -29,11 +30,18 @@ int connectServer(int port)
     return fd;
 }
 
+void set_to_buff(std::string usernameRecvi, std::string message_str, char *buff)
+{
+    // strcpy(buff[0], '0');
+    // strcpy(buff[1], message_str.c_str());
+}
+
 int main(int argc, char const *argv[])
 {
     int fd;
+    msgStruct msg;
     char buff[1024] = {0};
-    std::string username, usernameRecvi, msg, order;
+    std::string username, usernameRecvi, message_str, order;
 
     if (argc >= 3)
     {
@@ -43,10 +51,11 @@ int main(int argc, char const *argv[])
 
     while (true)
     {
+        /*
         std::cin >> order;
         if (order == "List")
         {
-            /* code */
+
         }
         else if (order == "Exit")
         {
@@ -54,7 +63,18 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            std::cin >> usernameRecvi >> msg;
-        }
+        */
+        std::cout << sizeof(buff);
+        std::cin >> usernameRecvi >> message_str;
+        msg.M.mess_id = 0;
+        msg.M.lentgh = 10;
+        // set_to_buff(usernameRecvi, message_str, buff);
+        send(fd, buff, sizeof(buff), 0);
+        //}
+        recv(fd, buff, 1024, 0);
+
+        printf("Server said: %s\n", buff);
+
+        close(fd);
     }
 }

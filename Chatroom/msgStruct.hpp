@@ -11,11 +11,14 @@ enum MessageType
     RECEIVE,
     RECEIVEREPLY
 };
-
-struct Message
+union msgStruct
 {
-    unsigned int mess_type : 4;
-    unsigned int mess_id : 4;
-    unsigned int lentgh : 8;
-    char *payload;
+    char buff[1024];
+    struct Message
+    {
+        unsigned int mess_type : 4;
+        unsigned int mess_id : 4;
+        unsigned int lentgh : 8;
+        char *payload;
+    } M;
 };

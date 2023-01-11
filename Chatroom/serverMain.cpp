@@ -30,10 +30,36 @@ int start_server(int port)
     return server_fd;
 }
 
+int acceptClient(int server_fd)
+{
+    int client_fd;
+    struct sockaddr_in client_address;
+    int address_len = sizeof(client_address);
+
+    client_fd = accept(server_fd, (struct sockaddr *)&client_address, (socklen_t *)&address_len);
+    printf("Client connected!\n");
+
+    return client_fd;
+}
+
 int main(int argc, char const *argv[])
 {
     int server_fd, client_fd;
-    char buff[1024] = {0};
+    // char buff[1024] = {0};
+
+    msgStruct msg;
 
     server_fd = start_server(8080);
+    while (true)
+    {
+
+        client_fd = acceptClient(server_fd);
+
+        memset(msg.buff, 0, 1024);
+        recv(client_fd, msg.buff, 1024, 0);
+
+        send(client_fd, msg.buff, strlen(msg.buff), 0);
+
+        printf("Client said: %d\n", msg.M.lentgh);
+    }
 }
