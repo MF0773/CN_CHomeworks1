@@ -34,13 +34,6 @@ int main(int argc, char const *argv[])
 {
     int server_fd, client_fd;
     char buff[1024] = {0};
-    char username_
 
-    if (argc >= 3)
-    {
-        server_fd = start_server(atoi(argv[1]));
-
-        printf("%d\n", atoi(argv[1]));
-    }
-
+    server_fd = start_server(8080);
 }
