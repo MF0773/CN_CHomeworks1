@@ -8,6 +8,8 @@
 #include <arpa/inet.h>
 #include <sys/time.h>
 
+#include <iostream>
+
 int connectServer(int port)
 {
     int fd;
@@ -31,9 +33,28 @@ int main(int argc, char const *argv[])
 {
     int fd;
     char buff[1024] = {0};
+    std::string username, usernameRecvi, msg, order;
 
     if (argc >= 3)
     {
         fd = connectServer(atoi(argv[1]));
+        username = argv[2];
+    }
+
+    while (true)
+    {
+        std::cin >> order;
+        if (order == "List")
+        {
+            /* code */
+        }
+        else if (order == "Exit")
+        {
+            close(fd);
+        }
+        else
+        {
+            std::cin >> usernameRecvi >> msg;
+        }
     }
 }
