@@ -54,9 +54,17 @@ int main(int argc, char const *argv[])
         // std::cin >> order;
         if (order == "List")
         {
-            // send List
-            // for i in UserID
-            // send InfoUser
+            initial_LIST(msg, 10);
+            send(fd, msg.buff, sizeof(msg), 0);
+
+            // Ack
+            for (int i = 0; i < strlen(msg.M.payload); i++) // size
+            {
+                initial_INFO(msg, 10, msg.M.payload);
+                send(fd, msg.buff, sizeof(msg), 0);
+
+                // recv
+            }
         }
         else if (order == "Exit")
         {
