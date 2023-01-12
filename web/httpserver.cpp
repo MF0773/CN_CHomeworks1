@@ -75,6 +75,7 @@ int HttpServer::waitForClient()
     return client_fd;
 }
 
+#define SEND_BUFFER_SIZE 1024
 void HttpServer::scanOnly(int clientFd)
 {
     char buffer[SERVER_RECV_BUFFER_SIZE] = {0};
@@ -86,8 +87,26 @@ void HttpServer::scanOnly(int clientFd)
     HttpParser parser;
     parser.import(buffer);
 
-    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
-    send(clientFd, indexStr.c_str(),indexStr.size(), 0);
+//    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
+    string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
+    send(clientFd,header.c_str(),header.size(),0);
+    fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/html.html",ios_base::in | ios_base::binary);
+    if(!file){
+        cerr<<"cant open file"<<endl;
+        return;
+    }
+//    int len;
+    char sendBuffer[SEND_BUFFER_SIZE]={0};
+    do{
+    file.read(sendBuffer,SEND_BUFFER_SIZE);
+    len = file.gcount();
+    if(len == 0){
+        sendBuffer[0]=0;
+    }
+//    send(clientFd, indexStr.c_str(),indexStr.size(), 0);
+    send(clientFd,sendBuffer,len,0);
+    }while(len>0);
+
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
 }
