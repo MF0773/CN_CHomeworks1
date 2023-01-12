@@ -126,6 +126,7 @@ void HttpServer::handleRequest(int clientFd,HttpMessage &request)
     }
     catch (Error404){
         cerr<<"Error 404"<<endl;
+        sendFile(clientFd,"/404.html");
     }
 
     shutdown(clientFd, SHUT_RDWR);
