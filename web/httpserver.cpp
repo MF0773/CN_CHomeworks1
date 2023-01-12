@@ -20,40 +20,31 @@ HttpServer::HttpServer()
 
 bool HttpServer::setup(IpPort ipPort)
 {
-    serverPort = ipPort.port;
-    serverIp = ipPort.ip;
 
-    clog<<"starting server on "<<serverIp<<":"<<serverPort<<endl;
+    int port  = ipPort.port;
+    clog<<"starting server on port "<<port<<endl;
 
-    struct sockaddr_in address;
+    int options = 1;
+    sockaddr_in addressIn;
+    this->serverFd = socket(AF_INET, SOCK_STREAM , 0);
+    setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &options , sizeof(int));
 
-    // Creating socket file descriptor
-    if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
-    {
-        perror("In sockets");
-        exit(EXIT_FAILURE);
+    if (serverFd < 0){
+        clog << "could not start server"<<endl;
+        return false;
     }
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( serverPort );
 
-    int val=0;
-    setsockopt(serverFd, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof val);
-    memset(address.sin_zero, '\0', sizeof address.sin_zero);
+    addressIn.sin_addr.s_addr = INADDR_ANY;
+    addressIn.sin_port = htons(port);
+    addressIn.sin_family = AF_INET;
 
-    if (bind(serverFd, (struct sockaddr *)&address, sizeof(address))<0)
-    {
-        perror("In bind");
-        close(serverFd);
-        exit(EXIT_FAILURE);
-    }
-    if (listen(serverFd, 10) < 0)
-    {
-        perror("In listen");
-        exit(EXIT_FAILURE);
-    }
+    bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
+    listen(serverFd, 4);
+
 //    addFdSet(serverFd);
 
+    serverPort = port;
+    serverIp = ipPort.ip;
     return true;
 }
 
@@ -66,21 +57,22 @@ void HttpServer::runLoop()
             continue;
         }
         clog<<"new client:"<<clientFd<<endl;
+//        while(true)
         scanOnly(clientFd);
-        return;
+//        return;
     }
 }
 
 int HttpServer::waitForClient()
 {
-    clog<<"waiting for new client"<<endl;
+    int client_fd;
+    struct sockaddr_in client_address;
+    int address_len = sizeof(client_address);
 
-    sockaddr_in clientAddr;
-    int clientFd;
-    socklen_t addrSize = sizeof(clientAddr);
+    client_fd = accept(serverFd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
+    printf("Client connected!\n");
 
-    clientFd = accept(serverFd, (struct sockaddr *)&clientAddr, &addrSize);
-    return clientFd;
+    return client_fd;
 }
 
 void HttpServer::scanOnly(int clientFd)
@@ -94,19 +86,62 @@ void HttpServer::scanOnly(int clientFd)
     HttpParser parser;
     parser.import(buffer);
 
-    string indexStr = "<!DOCTYPE html>\
-            <html>\
-            <body>\
-            \
-            <h1>My First Heading</h1>\
-            <p>My first paragraph.</p>\
-            \
-            </body>\
-            </html>";
+    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
     send(clientFd, indexStr.c_str(),indexStr.size(), 0);
+    shutdown(clientFd, SHUT_RDWR);
+    close(clientFd);
 }
 
 void HttpServer::end()
 {
     close(serverFd);
+}
+
+void HttpServer::sendResponse()
+{
+//    /*
+//        char imageheader[] =
+//        "HTTP/1.1 200 Ok\r\n"
+//        "Content-Type: image/jpeg\r\n\r\n";
+//        */
+//        struct stat stat_buf;  /* hold information about input file */
+
+//        write(fd, head, strlen(head));
+
+//        int fdimg = open(image_path, O_RDONLY);
+
+//        if(fdimg < 0){
+//            printf("Cannot Open file path : %s with error %d\n", image_path, fdimg);
+//        }
+
+//        fstat(fdimg, &stat_buf);
+//        int img_total_size = stat_buf.st_size;
+//        int block_size = stat_buf.st_blksize;
+//        //printf("image block size: %d\n", stat_buf.st_blksize);
+//        //printf("image total byte st_size: %d\n", stat_buf.st_size);
+//        if(fdimg >= 0){
+//            ssize_t sent_size;
+
+//            while(img_total_size > 0){
+//                //if(img_total_size < block_size){
+//                 //   sent_size = sendfile(fd, fdimg, NULL, img_total_size);
+//                //}
+//                //else{
+//                //    sent_size = sendfile(fd, fdimg, NULL, block_size);
+//                //}
+//                //img_total_size = img_total_size - sent_size;
+
+//                //if(sent_size < 0){
+//                 //   printf("send file error --> file: %d, send size: %d , error: %s\n", fdimg, sent_size, strerror(errno));
+//                 //   img_total_size = -1;
+//                  int send_bytes = ((img_total_size < block_size) ? img_total_size : block_size);
+//                  int done_bytes = sendfile(fd, fdimg, NULL, block_size);
+//                  img_total_size = img_total_size - done_bytes;
+//                //}
+//            }
+//            if(sent_size >= 0){
+//                printf("send file: %s \n" , image_path);
+//            }
+//            close(fdimg);
+//        }
 }

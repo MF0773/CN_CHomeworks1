@@ -27,11 +27,16 @@ void increaseTestPort(){
     file.seekp(0);
     file<<ipPort.ip<<":"<<ipPort.port+1<<endl;
     file.close();
+
+    file.open("browser_input.txt", ios_base::out);
+    file<<"localhost:"<<ipPort.port+1;
+    file.close();
 }
 
-void openTestBrowser()
+void openTestBrowser(int port)
 {
-    system("chromium $(cat default_input.txt) &");
+    string cmd = "bash open_browser.sh &";
+    system(cmd.c_str());
 }
 
 #include <stdio.h>
@@ -53,13 +58,16 @@ int main(int argc, char** argv)
     increaseTestPort();
     auto ipPort = importIpPort(cmd);
     ipPort.port++;
-//    openTestBrowser();
 
     bool result = server.setup(ipPort);
+
+
     if(!result){
         return -1;
     }
 
+
+    openTestBrowser(ipPort.port);
     atexit (fnExit1);
     server.runLoop();
 

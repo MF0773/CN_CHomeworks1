@@ -27,6 +27,7 @@ public:
     int waitForClient();
     void scanOnly(int clientFd);
     void end();
+    void sendResponse();
 };
 
 #endif // HTTPSERVER_H

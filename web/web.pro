@@ -9,7 +9,8 @@ SOURCES += \
         main.cpp
 
 DISTFILES += \
-    first_scan.txt
+    first_scan.txt \
+    open_browser.sh
 
 HEADERS += \
     httpparser.h \
