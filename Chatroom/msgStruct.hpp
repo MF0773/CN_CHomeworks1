@@ -36,9 +36,9 @@ void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, con
     strcpy(msg.M.payload, _payload);
 };
 
-void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, char *_payload)
+void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, char *name)
 {
-    initialMSG(msg, CONNECT, _mess_id, 2 + strlen(_payload), _payload);
+    initialMSG(msg, CONNECT, _mess_id, 2 + strlen(name), name);
 }
 void inline initial_CONNACK(msgStruct &msg, const int &_mess_id)
 {
@@ -48,17 +48,17 @@ void inline initial_LIST(msgStruct &msg, const int &_mess_id)
 {
     initialMSG(msg, LIST, _mess_id, 2, nullptr);
 }
-void inline initial_LISTREPLY(msgStruct &msg, const int &_mess_id, const int &n, char *_payload)
+void inline initial_LISTREPLY(msgStruct &msg, const int &_mess_id, const int &n, char *_userID)
 {
-    initialMSG(msg, LISTREPLY, _mess_id, 2 + 2 * n, _payload);
+    initialMSG(msg, LISTREPLY, _mess_id, 2 + 2 * n, _userID);
 }
-void inline initial_INFO(msgStruct &msg, const int &_mess_id, char *_payload)
+void inline initial_INFO(msgStruct &msg, const int &_mess_id, char *userID)
 {
-    initialMSG(msg, INFO, _mess_id, 2 + 2, _payload);
+    initialMSG(msg, INFO, _mess_id, 2 + 2, userID);
 }
-void inline initial_INFOREPLY(msgStruct &msg, const int &_mess_id, char *_payload)
+void inline initial_INFOREPLY(msgStruct &msg, const int &_mess_id, char *username)
 {
-    initialMSG(msg, INFOREPLY, _mess_id, 2 + strlen(_payload), _payload);
+    initialMSG(msg, INFOREPLY, _mess_id, 2 + strlen(username), username);
 }
 void inline initial_SEND(msgStruct &msg, const int &_mess_id, char *_userID, char *_message)
 {
@@ -66,7 +66,9 @@ void inline initial_SEND(msgStruct &msg, const int &_mess_id, char *_userID, cha
 }
 void inline initial_SENDREPLY(msgStruct &msg, const int &_mess_id, bool isSuccess)
 {
-    initialMSG(msg, SENDREPLY, _mess_id, 2 + 1, (isSuccess ? '0' : '1'));
+    char fail[1] = {'1'};
+    char succ[1] = {'0'};
+    initialMSG(msg, SENDREPLY, _mess_id, 2 + 1, (isSuccess ? succ : fail));
 }
 void inline initial_RECEIVE(msgStruct &msg, const int &_mess_id, bool isSuccess)
 {
