@@ -117,7 +117,10 @@ void HttpServer::handleRequest(int clientFd,HttpMessage &request)
 {
     string url = request.header.url;
     try{
-        if(true){
+        if(url=="/"){
+            sendFile(clientFd,"/index.html");
+        }
+        else{
             sendFile(clientFd,url);
         }
     }
