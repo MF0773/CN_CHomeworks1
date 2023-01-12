@@ -50,17 +50,17 @@ int main(int argc, char const *argv[])
     msgStruct msg;
 
     server_fd = start_server(8080);
+
     while (true)
     {
-
         client_fd = acceptClient(server_fd);
 
-        memset(msg.buff, 0, 1024);
-        recv(client_fd, msg.buff, 1024, 0);
+        memset(msg.buff, 0, SIZE_BUFF);
+        recv(client_fd, msg.buff, SIZE_BUFF, 0);
 
-        send(client_fd, msg.buff, strlen(msg.buff), 0);
+        // send(client_fd, msg.buff, strlen(msg.buff), 0);
 
         printf("Client said: %d\n", msg.M.mess_id);
-        printf("Client said: %d\n", msg.M.lentgh);
+        printf("Client said: %d\n", msg.M.length);
     }
 }

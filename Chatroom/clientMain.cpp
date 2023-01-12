@@ -30,7 +30,7 @@ int connectServer(int port)
     return fd;
 }
 
-void set_to_buff(std::string usernameRecvi, std::string message_str, char *buff)
+void initial_packet(std::string usernameRecvi, std::string message_str, char *buff)
 {
     // strcpy(buff[0], '0');
     // strcpy(buff[1], message_str.c_str());
@@ -49,11 +49,14 @@ int main(int argc, char const *argv[])
         username = argv[2];
     }
 
-    while (true)
+    // while (true)
     {
         // std::cin >> order;
         if (order == "List")
         {
+            // send List
+            // for i in UserID
+            // send InfoUser
         }
         else if (order == "Exit")
         {
@@ -63,14 +66,15 @@ int main(int argc, char const *argv[])
         {
             // std::cin >> usernameRecvi >> message_str;
             msg.M.mess_id = 12;
-            msg.M.lentgh = 10;
+            msg.M.length = 10;
             // set_to_buff(usernameRecvi, message_str, buff);
+
             send(fd, msg.buff, sizeof(msg), 0);
 
-            recv(fd, msg.buff, 1024, 0);
+            // recv(fd, msg.buff, SIZE_BUFF, 0);
             printf("Server said: %d\n", msg.M.mess_id);
-            printf("Server said: %d\n", msg.M.lentgh);
+            printf("Server said: %d\n", msg.M.length);
         }
-        std::cin >> message_str;
+        // std::cin >> message_str;
     }
 }
