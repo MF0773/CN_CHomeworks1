@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <iostream>
 #include <memory.h>
+#include "../common/include/utils.h"
 #include "httpparser.h"
 
 using namespace std;
@@ -115,9 +116,17 @@ HttpMessage HttpServer::fetchRequest(int clientFd)
 void HttpServer::handleRequest(int clientFd,HttpMessage &request)
 {
     string url = request.header.url;
-    if(url == "/"){
-        sendSampleHtml(clientFd);
+    try{
+        if(true){
+            sendFile(clientFd,url);
+        }
     }
+    catch (Error404){
+        cerr<<"Error 404"<<endl;
+    }
+
+    shutdown(clientFd, SHUT_RDWR);
+    close(clientFd);
 }
 
 void HttpServer::sendResponse()
@@ -167,6 +176,15 @@ void HttpServer::sendResponse()
 //            }
 //            close(fdimg);
     //        }
+}
+
+string HttpServer::getContentType(std::string fileName)
+{
+    if (fileName.find(".pdf") != std::string::npos) {
+        return "Partial Content";
+    }
+
+    return "text/html";
 }
 
 void HttpServer::sendSampleHtml(int clientFd)
@@ -219,4 +237,33 @@ void HttpServer::sendSampleImage(int clientFd)
 
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
+}
+
+void HttpServer::sendFile(int clientFd, string fileName)
+{
+    std::string filePath = SERVER_BASE_DIR+fileName;
+    if(! isFileExist(filePath)){
+        throw Error404();
+    }
+
+    string contentType = getContentType(fileName);
+    string header = "HTTP/1.1 200 OK\nContent-Type: "+contentType+"\n\n";
+    send(clientFd,header.c_str(),header.size(),0);
+
+    int len;
+    fstream file(filePath,ios_base::in | ios_base::binary);
+    if(!file){
+        cerr<<"cant open file"<<endl;
+        return;
+    }
+
+    char sendBuffer[SEND_BUFFER_SIZE]={0};
+    do{
+        file.read(sendBuffer,SEND_BUFFER_SIZE);
+        len = file.gcount();
+        if(len == 0){
+            sendBuffer[0]=0;
+        }
+        send(clientFd,sendBuffer,len,0);
+    }while(len>0);
 }

@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        ../common/include/utils.cpp \
         httpparser.cpp \
         httpserver.cpp \
         main.cpp
@@ -14,6 +15,6 @@ DISTFILES += \
     open_browser.sh
 
 HEADERS += \
+    ../common/include/utils.h \
     httpparser.h \
-    httpserver.h \
-    utils.hpp
+    httpserver.h
