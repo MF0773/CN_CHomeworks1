@@ -9,7 +9,6 @@ SOURCES += \
         main.cpp
 
 DISTFILES += \
-    default_input.txt \
     first_scan.txt
 
 HEADERS += \

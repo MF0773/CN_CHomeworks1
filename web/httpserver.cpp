@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <iostream>
+#include <memory.h>
 #include "httpparser.h"
 
 using namespace std;
@@ -24,23 +25,33 @@ bool HttpServer::setup(IpPort ipPort)
 
     clog<<"starting server on "<<serverIp<<":"<<serverPort<<endl;
 
-    int options = 1;
-    sockaddr_in addressIn;
-    this->serverFd = socket(AF_INET, SOCK_STREAM , 0);
-    setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &options , sizeof(int));
+    struct sockaddr_in address;
 
-    if (serverFd < 0){
-        clog << "could not start server"<<endl;
-        return false;
+    // Creating socket file descriptor
+    if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+    {
+        perror("In sockets");
+        exit(EXIT_FAILURE);
     }
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons( serverPort );
 
-    addressIn.sin_addr.s_addr = INADDR_ANY;
-    addressIn.sin_port = htons(serverPort);
-    addressIn.sin_family = AF_INET;
+    int val=0;
+    setsockopt(serverFd, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof val);
+    memset(address.sin_zero, '\0', sizeof address.sin_zero);
 
-    bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
-    listen(serverFd, 4);
-
+    if (bind(serverFd, (struct sockaddr *)&address, sizeof(address))<0)
+    {
+        perror("In bind");
+        close(serverFd);
+        exit(EXIT_FAILURE);
+    }
+    if (listen(serverFd, 10) < 0)
+    {
+        perror("In listen");
+        exit(EXIT_FAILURE);
+    }
 //    addFdSet(serverFd);
 
     return true;
