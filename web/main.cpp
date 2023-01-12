@@ -41,13 +41,6 @@ void openTestBrowser(int port)
 
 #include <stdio.h>
 #include <stdlib.h>
-void funcall(void);
-void fnExit1 (void)
-{
-  printf ("Exit function \n");
-  server.end();
-}
-
 
 int main(int argc, char** argv)
 {
@@ -61,15 +54,13 @@ int main(int argc, char** argv)
 
     bool result = server.setup(ipPort);
 
-
     if(!result){
         return -1;
     }
 
-
     openTestBrowser(ipPort.port);
-    atexit (fnExit1);
     server.runLoop();
+    server.end();
 
     return 0;
 }

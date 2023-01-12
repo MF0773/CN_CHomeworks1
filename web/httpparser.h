@@ -12,15 +12,14 @@ struct HttpHeader{
     std::unordered_map<std::string,std::string> metaData;
 };
 
-class HttpParser
+class HttpMessage
 {
 public:
     std::unordered_map<std::string, std::string> headerData;
     HttpHeader header;
-    HttpParser();
-    HttpParser(std::string str);
-    void import(std::string str);
-    void importHeaders(std::string str);
+    HttpMessage();
+    HttpMessage(std::string str);
+    void importData(std::string raw_str);
 };
 
 #endif // HTTPPARSER_H

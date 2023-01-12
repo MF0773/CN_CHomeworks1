@@ -20,7 +20,6 @@ HttpServer::HttpServer()
 
 bool HttpServer::setup(IpPort ipPort)
 {
-
     int port  = ipPort.port;
     clog<<"starting server on port "<<port<<endl;
 
@@ -41,8 +40,6 @@ bool HttpServer::setup(IpPort ipPort)
     bind( serverFd, (struct sockaddr *)&addressIn, sizeof(addressIn));
     listen(serverFd, 4);
 
-//    addFdSet(serverFd);
-
     serverPort = port;
     serverIp = ipPort.ip;
     return true;
@@ -57,9 +54,8 @@ void HttpServer::runLoop()
             continue;
         }
         clog<<"new client:"<<clientFd<<endl;
-//        while(true)
-        scanOnly(clientFd);
-//        return;
+        auto request = fetchRequest(clientFd);
+        handleRequest(clientFd,request);
     }
 }
 
@@ -84,8 +80,8 @@ void HttpServer::scanOnly(int clientFd)
     buffer[len] = 0;
 
     clog<<"scanning result:"<<endl<<buffer<<endl;
-    HttpParser parser;
-    parser.import(buffer);
+    HttpMessage parser;
+    parser.importData(buffer);
 
     if (parser.header.url == "/"){
         sendSampleHtml(clientFd);
@@ -103,6 +99,25 @@ void HttpServer::scanOnly(int clientFd)
 void HttpServer::end()
 {
     close(serverFd);
+}
+
+HttpMessage HttpServer::fetchRequest(int clientFd)
+{
+    char buffer[SERVER_RECV_BUFFER_SIZE] = {0};
+
+    int len = read( clientFd , buffer, SERVER_RECV_BUFFER_SIZE);
+    buffer[len] = 0;
+    clog<<"fetch request:"<<endl<<buffer<<endl;
+    HttpMessage message(buffer);
+    return message;
+}
+
+void HttpServer::handleRequest(int clientFd,HttpMessage &request)
+{
+    string url = request.header.url;
+    if(url == "/"){
+        sendSampleHtml(clientFd);
+    }
 }
 
 void HttpServer::sendResponse()

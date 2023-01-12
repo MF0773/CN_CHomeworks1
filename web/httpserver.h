@@ -1,5 +1,7 @@
 #ifndef HTTPSERVER_H
 #define HTTPSERVER_H
+#include "httpparser.h"
+
 #include <string>
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -27,6 +29,8 @@ public:
     int waitForClient();
     void scanOnly(int clientFd);
     void end();
+    HttpMessage fetchRequest(int clientFd);
+    void handleRequest(int clientFd, HttpMessage& request);
     void sendResponse();
     void sendSampleHtml(int clientFd);
     void sendSampleImage(int clientFd);

@@ -3,20 +3,15 @@
 #include <iostream>
 #include "utils.hpp"
 using namespace std;
-HttpParser::HttpParser(std::string str)
+HttpMessage::HttpMessage(std::string str)
 {
-    import(str);
+    importData(str);
 }
 
-void HttpParser::import(std::string str)
-{
-    importHeaders(str);
-}
-
-void HttpParser::importHeaders(string str)
+void HttpMessage::importData(string raw_str)
 {
 //    Request-Line = Method SP Request-URI SP HTTP-Version CRLF
-    stringstream ss(str);
+    stringstream ss(raw_str);
 
     string firstLine;
     std::getline(ss,firstLine);
@@ -38,7 +33,7 @@ void HttpParser::importHeaders(string str)
     }
 }
 
-HttpParser::HttpParser()
+HttpMessage::HttpMessage()
 {
 
 }
