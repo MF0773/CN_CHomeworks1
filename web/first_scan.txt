@@ -1,0 +1,13 @@
+GET / HTTP/1.1
+Host: localhost:8091
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: csrftoken=LmjRmXbNEVv0rXqsVib6qAQK4LSmmxHBDKvnfNkYr1dNMSlcbqPtUYb6DASDyiMS; username-localhost-8889="2|1:0|10:1672345598|23:username-localhost-8889|44:YjQ3Y2QzYzRmYjI4NDdjMzkwMWYyNmJjMTEyZmFmMWM=|2856e6906d13bef98d364c92bbb7885bf972314fc7704b84eee741da034f948a"; username-localhost-8890="2|1:0|10:1672356056|23:username-localhost-8890|44:ZmI0OTVhMDFiMWI2NDEzMGFjOWE4MzU1MDhiODZlNTc=|3943740609ce0f5e64afa43d00ee59477e7deb3f96ed0fc1912c00429a1a972c"; _xsrf=2|d81891ab|c3d2b3cb302b38c646bb8a7edcf57693|1672519042
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
