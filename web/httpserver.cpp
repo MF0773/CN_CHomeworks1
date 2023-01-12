@@ -87,25 +87,14 @@ void HttpServer::scanOnly(int clientFd)
     HttpParser parser;
     parser.import(buffer);
 
-//    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
-    string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
-    send(clientFd,header.c_str(),header.size(),0);
-    fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/html.html",ios_base::in | ios_base::binary);
-    if(!file){
-        cerr<<"cant open file"<<endl;
-        return;
+    if (parser.header.url == "/"){
+        sendSampleHtml(clientFd);
     }
-//    int len;
-    char sendBuffer[SEND_BUFFER_SIZE]={0};
-    do{
-    file.read(sendBuffer,SEND_BUFFER_SIZE);
-    len = file.gcount();
-    if(len == 0){
-        sendBuffer[0]=0;
+
+    if (parser.header.url == "/image.png"){
+        sendSampleImage(clientFd);
     }
-//    send(clientFd, indexStr.c_str(),indexStr.size(), 0);
-    send(clientFd,sendBuffer,len,0);
-    }while(len>0);
+
 
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
@@ -162,5 +151,57 @@ void HttpServer::sendResponse()
 //                printf("send file: %s \n" , image_path);
 //            }
 //            close(fdimg);
-//        }
+    //        }
+}
+
+void HttpServer::sendSampleHtml(int clientFd)
+{
+
+    //    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
+        int len;
+        string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
+        send(clientFd,header.c_str(),header.size(),0);
+        fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/html.html",ios_base::in | ios_base::binary);
+        if(!file){
+            cerr<<"cant open file"<<endl;
+            return;
+        }
+    //    int len;
+        char sendBuffer[SEND_BUFFER_SIZE]={0};
+        do{
+        file.read(sendBuffer,SEND_BUFFER_SIZE);
+        len = file.gcount();
+        if(len == 0){
+            sendBuffer[0]=0;
+        }
+        send(clientFd,sendBuffer,len,0);
+        }while(len>0);
+
+        shutdown(clientFd, SHUT_RDWR);
+        close(clientFd);
+}
+
+void HttpServer::sendSampleImage(int clientFd)
+{
+    int len;
+    string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
+    send(clientFd,header.c_str(),header.size(),0);
+    fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/image.png",ios_base::in | ios_base::binary);
+    if(!file){
+        cerr<<"cant open file"<<endl;
+        return;
+    }
+//    int len;
+    char sendBuffer[SEND_BUFFER_SIZE]={0};
+    do{
+    file.read(sendBuffer,SEND_BUFFER_SIZE);
+    len = file.gcount();
+    if(len == 0){
+        sendBuffer[0]=0;
+    }
+    send(clientFd,sendBuffer,len,0);
+    }while(len>0);
+
+    shutdown(clientFd, SHUT_RDWR);
+    close(clientFd);
 }

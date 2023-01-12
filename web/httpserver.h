@@ -28,6 +28,8 @@ public:
     void scanOnly(int clientFd);
     void end();
     void sendResponse();
+    void sendSampleHtml(int clientFd);
+    void sendSampleImage(int clientFd);
 };
 
 #endif // HTTPSERVER_H

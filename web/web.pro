@@ -9,6 +9,7 @@ SOURCES += \
         main.cpp
 
 DISTFILES += \
+    disk/root.html \
     first_scan.txt \
     open_browser.sh
 
