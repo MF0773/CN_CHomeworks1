@@ -30,17 +30,10 @@ int connectServer(int port)
     return fd;
 }
 
-void initial_packet(std::string usernameRecvi, std::string message_str, char *buff)
-{
-    // strcpy(buff[0], '0');
-    // strcpy(buff[1], message_str.c_str());
-}
-
 int main(int argc, char const *argv[])
 {
     int fd;
     msgStruct msg;
-    // char buff[1024] = {0};
     std::string username, usernameRecvi, message_str, order;
 
     if (argc >= 3)
@@ -48,21 +41,27 @@ int main(int argc, char const *argv[])
         fd = connectServer(atoi(argv[1]));
         username = argv[2];
 
-        initial_CONNECT(msg, 10, username.c_str());
+        initial_CONNECT(msg, username.c_str());
         send(fd, msg.buff, sizeof(msg), 0);
+
+        recv(fd, msg.buff, SIZE_BUFF, 0);
+        if (msg.M.mess_type != CONNACK)
+        {
+            printf("Error on reponse from server\n");
+        }
     }
-    // while (true)
+    while (true)
     {
         std::cin >> order;
         if (order == "List")
         {
-            initial_LIST(msg, 10);
+            initial_LIST(msg);
             send(fd, msg.buff, sizeof(msg), 0);
 
             // Ack
             for (int i = 0; i < strlen(msg.M.payload); i++) // size
             {
-                initial_INFO(msg, 10, msg.M.payload);
+                initial_INFO(msg, msg.M.payload);
                 send(fd, msg.buff, sizeof(msg), 0);
 
                 // recv

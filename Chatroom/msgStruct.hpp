@@ -1,6 +1,7 @@
 #include <string>
 
 #define SIZE_BUFF 1024
+#define FAKE_MESS_ID 10
 
 enum MessageType
 {
@@ -36,45 +37,45 @@ void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, con
     strcpy(msg.M.payload, _payload);
 };
 
-void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, const char *name)
+void inline initial_CONNECT(msgStruct &msg, const char *name)
 {
-    initialMSG(msg, CONNECT, _mess_id, 2 + strlen(name), name);
+    initialMSG(msg, CONNECT, FAKE_MESS_ID, 2 + strlen(name), name);
 }
-void inline initial_CONNACK(msgStruct &msg, const int &_mess_id)
+void inline initial_CONNACK(msgStruct &msg)
 {
-    initialMSG(msg, CONNACK, _mess_id, 2, nullptr);
+    initialMSG(msg, CONNACK, FAKE_MESS_ID, 2, "\0");
 }
-void inline initial_LIST(msgStruct &msg, const int &_mess_id)
+void inline initial_LIST(msgStruct &msg)
 {
-    initialMSG(msg, LIST, _mess_id, 2, nullptr);
+    initialMSG(msg, LIST, FAKE_MESS_ID, 2, "\0");
 }
-void inline initial_LISTREPLY(msgStruct &msg, const int &_mess_id, const int &n, char *_userID)
+void inline initial_LISTREPLY(msgStruct &msg, const int &n, char *_userID)
 {
-    initialMSG(msg, LISTREPLY, _mess_id, 2 + 2 * n, _userID);
+    initialMSG(msg, LISTREPLY, FAKE_MESS_ID, 2 + 2 * n, _userID);
 }
-void inline initial_INFO(msgStruct &msg, const int &_mess_id, char *userID)
+void inline initial_INFO(msgStruct &msg, char *userID)
 {
-    initialMSG(msg, INFO, _mess_id, 2 + 2, userID);
+    initialMSG(msg, INFO, FAKE_MESS_ID, 2 + 2, userID);
 }
-void inline initial_INFOREPLY(msgStruct &msg, const int &_mess_id, char *username)
+void inline initial_INFOREPLY(msgStruct &msg, char *username)
 {
-    initialMSG(msg, INFOREPLY, _mess_id, 2 + strlen(username), username);
+    initialMSG(msg, INFOREPLY, FAKE_MESS_ID, 2 + strlen(username), username);
 }
-void inline initial_SEND(msgStruct &msg, const int &_mess_id, char *_userID, char *_message)
+void inline initial_SEND(msgStruct &msg, char *_userID, char *_message)
 {
-    initialMSG(msg, SEND, _mess_id, 2 + 2 + strlen(_message), strcat(_message, _userID));
+    initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + strlen(_message), strcat(_message, _userID));
 }
-void inline initial_SENDREPLY(msgStruct &msg, const int &_mess_id, bool isSuccess)
+void inline initial_SENDREPLY(msgStruct &msg, bool isSuccess)
 {
     char fail[1] = {'1'};
     char succ[1] = {'0'};
-    initialMSG(msg, SENDREPLY, _mess_id, 2 + 1, (isSuccess ? succ : fail));
+    initialMSG(msg, SENDREPLY, FAKE_MESS_ID, 2 + 1, (isSuccess ? succ : fail));
 }
-void inline initial_RECEIVE(msgStruct &msg, const int &_mess_id, bool isSuccess)
+void inline initial_RECEIVE(msgStruct &msg, bool isSuccess)
 {
-    initialMSG(msg, RECEIVE, _mess_id, 2, nullptr);
+    initialMSG(msg, RECEIVE, FAKE_MESS_ID, 2, "\0");
 }
-void inline initial_RECEIVEREPLY(msgStruct &msg, const int &_mess_id, char *_sendID, char *_message)
+void inline initial_RECEIVEREPLY(msgStruct &msg, char *_sendID, char *_message)
 {
-    initialMSG(msg, RECEIVEREPLY, _mess_id, 2 + 2 + strlen(_message), strcat(_message, _sendID));
+    initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + strlen(_message), strcat(_message, _sendID));
 }

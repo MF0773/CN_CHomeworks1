@@ -9,6 +9,9 @@
 #include <sys/time.h>
 
 #include "msgStruct.hpp"
+#include <map>
+
+std::map<int, std::string> users;
 
 int start_server(int port)
 {
@@ -42,6 +45,22 @@ int acceptClient(int server_fd)
     return client_fd;
 }
 
+void response(msgStruct &msg, int i)
+{
+    switch (msg.M.mess_type)
+    {
+    case CONNECT:
+        users.insert({(int)msg.M.mess_id, msg.M.payload});
+
+        initial_CONNACK(msg);
+        // send(i, msg.buff, strlen(msg.buff), 0);
+        break;
+
+    default:
+        break;
+    }
+}
+
 void event_loop(fd_set &master_set, fd_set &working_set, int &server_fd, int &new_socket, int &max_sd, msgStruct &msg)
 {
     working_set = master_set;
@@ -65,6 +84,7 @@ void event_loop(fd_set &master_set, fd_set &working_set, int &server_fd, int &ne
                 bytes_received = recv(i, msg.buff, SIZE_BUFF, 0);
 
                 printf("MessType recv:%d\n", msg.M.mess_type);
+                response(msg, i);
 
                 if (bytes_received == 0)
                 { // EOF
