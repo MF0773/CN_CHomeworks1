@@ -152,7 +152,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a class="el" href="classUser.html">User</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpServer.html#a28a909fdc7d4e35ca46b0561dfe16ab5">findUser</a> (int fd)</td></tr>
 <tr class="memdesc:a28a909fdc7d4e35ca46b0561dfe16ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">find user by file descriptor <br /></td></tr>
 <tr class="separator:a28a909fdc7d4e35ca46b0561dfe16ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17121774c050dcc69a55b29718c03c3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpServer.html#a17121774c050dcc69a55b29718c03c3f">apiSendMessage</a> (int fd, string commandName, int code, std::string message)</td></tr>
+<tr class="memitem:a17121774c050dcc69a55b29718c03c3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpServer.html#a17121774c050dcc69a55b29718c03c3f">apiSendMessage</a> (int fd, string commandName, int code, std::string <a class="el" href="structmessage.html">message</a>)</td></tr>
 <tr class="memdesc:a17121774c050dcc69a55b29718c03c3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">prepare and respnose message to the clients  <a href="classFtpServer.html#a17121774c050dcc69a55b29718c03c3f">More...</a><br /></td></tr>
 <tr class="separator:a17121774c050dcc69a55b29718c03c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a572cab2431d53f2a1dc13be3323aa56e"><td class="memItemLeft" align="right" valign="top"><a id="a572cab2431d53f2a1dc13be3323aa56e"></a>
@@ -467,10 +467,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>string that has been made to send with <code>send</code> method </dd></dl>
 <div class="fragment"><div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;{</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keywordtype">string</span> args = makeResponseMessage(code,message);</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keywordtype">string</span> args = makeResponseMessage(code,<a class="code" href="structmessage.html">message</a>);</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    <a class="code" href="classFtpServer.html#a04da38b74ab1d7b443a0ab3ed4226631">apiSend</a>(fd,commandName,args);</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;}</div>
 <div class="ttc" id="aclassFtpServer_html_a04da38b74ab1d7b443a0ab3ed4226631"><div class="ttname"><a href="classFtpServer.html#a04da38b74ab1d7b443a0ab3ed4226631">FtpServer::apiSend</a></div><div class="ttdeci">void apiSend(int fd, string commandName, char *args, int argLen)</div><div class="ttdoc">send command in api form</div><div class="ttdef"><b>Definition:</b> ftpserver.cpp:249</div></div>
+<div class="ttc" id="astructmessage_html"><div class="ttname"><a href="structmessage.html">message</a></div><div class="ttdef"><b>Definition:</b> serverMain.cpp:19</div></div>
 </div><!-- fragment -->
 </div>
 </div>
