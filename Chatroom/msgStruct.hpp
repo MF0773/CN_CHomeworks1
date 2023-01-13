@@ -64,7 +64,7 @@ void inline initial_INFOREPLY(msgStruct &msg, const char *username)
 }
 void inline initial_SEND(msgStruct &msg, std::string _userID, std::string _message)
 {
-    initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + _message.size(), (_message + "\n" + _userID).c_str());
+    initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + _message.size(), (_userID + "\n" + _message).c_str());
 }
 void inline initial_SENDREPLY(msgStruct &msg, bool isSuccess)
 {
@@ -78,7 +78,7 @@ void inline initial_RECEIVE(msgStruct &msg)
 }
 void inline initial_RECEIVEREPLY(msgStruct &msg, std::string _sendID, std::string _message)
 {
-    initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + _message.size(), (_message + "\n" + _sendID).c_str());
+    initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + _message.size(), (_sendID + "\n" + _message).c_str());
 }
 
 void encode_payload(const char *str, std::string &head, std::string &tail)

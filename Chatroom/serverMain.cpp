@@ -21,8 +21,6 @@ struct message
     int recive_user;
     std::string message;
 };
-
-std::map<int, std::string> users;
 std::vector<message> messages;
 
 int start_server(int port)
@@ -68,6 +66,7 @@ std::string get_userID()
 
 void response(msgStruct &msg, int i)
 {
+    int j;
     std::string head, tail;
     switch (msg.M.mess_type)
     {
@@ -99,15 +98,27 @@ void response(msgStruct &msg, int i)
 
     case RECEIVE:
         // onSave initial mess
-        for (int j = 0; j < messages.size(); j++)
+        if (messages.size() == 0)
         {
-           
+            initial_RECEIVEREPLY(msg, "0", "\0");
+            send(i, msg.buff, strlen(msg.buff), 0);
+            break;
         }
-        // initial_RECEIVEREPLY(msg);
+
+        for (j = 0; j < messages.size(); j++)
+        {
+            if (messages[j].recive_user == i)
+            {
+                break;
+            }
+        }
+        initial_RECEIVEREPLY(msg, std::to_string(messages[j].senderID), messages[j].message);
         send(i, msg.buff, strlen(msg.buff), 0);
-        
-        // initial_SENDREPLY(msg, );
-        // send(sender_user, msg.buff, strlen(msg.buff), 0);
+
+        initial_SENDREPLY(msg, true);
+        send(messages[j].senderID, msg.buff, strlen(msg.buff), 0);
+
+        messages.erase(messages.begin() + j);
 
         break;
 

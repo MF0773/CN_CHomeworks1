@@ -94,7 +94,7 @@ void recive_message(msgStruct &msg, const int &fd)
 
         encode_payload(msg.M.payload, senderId, message);
         if (atoi(senderId.c_str()) != 0)
-            printf("send %s %s", get_username_from_userID(msg, fd, senderId.c_str()).c_str(), message.c_str());
+            printf("send %s %s\n", get_username_from_userID(msg, fd, senderId.c_str()).c_str(), message.c_str());
         else
             break;
     }
@@ -142,7 +142,7 @@ int main(int argc, char const *argv[])
         {
             std::cin >> recvier_username >> message_str;
 
-            std::vector<std::string> strs;
+            // std::vector<std::string> strs;
             for (std::string line : get_list_userID(msg, fd))
             {
                 initial_INFO(msg, line.c_str());
