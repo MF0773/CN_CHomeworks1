@@ -60,20 +60,24 @@ void response(msgStruct &msg, int i)
     switch (msg.M.mess_type)
     {
     case CONNECT:
-        users.insert({(int)msg.M.mess_id, msg.M.payload});
+
+        users.insert({i, msg.M.payload});
 
         initial_CONNACK(msg);
         send(i, msg.buff, strlen(msg.buff), 0);
+
         break;
 
     case LIST:
+
         // printf("%s\n", get_userID().c_str());
         initial_LISTREPLY(msg, users.size(), get_userID().c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
+
         break;
 
     case INFO:
-        initial_INFOREPLY(msg, users[atoi(msg.M.payload)].c_str());
+        initial_INFOREPLY(msg, users.find(atoi(msg.M.payload)) == users.end() ? "\0" : users[atoi(msg.M.payload)].c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
 
         break;
@@ -111,7 +115,7 @@ void event_loop(fd_set &master_set, fd_set &working_set, int &server_fd, int &ne
                 if (bytes_received == 0)
                 { // EOF
                     printf("client fd = %d closed\n", i);
-                    users.erase(msg.M.mess_id);
+                    users.erase(i);
                     close(i);
                     FD_CLR(i, &master_set);
                     continue;

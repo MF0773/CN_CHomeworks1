@@ -32,6 +32,8 @@ int connectServer(int port)
     return fd;
 }
 
+int _mess_id = FAKE_MESS_ID;
+
 int main(int argc, char const *argv[])
 {
     int fd;
@@ -42,9 +44,9 @@ int main(int argc, char const *argv[])
     {
         fd = connectServer(atoi(argv[1]));
         username = argv[2];
-        int userIDrand = rand() % (username.size());
+        _mess_id = rand() % (username.size());
 
-        initial_CONNECT(msg, userIDrand, username.c_str());
+        initial_CONNECT(msg, _mess_id, username.c_str());
         send(fd, msg.buff, sizeof(msg), 0);
 
         recv(fd, msg.buff, SIZE_BUFF, 0);
