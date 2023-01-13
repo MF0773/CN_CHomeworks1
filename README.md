@@ -96,6 +96,9 @@ The result of incorrect url:
 ![404 html page](docs/images/http_404.png)
 
 ## Chat room
+Support all order.
+two user Actived and sent Hello.
+
 ![chat1](docs/images/chat1.jpeg)
 ![chat2](docs/images/chat2.jpeg)
 
