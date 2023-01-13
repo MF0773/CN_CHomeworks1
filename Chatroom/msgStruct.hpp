@@ -71,7 +71,7 @@ void inline initial_SENDREPLY(msgStruct &msg, bool isSuccess)
     char succ[1] = {'0'};
     initialMSG(msg, SENDREPLY, FAKE_MESS_ID, 2 + 1, (isSuccess ? succ : fail));
 }
-void inline initial_RECEIVE(msgStruct &msg, bool isSuccess)
+void inline initial_RECEIVE(msgStruct &msg)
 {
     initialMSG(msg, RECEIVE, FAKE_MESS_ID, 2, "\0");
 }

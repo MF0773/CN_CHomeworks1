@@ -34,7 +34,7 @@ int connectServer(int port)
 
 int _mess_id = FAKE_MESS_ID;
 
-std::vector<std::string> get_list_userID(msgStruct &msg, int fd)
+std::vector<std::string> get_list_userID(msgStruct &msg, const int &fd)
 {
     std::string line;
     std::vector<std::string> strs;
@@ -55,23 +55,48 @@ std::vector<std::string> get_list_userID(msgStruct &msg, int fd)
     }
     return strs;
 }
+std::string get_username_from_userID(msgStruct &msg, const int &fd, const char *userId)
+{
+    initial_INFO(msg, userId);
+    send(fd, msg.buff, sizeof(msg), 0);
 
-std::vector<std::string> get_list_userName(msgStruct &msg, int fd)
+    recv(fd, msg.buff, SIZE_BUFF, 0);
+    if (msg.M.mess_type != INFOREPLY)
+    {
+        printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
+    }
+    return msg.M.payload;
+}
+std::vector<std::string> get_list_userName(msgStruct &msg, const int &fd)
 {
     std::vector<std::string> strs;
-    for (std::string line : get_list_userID(msg, fd))
+    for (std::string userId : get_list_userID(msg, fd))
     {
-        initial_INFO(msg, line.c_str());
-        send(fd, msg.buff, sizeof(msg), 0);
-
-        recv(fd, msg.buff, SIZE_BUFF, 0);
-        if (msg.M.mess_type != INFOREPLY)
-        {
-            printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
-        }
-        strs.push_back(msg.M.payload);
+        strs.push_back(get_username_from_userID(msg, fd, userId.c_str()));
     }
     return strs;
+}
+
+void recive_message(msgStruct &msg, const int &fd)
+{
+    std::string senderId, message;
+
+    initial_RECEIVE(msg);
+    send(fd, msg.buff, sizeof(msg), 0);
+
+    recv(fd, msg.buff, SIZE_BUFF, 0);
+    if (msg.M.mess_type != RECEIVEREPLY)
+    {
+        printf("Error on reponse from server. listen %d Instead RECEIVEREPLY\n", msg.M.mess_type);
+    }
+
+    std::istringstream iss(msg.M.payload);
+    std::getline(iss, senderId);
+    if (atoi(senderId.c_str()) != 0)
+    {
+        std::getline(iss, message);
+        printf("%s", message.c_str());
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -97,6 +122,7 @@ int main(int argc, char const *argv[])
     }
     while (true)
     {
+
         std::cin >> order;
         if (order == "list")
         {
