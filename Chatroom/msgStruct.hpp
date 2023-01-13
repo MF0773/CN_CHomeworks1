@@ -81,7 +81,8 @@ void inline initial_RECEIVEREPLY(msgStruct &msg, std::string _sendID, std::strin
     initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + _message.size(), (_sendID + "\n" + _message).c_str());
 }
 
-void encode_payload(const char *str, std::string &head, std::string &tail)
+/** @brief decode payload*/
+void decode_payload(const char *str, std::string &head, std::string &tail)
 {
     std::istringstream iss(str);
     std::getline(iss, head);

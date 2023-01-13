@@ -54,6 +54,8 @@ int acceptClient(int server_fd)
 
     return client_fd;
 }
+
+/** @brief compact userID to send client (LISTREPLY)*/
 std::string get_userID()
 {
     std::stringstream ss;
@@ -64,6 +66,7 @@ std::string get_userID()
     return ss.str();
 }
 
+/** @brief response clinet request*/
 void response(msgStruct &msg, int i)
 {
     int j;
@@ -92,12 +95,12 @@ void response(msgStruct &msg, int i)
 
     case SEND:
         // Save
-        encode_payload(msg.M.payload, head, tail);
+        decode_payload(msg.M.payload, head, tail);
         messages.push_back({i, atoi(head.c_str()), tail});
         break;
 
     case RECEIVE:
-        // onSave initial mess
+        // onSave
         if (messages.size() == 0)
         {
             initial_RECEIVEREPLY(msg, "0", "\0");

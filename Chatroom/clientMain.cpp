@@ -34,6 +34,7 @@ int connectServer(int port)
 
 int _mess_id = FAKE_MESS_ID;
 
+/** @brief send LIST and get list userID from Server */
 std::vector<std::string> get_list_userID(msgStruct &msg, const int &fd)
 {
     std::string line;
@@ -55,6 +56,8 @@ std::vector<std::string> get_list_userID(msgStruct &msg, const int &fd)
     }
     return strs;
 }
+
+/** @brief find username by userId for send message  */
 std::string get_username_from_userID(msgStruct &msg, const int &fd, const char *userId)
 {
     initial_INFO(msg, userId);
@@ -67,6 +70,8 @@ std::string get_username_from_userID(msgStruct &msg, const int &fd, const char *
     }
     return msg.M.payload;
 }
+
+/** @brief get all active username from Server */
 std::vector<std::string> get_list_userName(msgStruct &msg, const int &fd)
 {
     std::vector<std::string> strs;
@@ -77,6 +82,7 @@ std::vector<std::string> get_list_userName(msgStruct &msg, const int &fd)
     return strs;
 }
 
+/** @brief request to Server and get message not delivered*/
 void recive_message(msgStruct &msg, const int &fd)
 {
     std::string senderId, message;
@@ -92,7 +98,7 @@ void recive_message(msgStruct &msg, const int &fd)
             printf("Error on reponse from server. listen %d Instead RECEIVEREPLY\n", msg.M.mess_type);
         }
 
-        encode_payload(msg.M.payload, senderId, message);
+        decode_payload(msg.M.payload, senderId, message);
         if (atoi(senderId.c_str()) != 0)
             printf("send %s %s\n", get_username_from_userID(msg, fd, senderId.c_str()).c_str(), message.c_str());
         else
