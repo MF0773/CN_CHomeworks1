@@ -61,9 +61,9 @@ void inline initial_INFOREPLY(msgStruct &msg, const char *username)
 {
     initialMSG(msg, INFOREPLY, FAKE_MESS_ID, 2 + strlen(username), username);
 }
-void inline initial_SEND(msgStruct &msg, const char *_userID, char *_message)
+void inline initial_SEND(msgStruct &msg, std::string _userID, std::string _message)
 {
-    initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + strlen(_message), strcat(_message, _userID));
+    initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + _message.size(), (_message + "\n" + _userID).c_str());
 }
 void inline initial_SENDREPLY(msgStruct &msg, bool isSuccess)
 {
@@ -75,7 +75,7 @@ void inline initial_RECEIVE(msgStruct &msg, bool isSuccess)
 {
     initialMSG(msg, RECEIVE, FAKE_MESS_ID, 2, "\0");
 }
-void inline initial_RECEIVEREPLY(msgStruct &msg, char *_sendID, char *_message)
+void inline initial_RECEIVEREPLY(msgStruct &msg, std::string _sendID, std::string _message)
 {
-    initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + strlen(_message), strcat(_message, _sendID));
+    initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + _message.size(), (_message + "\n" + _sendID).c_str());
 }

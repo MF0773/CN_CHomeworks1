@@ -78,7 +78,7 @@ int main(int argc, char const *argv[])
 {
     int fd;
     msgStruct msg;
-    std::string username, usernameRecvi, message_str, order, temp;
+    std::string username, recvier_username, recvier_userID, message_str, order;
 
     if (argc >= 3)
     {
@@ -112,8 +112,28 @@ int main(int argc, char const *argv[])
         }
         else if (order == "send")
         {
-            std::cin >> usernameRecvi >> message_str;
-            // initial_SEND(msg, usernameRecvi.c_str(), ""); // message_str.c_str());
+            std::cin >> recvier_username >> message_str;
+
+            std::vector<std::string> strs;
+            for (std::string line : get_list_userID(msg, fd))
+            {
+                initial_INFO(msg, line.c_str());
+                send(fd, msg.buff, sizeof(msg), 0);
+
+                recv(fd, msg.buff, SIZE_BUFF, 0);
+                if (msg.M.mess_type != INFOREPLY)
+                {
+                    printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
+                }
+
+                if (msg.M.payload == recvier_username)
+                {
+                    recvier_userID = line;
+                    break;
+                }
+            }
+
+            initial_SEND(msg, recvier_userID, message_str);
             send(fd, msg.buff, sizeof(msg), 0);
 
             recv(fd, msg.buff, SIZE_BUFF, 0);
