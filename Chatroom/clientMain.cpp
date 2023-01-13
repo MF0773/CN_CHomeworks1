@@ -92,13 +92,9 @@ void recive_message(msgStruct &msg, const int &fd)
             printf("Error on reponse from server. listen %d Instead RECEIVEREPLY\n", msg.M.mess_type);
         }
 
-        std::istringstream iss(msg.M.payload);
-        std::getline(iss, senderId);
+        encode_payload(msg.M.payload, senderId, message);
         if (atoi(senderId.c_str()) != 0)
-        {
-            std::getline(iss, message);
             printf("send %s %s", get_username_from_userID(msg, fd, senderId.c_str()).c_str(), message.c_str());
-        }
         else
             break;
     }
@@ -173,7 +169,7 @@ int main(int argc, char const *argv[])
             {
                 printf("Error on reponse from server. listen %d Instead SENDREPLY\n", msg.M.mess_type);
             }
-            printf("Message deliverd: %d\n", msg.M.payload[0] - '0');
+            printf("Message delivered: %d\n", msg.M.payload[0] - '0');
         }
         else
         {

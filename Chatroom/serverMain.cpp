@@ -11,8 +11,19 @@
 #include "msgStruct.hpp"
 #include <map>
 #include <sstream>
+#include <vector>
 
 std::map<int, std::string> users;
+
+struct message
+{
+    int senderID;
+    int recive_user;
+    std::string message;
+};
+
+std::map<int, std::string> users;
+std::vector<message> messages;
 
 int start_server(int port)
 {
@@ -57,6 +68,7 @@ std::string get_userID()
 
 void response(msgStruct &msg, int i)
 {
+    std::string head, tail;
     switch (msg.M.mess_type)
     {
     case CONNECT:
@@ -81,15 +93,21 @@ void response(msgStruct &msg, int i)
 
     case SEND:
         // Save
-
+        encode_payload(msg.M.payload, head, tail);
+        messages.push_back({i, atoi(head.c_str()), tail});
         break;
 
     case RECEIVE:
         // onSave initial mess
-        // send(user x, msg.buff, strlen(msg.buff), 0);
-
+        for (int j = 0; j < messages.size(); j++)
+        {
+           
+        }
+        // initial_RECEIVEREPLY(msg);
+        send(i, msg.buff, strlen(msg.buff), 0);
+        
         // initial_SENDREPLY(msg, );
-        // send(i, msg.buff, strlen(msg.buff), 0);
+        // send(sender_user, msg.buff, strlen(msg.buff), 0);
 
         break;
 

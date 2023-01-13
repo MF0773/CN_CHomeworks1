@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 
 #define SIZE_BUFF 1024
 #define FAKE_MESS_ID 10
@@ -78,4 +79,11 @@ void inline initial_RECEIVE(msgStruct &msg)
 void inline initial_RECEIVEREPLY(msgStruct &msg, std::string _sendID, std::string _message)
 {
     initialMSG(msg, RECEIVEREPLY, FAKE_MESS_ID, 2 + 2 + _message.size(), (_message + "\n" + _sendID).c_str());
+}
+
+void encode_payload(const char *str, std::string &head, std::string &tail)
+{
+    std::istringstream iss(str);
+    std::getline(iss, head);
+    std::getline(iss, tail);
 }
