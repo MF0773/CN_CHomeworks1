@@ -79,72 +79,73 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define LOCAL_HOST_ADDR &quot;127.0.0.1&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classFtpClient.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFtpClient.html">FtpClient</a>{</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">int</span> controlFd,controlPort,dataPort;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">bool</span> loginned;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> lastResponse;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    std::string userName;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    list&lt;std::string&gt; catchedFileList;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    std::set&lt;string&gt; allCommands;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classFtpClient.html">FtpClient</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> connectToServer();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> disconnectFromServer();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> loginLoop();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// api</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> sendBytes(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *bytes, <span class="keywordtype">int</span> len);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::string exportCommandName(<span class="keywordtype">char</span>* buff,<span class="keywordtype">int</span> recivedLen);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> apiWaitResponse(<span class="keywordtype">int</span> fd, std::string command);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> apiSend(<span class="keywordtype">int</span> fd, std::string commandName, <span class="keyword">const</span> <span class="keywordtype">char</span> *args, <span class="keywordtype">int</span> argLen=-1);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> checkUserName(std::string userNameIn);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> tryLogin(std::string userNameIn,std::string passwordIn);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> onNewApiCommand(<span class="keywordtype">int</span> fd, <span class="keywordtype">string</span> commandName, <span class="keywordtype">char</span> *args);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> onNewLoginResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> onNewUserNameCheckResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> onLsResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> onRetrResonse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> onRetrAckResonse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> onHelpResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> onQuitResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    list&lt;std::string&gt; getListFiles();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> retFile(std::string fileName);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> uploadFile(std::string fileName);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> onUploadResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> onUploadAckResponse(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> getLoginned() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setLoginned(<span class="keywordtype">bool</span> newLoginned);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> displayMessage(<span class="keywordtype">char</span>* args);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> getLastResponse() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setLastResponse(<span class="keywordtype">int</span> newLastResponse);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::string getUserName() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> setUserName(<span class="keyword">const</span> std::string &amp;newUserName);</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">   14</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">   15</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">controlPort</a>; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classFtpClient.html#a7c25ab6047d978611f122a2f6c9384d9">   16</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFtpClient.html#a7c25ab6047d978611f122a2f6c9384d9">dataPort</a>; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classFtpClient.html#afd756100bf54881815116aeba61aa20c">   17</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classFtpClient.html#afd756100bf54881815116aeba61aa20c">loginned</a>; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">   18</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">lastResponse</a>; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classFtpClient.html#ada1fe7063acfb511b1494db5a2f90555">   19</a></span>&#160;    std::string <a class="code" href="classFtpClient.html#ada1fe7063acfb511b1494db5a2f90555">userName</a>; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">   20</a></span>&#160;    list&lt;std::string&gt; <a class="code" href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">catchedFileList</a>; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classFtpClient.html">FtpClient</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">bool</span> connectToServer(); </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> disconnectFromServer();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// api</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> sendBytes(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keywordtype">char</span> *bytes, <span class="keywordtype">int</span> len);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    std::string exportCommandName(<span class="keywordtype">char</span>* buff,<span class="keywordtype">int</span> recivedLen);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> apiWaitResponse(<span class="keywordtype">int</span> fd, std::string command);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> apiSend(<span class="keywordtype">int</span> fd, std::string commandName, <span class="keyword">const</span> <span class="keywordtype">char</span> *args, <span class="keywordtype">int</span> argLen=-1);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">bool</span> checkUserName(std::string userNameIn);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> tryLogin(std::string userNameIn,std::string passwordIn);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> onNewApiCommand(<span class="keywordtype">int</span> fd, <span class="keywordtype">string</span> commandName, <span class="keywordtype">char</span> *args);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> onNewLoginResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> onNewUserNameCheckResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> onLsResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> onRetrResonse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> onRetrAckResonse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> onHelpResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> onQuitResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    list&lt;std::string&gt; getListFiles();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> retFile(std::string fileName);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> uploadFile(std::string fileName);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> onUploadResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> onUploadAckResponse(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> getLoginned() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> setLoginned(<span class="keywordtype">bool</span> newLoginned);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> displayMessage(<span class="keywordtype">char</span>* args);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> getLastResponse() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> setLastResponse(<span class="keywordtype">int</span> newLastResponse);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::string getUserName() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setUserName(<span class="keyword">const</span> std::string &amp;newUserName);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">// cli</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> commandLoop();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> cliCheckUserName(std::stringstream &amp;ss);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> cliLs(std::stringstream &amp;ss);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    list&lt;std::string&gt; getCatchedFileList() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> setCatchedFileList(<span class="keyword">const</span> list&lt;std::string&gt; &amp;newCatchedFileList);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">// cli</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> commandLoop();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    list&lt;std::string&gt; getCatchedFileList() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> setCatchedFileList(<span class="keyword">const</span> list&lt;std::string&gt; &amp;newCatchedFileList);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> is_ok_code(<span class="keywordtype">int</span> code){<span class="keywordflow">return</span> 200&lt;=code &amp;&amp; code &lt;= 300;}</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// FTPCLIENT_H</span></div>
-<div class="ttc" id="aclassFtpClient_html"><div class="ttname"><a href="classFtpClient.html">FtpClient</a></div><div class="ttdef"><b>Definition:</b> ftpclient.h:12</div></div>
+<div class="ttc" id="aclassFtpClient_html"><div class="ttname"><a href="classFtpClient.html">FtpClient</a></div><div class="ttdoc">Implemention of FTP client.</div><div class="ttdef"><b>Definition:</b> ftpclient.h:12</div></div>
+<div class="ttc" id="aclassFtpClient_html_a30b3155d9f2ad0cbb9529fcde4e70f4f"><div class="ttname"><a href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">FtpClient::catchedFileList</a></div><div class="ttdeci">list&lt; std::string &gt; catchedFileList</div><div class="ttdoc">chahed server file names</div><div class="ttdef"><b>Definition:</b> ftpclient.h:20</div></div>
+<div class="ttc" id="aclassFtpClient_html_a7c25ab6047d978611f122a2f6c9384d9"><div class="ttname"><a href="classFtpClient.html#a7c25ab6047d978611f122a2f6c9384d9">FtpClient::dataPort</a></div><div class="ttdeci">int dataPort</div><div class="ttdoc">port number of data channel</div><div class="ttdef"><b>Definition:</b> ftpclient.h:16</div></div>
+<div class="ttc" id="aclassFtpClient_html_a7eeac0272664678aada7f49500591e3f"><div class="ttname"><a href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">FtpClient::controlPort</a></div><div class="ttdeci">int controlPort</div><div class="ttdoc">port descriptor of command channel</div><div class="ttdef"><b>Definition:</b> ftpclient.h:15</div></div>
+<div class="ttc" id="aclassFtpClient_html_a831e6c15aa7d5df13dd4efafd4529cf0"><div class="ttname"><a href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">FtpClient::controlFd</a></div><div class="ttdeci">int controlFd</div><div class="ttdoc">file descriptor of command channel</div><div class="ttdef"><b>Definition:</b> ftpclient.h:14</div></div>
+<div class="ttc" id="aclassFtpClient_html_acacb079e07eaf25911c3c941f30a9ffd"><div class="ttname"><a href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">FtpClient::lastResponse</a></div><div class="ttdeci">int lastResponse</div><div class="ttdoc">stores status code of the last response from server</div><div class="ttdef"><b>Definition:</b> ftpclient.h:18</div></div>
+<div class="ttc" id="aclassFtpClient_html_ada1fe7063acfb511b1494db5a2f90555"><div class="ttname"><a href="classFtpClient.html#ada1fe7063acfb511b1494db5a2f90555">FtpClient::userName</a></div><div class="ttdeci">std::string userName</div><div class="ttdoc">input username</div><div class="ttdef"><b>Definition:</b> ftpclient.h:19</div></div>
+<div class="ttc" id="aclassFtpClient_html_afd756100bf54881815116aeba61aa20c"><div class="ttname"><a href="classFtpClient.html#afd756100bf54881815116aeba61aa20c">FtpClient::loginned</a></div><div class="ttdeci">bool loginned</div><div class="ttdoc">shows client has been loginned or not.</div><div class="ttdef"><b>Definition:</b> ftpclient.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

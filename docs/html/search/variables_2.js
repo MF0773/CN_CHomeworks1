@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ipport_44',['ipPort',['../classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1',1,'HttpServer']]]
+  ['dataport_211',['dataPort',['../classFtpClient.html#a7c25ab6047d978611f122a2f6c9384d9',1,'FtpClient']]]
 ];

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['importdata_12',['importData',['../classHttpMessage.html#af43bc368628c2dd5fec90c1ca95b32e7',1,'HttpMessage']]],
-  ['ipport_13',['IpPort',['../structIpPort.html',1,'']]],
-  ['ipport_14',['ipPort',['../classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1',1,'HttpServer']]]
+  ['generatenewdataport_35',['generateNewDataPort',['../classFtpServer.html#a9a52a02943c90a48e215c860f1a1698a',1,'FtpServer']]],
+  ['getcontenttype_36',['getContentType',['../classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8',1,'HttpServer']]],
+  ['getlastfd_37',['getLastFd',['../classFtpServer.html#a34fda18aeef3d5dce9c748788c86fb7b',1,'FtpServer']]],
+  ['getsize_38',['getSize',['../classUser.html#a47901496690758bc0560d0aa55dccba4',1,'User']]],
+  ['gettimestr_39',['getTimeStr',['../classMyLogger.html#a6720db6dba9f1ab18a468a6755f0ba81',1,'MyLogger']]]
 ];

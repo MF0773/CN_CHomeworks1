@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['metadata_45',['metaData',['../structHttpHeader.html#afb4d8b73bcd278e876c5a840ef8a3f1b',1,'HttpHeader']]],
-  ['method_46',['method',['../structHttpHeader.html#aa7d38b203453a58f574524a98643c714',1,'HttpHeader']]]
+  ['fdset_212',['fdSet',['../classFtpServer.html#a1d9a9c546eaf05d1399d8b458a7c40c6',1,'FtpServer']]],
+  ['filepipes_213',['filepipes',['../classFtpServer.html#a3510d1d3b5016cc058576f15bb2dfce5',1,'FtpServer']]]
 ];

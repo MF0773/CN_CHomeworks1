@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getcontenttype_32',['getContentType',['../classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8',1,'HttpServer']]]
+  ['disconnectclient_141',['disconnectClient',['../classFtpServer.html#ace73727e0cd6c2c1afe2b3231938d985',1,'FtpServer']]]
 ];

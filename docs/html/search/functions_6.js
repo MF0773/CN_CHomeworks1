@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['sendfile_37',['sendFile',['../classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22',1,'HttpServer']]],
-  ['setup_38',['setup',['../classHttpServer.html#aec4851bc2b8705703e38efd8f451446c',1,'HttpServer']]]
+  ['handlerequest_154',['handleRequest',['../classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0',1,'HttpServer']]],
+  ['httpmessage_155',['HttpMessage',['../classHttpMessage.html#a71ce43a1e0da0a72fa6e318c90ea981e',1,'HttpMessage']]]
 ];

@@ -3,6 +3,9 @@
 #include <string>
 #include "accountinfo.h"
 
+/** @brief stores all users information. used in FtpServer class.
+* we use this class after user login to manage users.
+*/
 class User
 {
 private:
@@ -13,8 +16,8 @@ public:
     int dataPort;
     int getDataPort() const;
     void setDataPort(int newDataPort);
-    int getSize();
-    int reduceSize(int value);
+    int getSize(); /**< @brief get remaining download size.*/
+    int reduceSize(int value); /**< @brief reduce remaining download size. @param value decreament value by Bytes*/
     std::string getUserName();
 };
 

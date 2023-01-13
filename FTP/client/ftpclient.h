@@ -8,26 +8,25 @@
 #define LOCAL_HOST_ADDR "127.0.0.1"
 
 using namespace std;
-
+/**< @brief Implemention of FTP client*/
 class FtpClient{
     private:
-    int controlFd,controlPort,dataPort;
-    bool loginned;
-    int lastResponse;
-    std::string userName;
-    list<std::string> catchedFileList;
-    std::set<string> allCommands;
+    int controlFd; /**< @brief file descriptor of command channel*/
+    int controlPort; /**< @brief port descriptor of command channel*/
+    int dataPort; /**< @brief port number of data channel*/
+    bool loginned; /**< @brief shows client has been loginned or not.*/
+    int lastResponse; /**< @brief stores status code of the last response from server*/
+    std::string userName; /**< @brief input username*/
+    list<std::string> catchedFileList; /**< @brief chahed server file names*/
 
     public:
         FtpClient();
 
-    bool connectToServer();
+    bool connectToServer(); /**< @brief connect to ftp server. Note: port will be imported from config.json file.*/
 
     void disconnectFromServer();
 
-    bool loginLoop();
-
-// api
+    // api
     void sendBytes(int fd, const char *bytes, int len);
     std::string exportCommandName(char* buff,int recivedLen);
     void apiWaitResponse(int fd, std::string command);
@@ -60,13 +59,14 @@ class FtpClient{
 
 
 // cli
-    void commandLoop();
-    void cliCheckUserName(std::stringstream &ss);
-    void cliLs(std::stringstream &ss);
+    void commandLoop();/**< @brief a while loop that recive commands from user. then runs it and shows it's response.*/
     list<std::string> getCatchedFileList() const;
     void setCatchedFileList(const list<std::string> &newCatchedFileList);
 
 
+    /**< @brief returns true if response code has psitive meaning. otherwise false.
+     * @param code status code if response message
+     * .*/
     static bool is_ok_code(int code){return 200<=code && code <= 300;}
 
 };

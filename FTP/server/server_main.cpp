@@ -3,7 +3,7 @@
 
 int main(int argc,char** argv){
     FtpServer server;
-    server.start(2121);
+    server.start();
 
     server.event_loop();
 
