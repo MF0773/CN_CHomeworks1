@@ -2,6 +2,8 @@
 #define FTPCLIENTTEST_H
 #include "ftpclient.h"
 #include <string>
+
+/**< @brief unit test for ftp client*/
 class FtpClientTest
 {
 private:

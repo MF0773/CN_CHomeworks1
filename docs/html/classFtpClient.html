@@ -70,82 +70,95 @@ $(function() {
 <div class="title">FtpClient Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implemention of FTP client.  
+ <a href="classFtpClient.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ftpclient_8h_source.html">ftpclient.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for FtpClient:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFtpClient__coll__graph.png" border="0" usemap="#aFtpClient_coll__map" alt="Collaboration graph"/></div>
 <map name="aFtpClient_coll__map" id="aFtpClient_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,200,347"/>
+<area shape="rect" title="Implemention of FTP client." alt="" coords="5,5,200,332"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a0c2daba841a73b34cc0300cf93346fa3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a0c2daba841a73b34cc0300cf93346fa3">FtpClient</a> ()</td></tr>
+<tr class="separator:a0c2daba841a73b34cc0300cf93346fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65a4584442bd87f69f1ee53abdd3f9d3"><td class="memItemLeft" align="right" valign="top"><a id="a65a4584442bd87f69f1ee53abdd3f9d3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>connectToServer</b> ()</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a65a4584442bd87f69f1ee53abdd3f9d3">connectToServer</a> ()</td></tr>
+<tr class="memdesc:a65a4584442bd87f69f1ee53abdd3f9d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">connect to ftp server. Note: port will be imported from config.json file. <br /></td></tr>
 <tr class="separator:a65a4584442bd87f69f1ee53abdd3f9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a045166ef582c33d7161d6ee82b95a693"><td class="memItemLeft" align="right" valign="top"><a id="a045166ef582c33d7161d6ee82b95a693"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>disconnectFromServer</b> ()</td></tr>
 <tr class="separator:a045166ef582c33d7161d6ee82b95a693"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f4cd23f8ca059994530beab7bacd70b"><td class="memItemLeft" align="right" valign="top"><a id="a9f4cd23f8ca059994530beab7bacd70b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>loginLoop</b> ()</td></tr>
-<tr class="separator:a9f4cd23f8ca059994530beab7bacd70b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa13990d301ed337063b16c1dca2a773"><td class="memItemLeft" align="right" valign="top"><a id="afa13990d301ed337063b16c1dca2a773"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendBytes</b> (int fd, const char *bytes, int len)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#afa13990d301ed337063b16c1dca2a773">sendBytes</a> (int fd, const char *bytes, int len)</td></tr>
+<tr class="memdesc:afa13990d301ed337063b16c1dca2a773"><td class="mdescLeft">&#160;</td><td class="mdescRight">sends array of bytes to the given file descriptor. <br /></td></tr>
 <tr class="separator:afa13990d301ed337063b16c1dca2a773"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f1586d1bba4c6d8fec31d90465e7da0"><td class="memItemLeft" align="right" valign="top"><a id="a5f1586d1bba4c6d8fec31d90465e7da0"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>exportCommandName</b> (char *buff, int recivedLen)</td></tr>
+<tr class="memitem:a5f1586d1bba4c6d8fec31d90465e7da0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a5f1586d1bba4c6d8fec31d90465e7da0">exportCommandName</a> (char *buff, int recivedLen)</td></tr>
+<tr class="memdesc:a5f1586d1bba4c6d8fec31d90465e7da0"><td class="mdescLeft">&#160;</td><td class="mdescRight">exports command name from the recived raw string.  <a href="classFtpClient.html#a5f1586d1bba4c6d8fec31d90465e7da0">More...</a><br /></td></tr>
 <tr class="separator:a5f1586d1bba4c6d8fec31d90465e7da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab612f7886331291b9e5eca1ea8b38647"><td class="memItemLeft" align="right" valign="top"><a id="ab612f7886331291b9e5eca1ea8b38647"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>apiWaitResponse</b> (int fd, std::string command)</td></tr>
+<tr class="memitem:ab612f7886331291b9e5eca1ea8b38647"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a> (int fd, std::string command)</td></tr>
+<tr class="memdesc:ab612f7886331291b9e5eca1ea8b38647"><td class="mdescLeft">&#160;</td><td class="mdescRight">waits for response command.  <a href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">More...</a><br /></td></tr>
 <tr class="separator:ab612f7886331291b9e5eca1ea8b38647"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74ecbbd39fb562be92b84dda58df7de7"><td class="memItemLeft" align="right" valign="top"><a id="a74ecbbd39fb562be92b84dda58df7de7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>apiSend</b> (int fd, std::string commandName, const char *args, int argLen=-1)</td></tr>
+<tr class="memitem:a74ecbbd39fb562be92b84dda58df7de7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">apiSend</a> (int fd, std::string commandName, const char *args, int argLen=-1)</td></tr>
+<tr class="memdesc:a74ecbbd39fb562be92b84dda58df7de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">sends request into the server in api form.  <a href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">More...</a><br /></td></tr>
 <tr class="separator:a74ecbbd39fb562be92b84dda58df7de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa23d602907c4d0764d5d1e31ba8a55f9"><td class="memItemLeft" align="right" valign="top"><a id="aa23d602907c4d0764d5d1e31ba8a55f9"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkUserName</b> (std::string userNameIn)</td></tr>
+<tr class="memitem:aa23d602907c4d0764d5d1e31ba8a55f9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#aa23d602907c4d0764d5d1e31ba8a55f9">checkUserName</a> (std::string userNameIn)</td></tr>
+<tr class="memdesc:aa23d602907c4d0764d5d1e31ba8a55f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">check given user name with server. returns true if server tells this username is exist.  <a href="classFtpClient.html#aa23d602907c4d0764d5d1e31ba8a55f9">More...</a><br /></td></tr>
 <tr class="separator:aa23d602907c4d0764d5d1e31ba8a55f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7736f591990bcda02e3fe9630b3eac92"><td class="memItemLeft" align="right" valign="top"><a id="a7736f591990bcda02e3fe9630b3eac92"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>tryLogin</b> (std::string userNameIn, std::string passwordIn)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a7736f591990bcda02e3fe9630b3eac92">tryLogin</a> (std::string userNameIn, std::string passwordIn)</td></tr>
+<tr class="memdesc:a7736f591990bcda02e3fe9630b3eac92"><td class="mdescLeft">&#160;</td><td class="mdescRight">try to login with given username and password <br /></td></tr>
 <tr class="separator:a7736f591990bcda02e3fe9630b3eac92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a595ad187b2600c2895c211371a2ff9"><td class="memItemLeft" align="right" valign="top"><a id="a1a595ad187b2600c2895c211371a2ff9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onNewApiCommand</b> (int fd, string commandName, char *args)</td></tr>
+<tr class="memitem:a1a595ad187b2600c2895c211371a2ff9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a1a595ad187b2600c2895c211371a2ff9">onNewApiCommand</a> (int fd, string commandName, char *args)</td></tr>
+<tr class="memdesc:a1a595ad187b2600c2895c211371a2ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">general event handler of the client. it will check recived command from the server, then runs related function.  <a href="classFtpClient.html#a1a595ad187b2600c2895c211371a2ff9">More...</a><br /></td></tr>
 <tr class="separator:a1a595ad187b2600c2895c211371a2ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e8c7a44a0284d58f14502db58a90c21"><td class="memItemLeft" align="right" valign="top"><a id="a7e8c7a44a0284d58f14502db58a90c21"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onNewLoginResponse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a7e8c7a44a0284d58f14502db58a90c21">onNewLoginResponse</a> (char *args)</td></tr>
+<tr class="memdesc:a7e8c7a44a0284d58f14502db58a90c21"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of login response from the server. <br /></td></tr>
 <tr class="separator:a7e8c7a44a0284d58f14502db58a90c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abae852291b14fafb6c310ab42fb931e7"><td class="memItemLeft" align="right" valign="top"><a id="abae852291b14fafb6c310ab42fb931e7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onNewUserNameCheckResponse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#abae852291b14fafb6c310ab42fb931e7">onNewUserNameCheckResponse</a> (char *args)</td></tr>
+<tr class="memdesc:abae852291b14fafb6c310ab42fb931e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of checking user name response. <br /></td></tr>
 <tr class="separator:abae852291b14fafb6c310ab42fb931e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b38bf868fe4625fac22735af88a55df"><td class="memItemLeft" align="right" valign="top"><a id="a1b38bf868fe4625fac22735af88a55df"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>onLsResponse</b> (char *args)</td></tr>
 <tr class="separator:a1b38bf868fe4625fac22735af88a55df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50762e3038f92c6c62e890b39ab049e4"><td class="memItemLeft" align="right" valign="top"><a id="a50762e3038f92c6c62e890b39ab049e4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onRetrResonse</b> (char *args)</td></tr>
+<tr class="memitem:a50762e3038f92c6c62e890b39ab049e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a50762e3038f92c6c62e890b39ab049e4">onRetrResonse</a> (char *args)</td></tr>
+<tr class="memdesc:a50762e3038f92c6c62e890b39ab049e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of retr command response. Note: this function is blocking.  <a href="classFtpClient.html#a50762e3038f92c6c62e890b39ab049e4">More...</a><br /></td></tr>
 <tr class="separator:a50762e3038f92c6c62e890b39ab049e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e245ae4e263a40c81b1f5d15ba2e396"><td class="memItemLeft" align="right" valign="top"><a id="a7e245ae4e263a40c81b1f5d15ba2e396"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onRetrAckResonse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a7e245ae4e263a40c81b1f5d15ba2e396">onRetrAckResonse</a> (char *args)</td></tr>
+<tr class="memdesc:a7e245ae4e263a40c81b1f5d15ba2e396"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler when retr ack recived <br /></td></tr>
 <tr class="separator:a7e245ae4e263a40c81b1f5d15ba2e396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa79af1b17a80e9971ab42a5de48cc69e"><td class="memItemLeft" align="right" valign="top"><a id="aa79af1b17a80e9971ab42a5de48cc69e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onHelpResponse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#aa79af1b17a80e9971ab42a5de48cc69e">onHelpResponse</a> (char *args)</td></tr>
+<tr class="memdesc:aa79af1b17a80e9971ab42a5de48cc69e"><td class="mdescLeft">&#160;</td><td class="mdescRight">display help content when response recived from the server <br /></td></tr>
 <tr class="separator:aa79af1b17a80e9971ab42a5de48cc69e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a763f23f20a1d8bfe5ecc4cfe133c242f"><td class="memItemLeft" align="right" valign="top"><a id="a763f23f20a1d8bfe5ecc4cfe133c242f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onQuitResponse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a763f23f20a1d8bfe5ecc4cfe133c242f">onQuitResponse</a> (char *args)</td></tr>
+<tr class="memdesc:a763f23f20a1d8bfe5ecc4cfe133c242f"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of quit command <br /></td></tr>
 <tr class="separator:a763f23f20a1d8bfe5ecc4cfe133c242f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1726f25cb0bdfea9fb57d43e79ef83b"><td class="memItemLeft" align="right" valign="top"><a id="aa1726f25cb0bdfea9fb57d43e79ef83b"></a>
 list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getListFiles</b> ()</td></tr>
 <tr class="separator:aa1726f25cb0bdfea9fb57d43e79ef83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe0aa8689acffb862d38ea4e7262b902"><td class="memItemLeft" align="right" valign="top"><a id="abe0aa8689acffb862d38ea4e7262b902"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>retFile</b> (std::string fileName)</td></tr>
+<tr class="memitem:abe0aa8689acffb862d38ea4e7262b902"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#abe0aa8689acffb862d38ea4e7262b902">retFile</a> (std::string fileName)</td></tr>
+<tr class="memdesc:abe0aa8689acffb862d38ea4e7262b902"><td class="mdescLeft">&#160;</td><td class="mdescRight">download given file form the server  <a href="classFtpClient.html#abe0aa8689acffb862d38ea4e7262b902">More...</a><br /></td></tr>
 <tr class="separator:abe0aa8689acffb862d38ea4e7262b902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a06bffdabf51688d8b7d7b7514fbac"><td class="memItemLeft" align="right" valign="top"><a id="a49a06bffdabf51688d8b7d7b7514fbac"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>uploadFile</b> (std::string fileName)</td></tr>
+<tr class="memitem:a49a06bffdabf51688d8b7d7b7514fbac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a49a06bffdabf51688d8b7d7b7514fbac">uploadFile</a> (std::string fileName)</td></tr>
+<tr class="memdesc:a49a06bffdabf51688d8b7d7b7514fbac"><td class="mdescLeft">&#160;</td><td class="mdescRight">upload given file to the server  <a href="classFtpClient.html#a49a06bffdabf51688d8b7d7b7514fbac">More...</a><br /></td></tr>
 <tr class="separator:a49a06bffdabf51688d8b7d7b7514fbac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5666e024015f2cd8d9986075af98ce33"><td class="memItemLeft" align="right" valign="top"><a id="a5666e024015f2cd8d9986075af98ce33"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onUploadResponse</b> (char *args)</td></tr>
+<tr class="memitem:a5666e024015f2cd8d9986075af98ce33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a5666e024015f2cd8d9986075af98ce33">onUploadResponse</a> (char *args)</td></tr>
+<tr class="memdesc:a5666e024015f2cd8d9986075af98ce33"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of upload command. if server dosent' accept do nothing. And if every thing was ok, upload it with <code><a class="el" href="classFilePipe.html" title="file sender between FtpServer and FtpClient this class is generalized and can be used for both server...">FilePipe</a></code> class.  <a href="classFtpClient.html#a5666e024015f2cd8d9986075af98ce33">More...</a><br /></td></tr>
 <tr class="separator:a5666e024015f2cd8d9986075af98ce33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b183817fba3c7413aef920f448a2597"><td class="memItemLeft" align="right" valign="top"><a id="a4b183817fba3c7413aef920f448a2597"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onUploadAckResponse</b> (char *args)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a4b183817fba3c7413aef920f448a2597">onUploadAckResponse</a> (char *args)</td></tr>
+<tr class="memdesc:a4b183817fba3c7413aef920f448a2597"><td class="mdescLeft">&#160;</td><td class="mdescRight">event handler of upload ack from the ftp server <br /></td></tr>
 <tr class="separator:a4b183817fba3c7413aef920f448a2597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95f97d85246d2b0dc43d918c525268d5"><td class="memItemLeft" align="right" valign="top"><a id="a95f97d85246d2b0dc43d918c525268d5"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>getLoginned</b> () const</td></tr>
@@ -169,19 +182,14 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getUserName</b
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setUserName</b> (const std::string &amp;newUserName)</td></tr>
 <tr class="separator:aff85db061fcc0f9bd0361f3d5f3b5b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48101ed6db28c36b4113fc7c86d5ef0c"><td class="memItemLeft" align="right" valign="top"><a id="a48101ed6db28c36b4113fc7c86d5ef0c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>commandLoop</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a48101ed6db28c36b4113fc7c86d5ef0c">commandLoop</a> ()</td></tr>
+<tr class="memdesc:a48101ed6db28c36b4113fc7c86d5ef0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">a while loop that recive commands from user. then runs it and shows it's response. <br /></td></tr>
 <tr class="separator:a48101ed6db28c36b4113fc7c86d5ef0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbff4159ab6fce49f6bec8eed5920b68"><td class="memItemLeft" align="right" valign="top"><a id="abbff4159ab6fce49f6bec8eed5920b68"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cliCheckUserName</b> (std::stringstream &amp;ss)</td></tr>
-<tr class="separator:abbff4159ab6fce49f6bec8eed5920b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792063ffdf202e64022ede3433274554"><td class="memItemLeft" align="right" valign="top"><a id="a792063ffdf202e64022ede3433274554"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cliLs</b> (std::stringstream &amp;ss)</td></tr>
-<tr class="separator:a792063ffdf202e64022ede3433274554"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6273795735a1c4de1213850bf558188f"><td class="memItemLeft" align="right" valign="top"><a id="a6273795735a1c4de1213850bf558188f"></a>
 list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getCatchedFileList</b> () const</td></tr>
 <tr class="separator:a6273795735a1c4de1213850bf558188f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f4105837e804f9a9cbf3bb592d7d2ac"><td class="memItemLeft" align="right" valign="top"><a id="a1f4105837e804f9a9cbf3bb592d7d2ac"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCatchedFileList</b> (const list&lt; std::string &gt; &amp;newCatchedFileList)</td></tr>
+<tr class="memitem:a1f4105837e804f9a9cbf3bb592d7d2ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a1f4105837e804f9a9cbf3bb592d7d2ac">setCatchedFileList</a> (const list&lt; std::string &gt; &amp;newCatchedFileList)</td></tr>
+<tr class="memdesc:a1f4105837e804f9a9cbf3bb592d7d2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if response code has psitive meaning. otherwise false.  <a href="classFtpClient.html#a1f4105837e804f9a9cbf3bb592d7d2ac">More...</a><br /></td></tr>
 <tr class="separator:a1f4105837e804f9a9cbf3bb592d7d2ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -193,30 +201,537 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_ok_code</b>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a831e6c15aa7d5df13dd4efafd4529cf0"><td class="memItemLeft" align="right" valign="top"><a id="a831e6c15aa7d5df13dd4efafd4529cf0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>controlFd</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a></td></tr>
+<tr class="memdesc:a831e6c15aa7d5df13dd4efafd4529cf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">file descriptor of command channel <br /></td></tr>
 <tr class="separator:a831e6c15aa7d5df13dd4efafd4529cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7eeac0272664678aada7f49500591e3f"><td class="memItemLeft" align="right" valign="top"><a id="a7eeac0272664678aada7f49500591e3f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>controlPort</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">controlPort</a></td></tr>
+<tr class="memdesc:a7eeac0272664678aada7f49500591e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">port descriptor of command channel <br /></td></tr>
 <tr class="separator:a7eeac0272664678aada7f49500591e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c25ab6047d978611f122a2f6c9384d9"><td class="memItemLeft" align="right" valign="top"><a id="a7c25ab6047d978611f122a2f6c9384d9"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dataPort</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a7c25ab6047d978611f122a2f6c9384d9">dataPort</a></td></tr>
+<tr class="memdesc:a7c25ab6047d978611f122a2f6c9384d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">port number of data channel <br /></td></tr>
 <tr class="separator:a7c25ab6047d978611f122a2f6c9384d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd756100bf54881815116aeba61aa20c"><td class="memItemLeft" align="right" valign="top"><a id="afd756100bf54881815116aeba61aa20c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>loginned</b></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#afd756100bf54881815116aeba61aa20c">loginned</a></td></tr>
+<tr class="memdesc:afd756100bf54881815116aeba61aa20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">shows client has been loginned or not. <br /></td></tr>
 <tr class="separator:afd756100bf54881815116aeba61aa20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acacb079e07eaf25911c3c941f30a9ffd"><td class="memItemLeft" align="right" valign="top"><a id="acacb079e07eaf25911c3c941f30a9ffd"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>lastResponse</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">lastResponse</a></td></tr>
+<tr class="memdesc:acacb079e07eaf25911c3c941f30a9ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores status code of the last response from server <br /></td></tr>
 <tr class="separator:acacb079e07eaf25911c3c941f30a9ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada1fe7063acfb511b1494db5a2f90555"><td class="memItemLeft" align="right" valign="top"><a id="ada1fe7063acfb511b1494db5a2f90555"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>userName</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#ada1fe7063acfb511b1494db5a2f90555">userName</a></td></tr>
+<tr class="memdesc:ada1fe7063acfb511b1494db5a2f90555"><td class="mdescLeft">&#160;</td><td class="mdescRight">input username <br /></td></tr>
 <tr class="separator:ada1fe7063acfb511b1494db5a2f90555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30b3155d9f2ad0cbb9529fcde4e70f4f"><td class="memItemLeft" align="right" valign="top"><a id="a30b3155d9f2ad0cbb9529fcde4e70f4f"></a>
-list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>catchedFileList</b></td></tr>
+list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">catchedFileList</a></td></tr>
+<tr class="memdesc:a30b3155d9f2ad0cbb9529fcde4e70f4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">chahed server file names <br /></td></tr>
 <tr class="separator:a30b3155d9f2ad0cbb9529fcde4e70f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99b7842e011fbb470a931c164285fa52"><td class="memItemLeft" align="right" valign="top"><a id="a99b7842e011fbb470a931c164285fa52"></a>
-std::set&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>allCommands</b></td></tr>
-<tr class="separator:a99b7842e011fbb470a931c164285fa52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implemention of FTP client. </p>
+<p>&lt; </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0c2daba841a73b34cc0300cf93346fa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c2daba841a73b34cc0300cf93346fa3">&#9670;&nbsp;</a></span>FtpClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FtpClient::FtpClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>&lt; import control port from json file</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    setLoginned(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">using</span> json = nlohmann::json;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">string</span> buffer,fileStr;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ifstream file(CONFIG_FILE_PATH);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (!file){</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        cerr&lt;&lt;<span class="stringliteral">&quot;Couldnt open json file:&quot;</span>&lt;&lt;CONFIG_FILE_PATH&lt;&lt;endl;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        return ;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">while</span>(std::getline(file,buffer)) fileStr += string() + <span class="stringliteral">&quot;\n&quot;</span> + buffer;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">auto</span> jsonObj = json::parse(fileStr);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">controlPort</a> = jsonObj[<span class="stringliteral">&quot;commandChannelPort&quot;</span>];</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_a7eeac0272664678aada7f49500591e3f"><div class="ttname"><a href="classFtpClient.html#a7eeac0272664678aada7f49500591e3f">FtpClient::controlPort</a></div><div class="ttdeci">int controlPort</div><div class="ttdoc">port descriptor of command channel</div><div class="ttdef"><b>Definition:</b> ftpclient.h:15</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a74ecbbd39fb562be92b84dda58df7de7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74ecbbd39fb562be92b84dda58df7de7">&#9670;&nbsp;</a></span>apiSend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::apiSend </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>commandName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>args</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argLen</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sends request into the server in api form. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>server file descriptor </td></tr>
+    <tr><td class="paramname">commandName</td><td>name of command </td></tr>
+    <tr><td class="paramname">args</td><td>command arguments in string form </td></tr>
+    <tr><td class="paramname">argLen</td><td>length of <code>args</code> string </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;{</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordflow">if</span> (argLen &lt; 0){</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordtype">string</span> sendBuf = commandName + <span class="stringliteral">&quot; &quot;</span> + string(args);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <a class="code" href="classFtpClient.html#afa13990d301ed337063b16c1dca2a773">sendBytes</a>(fd, sendBuf.c_str(),sendBuf.size());</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_afa13990d301ed337063b16c1dca2a773"><div class="ttname"><a href="classFtpClient.html#afa13990d301ed337063b16c1dca2a773">FtpClient::sendBytes</a></div><div class="ttdeci">void sendBytes(int fd, const char *bytes, int len)</div><div class="ttdoc">sends array of bytes to the given file descriptor.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:138</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab612f7886331291b9e5eca1ea8b38647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab612f7886331291b9e5eca1ea8b38647">&#9670;&nbsp;</a></span>apiWaitResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::apiWaitResponse </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>command</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>waits for response command. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">server</td><td>file descriptor </td></tr>
+    <tr><td class="paramname">command</td><td>name of the target command that will wait for it.[removed in release version] </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;{</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">int</span> recivedLen=0;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">char</span> buff[RECIVE_BUFFER_SIZE] = {0};</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">while</span>(<span class="keyword">true</span>){</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        memset(buff, 0, RECIVE_BUFFER_SIZE);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        recivedLen = recv(fd, buff, RECIVE_BUFFER_SIZE, 0);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        buff[recivedLen] = 0;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span>( recivedLen == 0){</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            cerr&lt;&lt;<span class="stringliteral">&quot;server down when waiting for response&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <a class="code" href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">lastResponse</a> = 400;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordtype">string</span> commandName = <a class="code" href="classFtpClient.html#a5f1586d1bba4c6d8fec31d90465e7da0">exportCommandName</a>(buff,recivedLen);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <a class="code" href="classFtpClient.html#a1a595ad187b2600c2895c211371a2ff9">onNewApiCommand</a>(fd,command,buff);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">//        if (commandName == command){</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">//            return;</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">//        }</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    }</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_a1a595ad187b2600c2895c211371a2ff9"><div class="ttname"><a href="classFtpClient.html#a1a595ad187b2600c2895c211371a2ff9">FtpClient::onNewApiCommand</a></div><div class="ttdeci">void onNewApiCommand(int fd, string commandName, char *args)</div><div class="ttdoc">general event handler of the client. it will check recived command from the server,...</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:247</div></div>
+<div class="ttc" id="aclassFtpClient_html_a5f1586d1bba4c6d8fec31d90465e7da0"><div class="ttname"><a href="classFtpClient.html#a5f1586d1bba4c6d8fec31d90465e7da0">FtpClient::exportCommandName</a></div><div class="ttdeci">std::string exportCommandName(char *buff, int recivedLen)</div><div class="ttdoc">exports command name from the recived raw string.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:150</div></div>
+<div class="ttc" id="aclassFtpClient_html_acacb079e07eaf25911c3c941f30a9ffd"><div class="ttname"><a href="classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd">FtpClient::lastResponse</a></div><div class="ttdeci">int lastResponse</div><div class="ttdoc">stores status code of the last response from server</div><div class="ttdef"><b>Definition:</b> ftpclient.h:18</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa23d602907c4d0764d5d1e31ba8a55f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa23d602907c4d0764d5d1e31ba8a55f9">&#9670;&nbsp;</a></span>checkUserName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FtpClient::checkUserName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>userNameIn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check given user name with server. returns true if server tells this username is exist. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">userNameIn</td><td>input username from cli </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>result of checking with server </dd></dl>
+<div class="fragment"><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;{</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">apiSend</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>, USER_CHECK_REUQEST_COMMAND,userNameIn.c_str());</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>,USER_CHECK_RESPONSE_COMMAND);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">return</span> getLastResponse()==331;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_a74ecbbd39fb562be92b84dda58df7de7"><div class="ttname"><a href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">FtpClient::apiSend</a></div><div class="ttdeci">void apiSend(int fd, std::string commandName, const char *args, int argLen=-1)</div><div class="ttdoc">sends request into the server in api form.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:206</div></div>
+<div class="ttc" id="aclassFtpClient_html_a831e6c15aa7d5df13dd4efafd4529cf0"><div class="ttname"><a href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">FtpClient::controlFd</a></div><div class="ttdeci">int controlFd</div><div class="ttdoc">file descriptor of command channel</div><div class="ttdef"><b>Definition:</b> ftpclient.h:14</div></div>
+<div class="ttc" id="aclassFtpClient_html_ab612f7886331291b9e5eca1ea8b38647"><div class="ttname"><a href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">FtpClient::apiWaitResponse</a></div><div class="ttdeci">void apiWaitResponse(int fd, std::string command)</div><div class="ttdoc">waits for response command.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:173</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a5f1586d1bba4c6d8fec31d90465e7da0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f1586d1bba4c6d8fec31d90465e7da0">&#9670;&nbsp;</a></span>exportCommandName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string FtpClient::exportCommandName </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>recivedLen</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>exports command name from the recived raw string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buff</td><td>recive buffer (raw data) </td></tr>
+    <tr><td class="paramname">recivedLen</td><td>number of recived bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>name of command </dd></dl>
+<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;{</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">char</span> nameBuffer[MAX_COMMAND_NAME_LEN];</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (recivedLen&lt;0){</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">throw</span> <span class="stringliteral">&quot;command recive error!&quot;</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    strncpy(nameBuffer,buff, min(recivedLen,MAX_COMMAND_NAME_LEN) );</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    stringstream ss;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    ss.str(nameBuffer);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">string</span> commandName;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    ss&gt;&gt;commandName;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">return</span> commandName;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1a595ad187b2600c2895c211371a2ff9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a595ad187b2600c2895c211371a2ff9">&#9670;&nbsp;</a></span>onNewApiCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::onNewApiCommand </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>commandName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>general event handler of the client. it will check recived command from the server, then runs related function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>server file descriptor </td></tr>
+    <tr><td class="paramname">commandName</td><td>command name </td></tr>
+    <tr><td class="paramname">args</td><td>argument of command in string form </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;{</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="comment">/*&lt; #define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(args) */</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#a7e8c7a44a0284d58f14502db58a90c21">onNewLoginResponse</a>,LOGIN_RESPONSE_COMMAND);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#abae852291b14fafb6c310ab42fb931e7">onNewUserNameCheckResponse</a>,USER_CHECK_RESPONSE_COMMAND);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    COMMAND_CASE(onLsResponse,LS_COMMAND);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#a50762e3038f92c6c62e890b39ab049e4">onRetrResonse</a>,RETR_COMMAND);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#a7e245ae4e263a40c81b1f5d15ba2e396">onRetrAckResonse</a>,RETR_ACK_COMMAND);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#a5666e024015f2cd8d9986075af98ce33">onUploadResponse</a>,UPLOAD_COMMAND);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#a4b183817fba3c7413aef920f448a2597">onUploadAckResponse</a>,UPLOAD_ACK_COMMAND);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    COMMAND_CASE(<a class="code" href="classFtpClient.html#aa79af1b17a80e9971ab42a5de48cc69e">onHelpResponse</a>,HELP_COMMAND);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160; </div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">//display recived message to the user</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    displayMessage(args);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_a4b183817fba3c7413aef920f448a2597"><div class="ttname"><a href="classFtpClient.html#a4b183817fba3c7413aef920f448a2597">FtpClient::onUploadAckResponse</a></div><div class="ttdeci">void onUploadAckResponse(char *args)</div><div class="ttdoc">event handler of upload ack from the ftp server</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:431</div></div>
+<div class="ttc" id="aclassFtpClient_html_a50762e3038f92c6c62e890b39ab049e4"><div class="ttname"><a href="classFtpClient.html#a50762e3038f92c6c62e890b39ab049e4">FtpClient::onRetrResonse</a></div><div class="ttdeci">void onRetrResonse(char *args)</div><div class="ttdoc">event handler of retr command response. Note: this function is blocking.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:310</div></div>
+<div class="ttc" id="aclassFtpClient_html_a5666e024015f2cd8d9986075af98ce33"><div class="ttname"><a href="classFtpClient.html#a5666e024015f2cd8d9986075af98ce33">FtpClient::onUploadResponse</a></div><div class="ttdeci">void onUploadResponse(char *args)</div><div class="ttdoc">event handler of upload command. if server dosent' accept do nothing. And if every thing was ok,...</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:402</div></div>
+<div class="ttc" id="aclassFtpClient_html_a7e245ae4e263a40c81b1f5d15ba2e396"><div class="ttname"><a href="classFtpClient.html#a7e245ae4e263a40c81b1f5d15ba2e396">FtpClient::onRetrAckResonse</a></div><div class="ttdeci">void onRetrAckResonse(char *args)</div><div class="ttdoc">event handler when retr ack recived</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:344</div></div>
+<div class="ttc" id="aclassFtpClient_html_a7e8c7a44a0284d58f14502db58a90c21"><div class="ttname"><a href="classFtpClient.html#a7e8c7a44a0284d58f14502db58a90c21">FtpClient::onNewLoginResponse</a></div><div class="ttdeci">void onNewLoginResponse(char *args)</div><div class="ttdoc">event handler of login response from the server.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:268</div></div>
+<div class="ttc" id="aclassFtpClient_html_aa79af1b17a80e9971ab42a5de48cc69e"><div class="ttname"><a href="classFtpClient.html#aa79af1b17a80e9971ab42a5de48cc69e">FtpClient::onHelpResponse</a></div><div class="ttdeci">void onHelpResponse(char *args)</div><div class="ttdoc">display help content when response recived from the server</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:350</div></div>
+<div class="ttc" id="aclassFtpClient_html_abae852291b14fafb6c310ab42fb931e7"><div class="ttname"><a href="classFtpClient.html#abae852291b14fafb6c310ab42fb931e7">FtpClient::onNewUserNameCheckResponse</a></div><div class="ttdeci">void onNewUserNameCheckResponse(char *args)</div><div class="ttdoc">event handler of checking user name response.</div><div class="ttdef"><b>Definition:</b> ftpclient.cpp:285</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a50762e3038f92c6c62e890b39ab049e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50762e3038f92c6c62e890b39ab049e4">&#9670;&nbsp;</a></span>onRetrResonse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::onRetrResonse </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>event handler of retr command response. Note: this function is blocking. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>response content. if it has error code do nothing. and if status code is ok, so start downloading from the server. </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; import port number channel and the file name from response contents</p>
+<p>&lt; initialize file pipe for downloading</p>
+<p>&lt; do downloading</p>
+<div class="fragment"><div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;{</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    displayMessage(args);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="keywordtype">int</span> code = getLastResponse();</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordflow">if</span>(! FtpClient::is_ok_code(code)){</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    }</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;initializing download pipe.&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    stringstream ss(args);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordtype">string</span> cmd,status,port,fileName;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    ss&gt;&gt;cmd&gt;&gt;status&gt;&gt;port&gt;&gt;fileName;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordtype">string</span> filePath = CLIENTS_BASE_DIR + fileName;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <a class="code" href="classFilePipe.html">FilePipe</a> pipe(FilePipe::client, FilePipe::reciver,filePath);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    pipe.setup(std::stoi(port));</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordtype">int</span> fd = pipe.getServerFd();</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;downloading the file...&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    pipe.run();</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;download finished.&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">if</span> (!is_ok_code(getLastResponse())){</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        return ;</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <a class="code" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>, RETR_ACK_COMMAND);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;}</div>
+<div class="ttc" id="aclassFilePipe_html"><div class="ttname"><a href="classFilePipe.html">FilePipe</a></div><div class="ttdoc">file sender between FtpServer and FtpClient this class is generalized and can be used for both server...</div><div class="ttdef"><b>Definition:</b> filepipe.h:11</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a5666e024015f2cd8d9986075af98ce33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5666e024015f2cd8d9986075af98ce33">&#9670;&nbsp;</a></span>onUploadResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::onUploadResponse </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>event handler of upload command. if server dosent' accept do nothing. And if every thing was ok, upload it with <code><a class="el" href="classFilePipe.html" title="file sender between FtpServer and FtpClient this class is generalized and can be used for both server...">FilePipe</a></code> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>response content from the server that determine upload has been accepted or not. also it contains file name. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;{</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    displayMessage(args);</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    <span class="keywordtype">int</span> code = getLastResponse();</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    <span class="keywordflow">if</span>(! FtpClient::is_ok_code(code)){</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    }</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160; </div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;initializing upload pipe.&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    stringstream ss(args);</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordtype">string</span> cmd,status,port,fileName;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    ss&gt;&gt;cmd&gt;&gt;status&gt;&gt;port&gt;&gt;fileName;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keywordtype">string</span> filePath = CLIENTS_BASE_DIR + fileName;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <a class="code" href="classFilePipe.html">FilePipe</a> pipe(FilePipe::client, FilePipe::sender,filePath);</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    pipe.setup(std::stoi(port));</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    <span class="keywordtype">int</span> fd = pipe.getServerFd();</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;upload started...&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    pipe.run();</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;upload finished.&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    <span class="keywordflow">if</span> (!is_ok_code(getLastResponse())){</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        return ;</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    }</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    <a class="code" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>, UPLOAD_ACK_COMMAND);</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="abe0aa8689acffb862d38ea4e7262b902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe0aa8689acffb862d38ea4e7262b902">&#9670;&nbsp;</a></span>retFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FtpClient::retFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>download given file form the server </p>
+<dl class="section return"><dt>Returns</dt><dd>status code of response </dd></dl>
+<div class="fragment"><div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;{</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <a class="code" href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">apiSend</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>,RETR_COMMAND,fileName.c_str());</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <a class="code" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>, RETR_COMMAND);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">return</span> getLastResponse();</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1f4105837e804f9a9cbf3bb592d7d2ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f4105837e804f9a9cbf3bb592d7d2ac">&#9670;&nbsp;</a></span>setCatchedFileList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FtpClient::setCatchedFileList </td>
+          <td>(</td>
+          <td class="paramtype">const list&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>newCatchedFileList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>returns true if response code has psitive meaning. otherwise false. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>status code if response message</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">catchedFileList</a> = newCatchedFileList;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="ttc" id="aclassFtpClient_html_a30b3155d9f2ad0cbb9529fcde4e70f4f"><div class="ttname"><a href="classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f">FtpClient::catchedFileList</a></div><div class="ttdeci">list&lt; std::string &gt; catchedFileList</div><div class="ttdoc">chahed server file names</div><div class="ttdef"><b>Definition:</b> ftpclient.h:20</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a49a06bffdabf51688d8b7d7b7514fbac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a06bffdabf51688d8b7d7b7514fbac">&#9670;&nbsp;</a></span>uploadFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FtpClient::uploadFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>upload given file to the server </p>
+<dl class="section return"><dt>Returns</dt><dd>status code of response </dd></dl>
+<div class="fragment"><div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;{</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <a class="code" href="classFtpClient.html#a74ecbbd39fb562be92b84dda58df7de7">apiSend</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>,UPLOAD_COMMAND,fileName.c_str());</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <a class="code" href="classFtpClient.html#ab612f7886331291b9e5eca1ea8b38647">apiWaitResponse</a>(<a class="code" href="classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0">controlFd</a>, UPLOAD_COMMAND);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="keywordflow">return</span> getLastResponse();</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>FTP/client/<a class="el" href="ftpclient_8h_source.html">ftpclient.h</a></li>
 <li>FTP/client/ftpclient.cpp</li>

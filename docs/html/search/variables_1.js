@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['header_42',['header',['../classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38',1,'HttpMessage']]],
-  ['headerdata_43',['headerData',['../classHttpMessage.html#a3850f4c5116013e917d2c1a5f7fa95b6',1,'HttpMessage']]]
+  ['catchedfilelist_208',['catchedFileList',['../classFtpClient.html#a30b3155d9f2ad0cbb9529fcde4e70f4f',1,'FtpClient']]],
+  ['controlfd_209',['controlFd',['../classFtpClient.html#a831e6c15aa7d5df13dd4efafd4529cf0',1,'FtpClient']]],
+  ['controlport_210',['controlPort',['../classFtpServer.html#a954d3430486e83395d03bd70626e36da',1,'FtpServer::controlPort()'],['../classFtpClient.html#a7eeac0272664678aada7f49500591e3f',1,'FtpClient::controlPort()']]]
 ];

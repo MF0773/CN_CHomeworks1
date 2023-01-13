@@ -4,6 +4,9 @@
 #include <fstream>
 #include "../../common/include/ftpstatics.h"
 
+/** @brief file sender between FtpServer and FtpClient
+ * this class is generalized and can be used for both server/client and both sender/reciver.
+ */
 class FilePipe
 {
 private:
@@ -16,15 +19,15 @@ private:
     bool firstBlock;
     int debugDelayInterval;
 
-    void reciverRun();
-    void senderRun();
-    bool setupServer();
-    bool setupClient();
+    void reciverRun(); /**< @brief blocking run of reciver mode*/
+    void senderRun(); /**< @brief blocking run of sender mode*/
+    bool setupServer(); /**< @brief setup file pipe as server*/
+    bool setupClient(); /**< @brief setup file pipe as client*/
 
-    int sendNextBlock();
-    int reciveNextBlock();
-    void sendAck();
-    void reciveAck();
+    int sendNextBlock(); /**< @brief send next block of data in sender mode*/
+    int reciveNextBlock(); /**< @brief recive next block of data in reciver mode*/
+    void sendAck(); /**< @brief reciver use this method to ask next block of data from the sender*/
+    void reciveAck(); /**< @brief a blocking method that sender use it to read request of next block from reciver*/
 public:
     enum Dir{
         sender,reciver
@@ -34,6 +37,11 @@ public:
         server,client
     }role;
 
+    /**< @brief FilePipe constructor
+    * @param pipeRole determines being server or client
+    * @param pipeDir determines being sender or reciver
+    * @param file path for readinor/storing
+    */
     FilePipe(Role pipeRole, Dir pipeDir, std::string filePath);
 
     bool setup(int port);

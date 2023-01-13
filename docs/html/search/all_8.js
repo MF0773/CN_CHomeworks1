@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['sendfile_18',['sendFile',['../classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22',1,'HttpServer']]],
-  ['setup_19',['setup',['../classHttpServer.html#aec4851bc2b8705703e38efd8f451446c',1,'HttpServer']]],
-  ['statuscode_20',['statusCode',['../structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d',1,'HttpHeader']]],
-  ['statusmessage_21',['statusMessage',['../structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a',1,'HttpHeader']]]
+  ['lastdataport_51',['lastDataPort',['../classFtpServer.html#a39ce002efe9f67241d923dcad5ba8ba9',1,'FtpServer']]],
+  ['lastfd_52',['lastFd',['../classFtpServer.html#ad57f124c30cc5592f46b82434fb6f730',1,'FtpServer']]],
+  ['lastresponse_53',['lastResponse',['../classFtpClient.html#acacb079e07eaf25911c3c941f30a9ffd',1,'FtpClient']]],
+  ['loginned_54',['loginned',['../classFtpClient.html#afd756100bf54881815116aeba61aa20c',1,'FtpClient']]],
+  ['loginreqset_55',['loginReqSet',['../classFtpServer.html#a5d11df479e64cd18449cece1eae945d9',1,'FtpServer']]]
 ];

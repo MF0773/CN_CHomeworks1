@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['url_49',['url',['../structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e',1,'HttpHeader']]]
+  ['ipport_216',['ipPort',['../classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1',1,'HttpServer']]]
 ];

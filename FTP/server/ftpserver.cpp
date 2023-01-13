@@ -47,12 +47,13 @@ int FtpServer::generateNewDataPort()
     return lastDataPort++;
 }
 
-bool FtpServer::start(int port){
+bool FtpServer::start(){
     bool result = importConfigFromFile();
     if(!result){
         return false;
     }
 
+    int port = this->controlPort;
     mlog<<"starting server on port "<<port<<mendl;
 
     int options = 1;
@@ -77,57 +78,6 @@ bool FtpServer::start(int port){
     return true;
 }
 
-int FtpServer::sample_setup(){
-    struct sockaddr_in address;
-    int server_fd;
-    server_fd = socket(AF_INET, SOCK_STREAM, 0);
-
-    int opt = 1;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(2121);
-
-    bind(server_fd, (struct sockaddr *)&address, sizeof(address));
-
-    return server_fd;
-}
-
-int FtpServer::acceptClient(int server_fd){
-    int client_fd;
-    struct sockaddr_in client_address;
-    int address_len = sizeof(client_address);
-
-    client_fd = accept(server_fd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
-    printf("Client connected!\n");
-
-    return client_fd;
-}
-
-void FtpServer::sample(){
-    int server_fd, client_fd;
-    char buff[1024] = {0};
-
-    server_fd = sample_setup();
-
-    int client_count = 0;
-    while (1) {
-        client_fd = acceptClient(server_fd);
-        client_count++;
-
-        memset(buff, 0, 1024);
-        recv(client_fd, buff, 1024, 0);
-
-        printf("Client said: %s\n", buff);
-
-        sprintf(buff, "Hello from server, you're client %d", client_count);
-        send(client_fd, buff, strlen(buff), 0);
-
-        // close(client_fd);
-    }
-}
-
 void FtpServer::event_loop(){
     setLastFd(serverFd);
     fd_set fdSetClone;
@@ -138,15 +88,15 @@ void FtpServer::event_loop(){
 //        mlog<<"some events"<<mendl;
         for (int fdIter = 0; fdIter <= lastFd; fdIter++) {
             if (FD_ISSET( fdIter , &fdSetClone)){
-                onEventOccur(fdIter,fdSetClone);
+                onEventOccur(fdIter);
             }
         }
     }
 }
 
-void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
+void FtpServer::onEventOccur(int fdIter){
     auto pipeIter = filepipes.find(fdIter);
-    if(pipeIter != filepipes.end()){
+    if(pipeIter != filepipes.end()){// transferring data event
 //        mlog<<"pipe event"<<mendl;
         onNewFilePipeEvent(fdIter);
         return;
@@ -165,7 +115,7 @@ void FtpServer::onEventOccur(int fdIter, const fd_set &eventFdSet){
         return;
     }
 
-    onNewApiCommandRecived(fdIter,recvBuf,recvChars);
+    onNewApiCommandRecived(fdIter,recvBuf,recvChars); //new command from connected client
     memset(recvBuf, NULL , RECEIVE_BUFFER_SIZE);
     return;
 }
@@ -246,9 +196,12 @@ bool FtpServer::importConfigFromFile()
 
 bool FtpServer::checkSyntax(stringstream& ss)
 {
+    //check until now we recived all arguments from stringstream correcly
     if(!ss){
         return false;
     }
+
+    //no argument is left
     string temp;
     ss>>temp;
     return !ss;
@@ -328,6 +281,7 @@ void FtpServer::onNewApiCommandRecived(int fd, char *buffer, int len)
     string commandName = exportCommandName(buffer,len);
 
     try{
+        //#define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(fd,buffer,len)
         COMMAND_CASE(onNewLoginRequest,LOGIN_REQUEST_COMMAND);
         COMMAND_CASE(onNewUserCheckRequest,USER_CHECK_REUQEST_COMMAND);
         COMMAND_CASE(onLsRequest,LS_COMMAND);
@@ -348,7 +302,7 @@ void FtpServer::onNewFilePipeEvent(int pipeIter)
 {
     auto pipe = filepipes[pipeIter];
     int len = pipe->eventloop();
-    if(len == 0){
+    if(len == 0){ // transferring data completed
         if(pipe->getDir() == FilePipe::sender)
             sendRetrAck(pipe->getUserFd());
         else
@@ -372,13 +326,13 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
     }
 
     auto user_iter = onlineUsers.find(fd);
-    if (user_iter != onlineUsers.end() ){
+    if (user_iter != onlineUsers.end() ){ //when client has been sent a user recently
         mlog<<"resetting username of "<<fd<<mendl;
         removeOnlineUser(fd);
     }
 
     auto iter = accountsMap.find(user);
-    if (iter == accountsMap.end()){
+    if (iter == accountsMap.end()){ // username not found
         mlog<<"invalid username"<<mendl;
         apiSendMessage(fd, USER_CHECK_RESPONSE_COMMAND, 430,"Invalid username or password");
         return;
@@ -391,7 +345,7 @@ void FtpServer::onNewUserCheckRequest(int fd, char *buffer, int len)
 void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
 {
     mlog<<"new login request"<<mendl;
-    if( loginReqSet.count(fd) == 0 ){
+    if( loginReqSet.count(fd) == 0 ){ //check client has been sent username recently
         apiSendMessage(fd, LOGIN_RESPONSE_COMMAND, 503,"Bad sequence of commands.");
         return;
     }
@@ -399,7 +353,7 @@ void FtpServer::onNewLoginRequest(int fd, char *buffer, int len)
     stringstream ss;
     ss.str(buffer);
     string command,user,pass;
-    ss>>command>>pass;
+    ss>>command>>pass;//export input password
     user = loginReqSet[fd];
     mlog<<user<<" "<<pass<<mendl;
     if(!checkSyntax(ss)){
@@ -446,7 +400,7 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
 {
     mlog<<"new donwnload request from "<<fd<<mendl;
     auto user = findUser(fd);
-    if (user == nullptr){
+    if (user == nullptr){//check client login
         apiSendMessage(fd, RETR_COMMAND, 332, NEED_ACCOUNT_ERROR);
         return;
     }
@@ -479,6 +433,7 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
         return;
     }
 
+    //ok download request is allowed
     int dataPort = generateNewDataPort();
     string args = std::to_string(dataPort)+" "+ fileName + " - server started sending";
     apiSendMessage(fd, RETR_COMMAND, 226, args);
@@ -494,6 +449,7 @@ void FtpServer::onRetrRequest(int fd, char *buffer, int len)
         return;
     }
 
+    //update size for the user
     user->reduceSize(fileSize);
     mlog<<"remaining size: "<<user->getSize();
     pipe->setUserFd(fd);
@@ -532,6 +488,7 @@ void FtpServer::onUploadRequest(int fd, char *buffer, int len)
 
     int dataPort = generateNewDataPort();
 
+    //ok upload request is allowed
     auto pipe = new FilePipe(FilePipe::server,FilePipe::reciver,filePath);
     string args = std::to_string(dataPort)+" "+ fileName + " - server started reciving";
     apiSendMessage(fd, UPLOAD_COMMAND, 226, args);
@@ -567,7 +524,7 @@ void FtpServer::sendSyntaxMessage(int fd, std::string commandName)
 void FtpServer::onHelpRequest(int fd, char *buffer, int len)
 {
     string fileBuffer,fileStr;
-    ifstream file(HELP_FILE_PATH);
+    ifstream file(HELP_FILE_PATH); //read help content from the file
     if (!file){
         cerr<<"Couldnt open help file:"<<HELP_FILE_PATH<<mendl;
         apiSendMessage(fd,"help" ,500 , "Internal Error");

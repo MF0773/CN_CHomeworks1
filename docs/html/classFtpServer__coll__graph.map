@@ -1,4 +1,4 @@
 <map id="FtpServer" name="FtpServer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,160,196,589"/>
-<area shape="rect" id="node2" href="$classMyLogger.html" title=" " alt="" coords="41,5,160,97"/>
+<area shape="rect" id="node1" title="implemention of fpt server" alt="" coords="5,160,196,575"/>
+<area shape="rect" id="node2" href="$classMyLogger.html" title="Costumized log class. It has been designed to be a replacement of std::clog. This class can print log..." alt="" coords="41,5,160,97"/>
 </map>

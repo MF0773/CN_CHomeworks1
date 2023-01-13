@@ -70,22 +70,29 @@ $(function() {
 <div class="title">MyLogger Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Costumized log class. It has been designed to be a replacement of std::clog. This class can print logs in output and redirect them to a special file. Also it adds timestamp to the logs.  
+ <a href="classMyLogger.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="utils_8h_source.html">utils.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for MyLogger:</div>
 <div class="dyncontent">
 <div class="center"><img src="classMyLogger__coll__graph.png" border="0" usemap="#aMyLogger_coll__map" alt="Collaboration graph"/></div>
 <map name="aMyLogger_coll__map" id="aMyLogger_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,124,97"/>
+<area shape="rect" title="Costumized log class. It has been designed to be a replacement of std::clog. This class can print log..." alt="" coords="5,5,124,97"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa3dc74c92777b0cfcfce580b05bc67dc"><td class="memItemLeft" align="right" valign="top"><a id="aa3dc74c92777b0cfcfce580b05bc67dc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setFilePath</b> (std::string path)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMyLogger.html#aa3dc74c92777b0cfcfce580b05bc67dc">setFilePath</a> (std::string path)</td></tr>
+<tr class="memdesc:aa3dc74c92777b0cfcfce580b05bc67dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">set log file path <br /></td></tr>
 <tr class="separator:aa3dc74c92777b0cfcfce580b05bc67dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6720db6dba9f1ab18a468a6755f0ba81"><td class="memItemLeft" align="right" valign="top"><a id="a6720db6dba9f1ab18a468a6755f0ba81"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getTimeStr</b> ()</td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMyLogger.html#a6720db6dba9f1ab18a468a6755f0ba81">getTimeStr</a> ()</td></tr>
+<tr class="memdesc:a6720db6dba9f1ab18a468a6755f0ba81"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns time stamp <br /></td></tr>
 <tr class="separator:a6720db6dba9f1ab18a468a6755f0ba81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -98,10 +105,13 @@ std::ofstream&#160;</td><td class="memItemRight" valign="bottom"><b>fileOut</b><
 Friends</h2></td></tr>
 <tr class="memitem:a745a071cb2c9b639fd766b6cf0a521d2"><td class="memTemplParams" colspan="2"><a id="a745a071cb2c9b639fd766b6cf0a521d2"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a745a071cb2c9b639fd766b6cf0a521d2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classMyLogger.html">MyLogger</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (<a class="el" href="classMyLogger.html">MyLogger</a> &amp;logger, T data)</td></tr>
+<tr class="memitem:a745a071cb2c9b639fd766b6cf0a521d2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classMyLogger.html">MyLogger</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classMyLogger.html#a745a071cb2c9b639fd766b6cf0a521d2">operator&lt;&lt;</a> (<a class="el" href="classMyLogger.html">MyLogger</a> &amp;logger, T data)</td></tr>
+<tr class="memdesc:a745a071cb2c9b639fd766b6cf0a521d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&lt;&lt; oprator that will used to submit the logs by this operator overriding we can use the class in form of std::clog e.g. mlog&lt;&lt;"starting server on port "&lt;&lt;port&lt;&lt;mendl; <br /></td></tr>
 <tr class="separator:a745a071cb2c9b639fd766b6cf0a521d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Costumized log class. It has been designed to be a replacement of std::clog. This class can print logs in output and redirect them to a special file. Also it adds timestamp to the logs. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>common/include/<a class="el" href="utils_8h_source.html">utils.h</a></li>
 <li>common/include/utils.cpp</li>
 </ul>

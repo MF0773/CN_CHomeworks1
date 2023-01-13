@@ -2,6 +2,7 @@
 #define ACCOUNTINFO_H
 #include <string>
 
+/** @brief a simple structure that FtpServer used it for storing users account information*/
 struct AccountInfo
 {
 public:

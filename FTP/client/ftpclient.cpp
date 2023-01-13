@@ -71,15 +71,6 @@ void FtpClient::commandLoop()
     }
 }
 
-void FtpClient::cliCheckUserName(stringstream &ss)
-{
-    string name;
-    ss>>name;
-    if(!ss){
-
-    }
-}
-
 void FtpClient::cliLs(stringstream &ss)
 {
     auto fileList = getListFiles();
@@ -103,6 +94,7 @@ FtpClient::FtpClient()
 {
     setLoginned(false);
 
+    /**< import control port from json file*/
     using json = nlohmann::json;
     string buffer,fileStr;
     ifstream file(CONFIG_FILE_PATH);
@@ -112,11 +104,7 @@ FtpClient::FtpClient()
     }
     while(std::getline(file,buffer)) fileStr += string() + "\n" + buffer;
     auto jsonObj = json::parse(fileStr);
-
     controlPort = jsonObj["commandChannelPort"];
-    allCommands = {
-        "user", "pass", "retr", "upload", "ls", "help", "quit"
-    };
 }
 
 bool FtpClient::connectToServer() {
@@ -144,35 +132,21 @@ void FtpClient::disconnectFromServer(){
     close(controlFd);
 }
 
-bool FtpClient::loginLoop()
-{
-    while(!std::cin.eof()){
-        string userNameIn,passwordIn;
-
-        cout<<"Enter Username:"<<endl;
-        cin>>userNameIn;
-
-        cout<<"Enter Password:"<<endl;
-        cin>>passwordIn;
-
-        bool result = tryLogin(userNameIn,passwordIn);
-        if (result){
-            cout<<"Logined"<<endl;
-            return true;
-        }
-        else{
-            cerr<<"couldn't login!"<<endl;
-        }
-    }
-
-    return false;
-}
-
+/**
+ * @brief sends array of bytes to the given file descriptor.
+ */
 void FtpClient::sendBytes(int fd,const char *bytes, int len)
 {
     send(fd, bytes, len, 0);
 }
 
+/**
+ * @brief exports command name from the recived raw string.
+ *
+ * @param buff recive buffer (raw data)
+ * @param recivedLen number of recived bytes
+ * @return name of command
+ */
 string FtpClient::exportCommandName(char *buff, int recivedLen)
 {
     char nameBuffer[MAX_COMMAND_NAME_LEN];
@@ -190,6 +164,12 @@ string FtpClient::exportCommandName(char *buff, int recivedLen)
     return commandName;
 }
 
+/**
+ * @brief waits for response command.
+ *
+ * @param server file descriptor
+ * @param command name of the target command that will wait for it.[removed in release version]
+ */
 void FtpClient::apiWaitResponse(int fd, string command)
 {
     int recivedLen=0;
@@ -215,6 +195,14 @@ void FtpClient::apiWaitResponse(int fd, string command)
 
 }
 
+/**
+ *@brief  sends request into the server in api form.
+ *
+ * @param fd server file descriptor
+ * @param commandName name of command
+ * @param args command arguments in string form
+ * @param argLen length of `args` string
+ */
 void FtpClient::apiSend(int fd, string commandName,const char *args, int argLen)
 {
     if (argLen < 0){
@@ -223,6 +211,11 @@ void FtpClient::apiSend(int fd, string commandName,const char *args, int argLen)
     }
 }
 
+/**
+ * @brief check given user name with server. returns true if server tells this username is exist.
+ * @param userNameIn input username from cli
+ * @return result of checking with server
+ */
 bool FtpClient::checkUserName(string userNameIn)
 {
     apiSend(controlFd, USER_CHECK_REUQEST_COMMAND,userNameIn.c_str());
@@ -230,6 +223,9 @@ bool FtpClient::checkUserName(string userNameIn)
     return getLastResponse()==331;
 }
 
+/**
+ * @brief try to login with given username and password
+ */
 bool FtpClient::tryLogin(string userNameIn, string passwordIn)
 {
     string args = passwordIn;
@@ -240,8 +236,17 @@ bool FtpClient::tryLogin(string userNameIn, string passwordIn)
 }
 
 #define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(args)
+/**
+ * @brief general event handler of the client.
+ * it will check recived command from the server, then runs related function.
+ *
+ * @param fd server file descriptor
+ * @param commandName command name
+ * @param args argument of command in string form
+ */
 void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
 {
+    /*< #define COMMAND_CASE(FUN,NAME) if(commandName==NAME) return FUN(args) */
     COMMAND_CASE(onNewLoginResponse,LOGIN_RESPONSE_COMMAND);
     COMMAND_CASE(onNewUserNameCheckResponse,USER_CHECK_RESPONSE_COMMAND);
     COMMAND_CASE(onLsResponse,LS_COMMAND);
@@ -251,11 +256,15 @@ void FtpClient::onNewApiCommand(int fd, string commandName, char *args)
     COMMAND_CASE(onUploadAckResponse,UPLOAD_ACK_COMMAND);
     COMMAND_CASE(onHelpResponse,HELP_COMMAND);
 
+    //display recived message to the user
     displayMessage(args);
 }
 
 #define USER_LOGGED_IN_CODE 230
 
+/**
+ * @brief event handler of login response from the server.
+ */
 void FtpClient::onNewLoginResponse(char *args)
 {
     stringstream ss;
@@ -270,6 +279,9 @@ void FtpClient::onNewLoginResponse(char *args)
     displayMessage(args);
 }
 
+/**
+ * @brief event handler of checking user name response.
+ */
 void FtpClient::onNewUserNameCheckResponse(char *args)
 {
     displayMessage(args);
@@ -290,6 +302,11 @@ void FtpClient::onLsResponse(char *args)
     setCatchedFileList(tockens);
 }
 
+/**
+ * @brief event handler of retr command response.
+ * Note: this function is blocking.
+ * @param args response content. if it has error code do nothing. and if status code is ok, so start downloading from the server.
+ */
 void FtpClient::onRetrResonse(char *args)
 {
     displayMessage(args);
@@ -300,15 +317,18 @@ void FtpClient::onRetrResonse(char *args)
 
     clog<<"initializing download pipe."<<endl;
 
+    /**< import port number channel and the file name from response contents*/
     stringstream ss(args);
     string cmd,status,port,fileName;
     ss>>cmd>>status>>port>>fileName;
 
+    /**< initialize file pipe for downloading*/
     string filePath = CLIENTS_BASE_DIR + fileName;
     FilePipe pipe(FilePipe::client, FilePipe::reciver,filePath);
     pipe.setup(std::stoi(port));
     int fd = pipe.getServerFd();
 
+    /**< do downloading*/
     clog<<"downloading the file..."<<endl;
     pipe.run();
     clog<<"download finished."<<endl;
@@ -316,14 +336,17 @@ void FtpClient::onRetrResonse(char *args)
     if (!is_ok_code(getLastResponse())){
         return ;
     }
+    /**< wait for Ack message from the server*/
     apiWaitResponse(controlFd, RETR_ACK_COMMAND);
 }
 
+/** @brief event handler when retr ack recived*/
 void FtpClient::onRetrAckResonse(char *args)
 {
     displayMessage(args);
 }
 
+/** @brief display help content when response recived from the server*/
 void FtpClient::onHelpResponse(char *args)
 {
     stringstream ss;
@@ -336,6 +359,7 @@ void FtpClient::onHelpResponse(char *args)
     setLastResponse(code);
 }
 
+/** @brief event handler of quit command */
 void FtpClient::onQuitResponse(char *args)
 {
     displayMessage(args);
@@ -351,6 +375,9 @@ list<string> FtpClient::getListFiles()
     return getCatchedFileList();
 }
 
+/** @brief download given file form the server
+    @return status code of response
+*/
 int FtpClient::retFile(string fileName)
 {
     apiSend(controlFd,RETR_COMMAND,fileName.c_str());
@@ -358,6 +385,9 @@ int FtpClient::retFile(string fileName)
     return getLastResponse();
 }
 
+/** @brief upload given file to the server
+    @return status code of response
+*/
 int FtpClient::uploadFile(string fileName)
 {
     apiSend(controlFd,UPLOAD_COMMAND,fileName.c_str());
@@ -365,6 +395,10 @@ int FtpClient::uploadFile(string fileName)
     return getLastResponse();
 }
 
+/** @brief event handler of upload command.
+ *  if server dosent' accept do nothing. And if every thing was ok, upload it with `FilePipe` class.
+    @param args response content from the server that determine upload has been accepted or not. also it contains file name.
+*/
 void FtpClient::onUploadResponse(char *args)
 {
     displayMessage(args);
@@ -393,6 +427,7 @@ void FtpClient::onUploadResponse(char *args)
     apiWaitResponse(controlFd, UPLOAD_ACK_COMMAND);
 }
 
+/** @brief event handler of upload ack from the ftp server */
 void FtpClient::onUploadAckResponse(char *args)
 {
     displayMessage(args);

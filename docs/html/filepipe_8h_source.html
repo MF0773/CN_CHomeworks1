@@ -75,54 +75,62 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;../../common/include/ftpstatics.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classFilePipe.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFilePipe.html">FilePipe</a></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">int</span> dataPort,dataFd;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">int</span> serverFd;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">int</span> userFd;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    std::string path;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    std::fstream file;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">char</span> fileBuffer[FILE_PIPE_BUFFER_SIZE];</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">bool</span> firstBlock;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> debugDelayInterval;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> reciverRun();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> senderRun();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> setupServer();</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">bool</span> setupClient();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> sendNextBlock();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> reciveNextBlock();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> sendAck();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> reciveAck();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">enum</span> Dir{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        sender,reciver</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }dir;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">enum</span> Role{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        server,client</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }role;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classFilePipe.html">FilePipe</a>(Role pipeRole, Dir pipeDir, std::string filePath);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> setup(<span class="keywordtype">int</span> port);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> endConnection();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> run();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span> eventloop();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">int</span> getServerFd() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> getDataFd() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> debugDelay();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> getDataPort() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> getUserFd() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> setUserFd(<span class="keywordtype">int</span> newUserFd);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> setDebugDelay(<span class="keywordtype">int</span> newDebugDelay);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Dir getDir() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// FILEPIPE_H</span></div>
-<div class="ttc" id="aclassFilePipe_html"><div class="ttname"><a href="classFilePipe.html">FilePipe</a></div><div class="ttdef"><b>Definition:</b> filepipe.h:8</div></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classFilePipe.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFilePipe.html">FilePipe</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">int</span> dataPort,dataFd;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">int</span> serverFd;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">int</span> userFd;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    std::string path;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    std::fstream file;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">char</span> fileBuffer[FILE_PIPE_BUFFER_SIZE];</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> firstBlock;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> debugDelayInterval;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classFilePipe.html#aa0e08432f06663d4f0becbc85638da4a">reciverRun</a>(); </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classFilePipe.html#a21eeeae7243d04867541d1c2f0ac1bbd">senderRun</a>(); </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classFilePipe.html#a971d68172bc9e75673cbb6de56358cf5">setupServer</a>(); </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classFilePipe.html#a0817a45b69cec22c6d7144408da33593">setupClient</a>(); </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFilePipe.html#a4f049bf6a21ff6ea490e7cb4135f52c5">sendNextBlock</a>(); </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classFilePipe.html#afa192c5cbf4b309d4d04366656c1186b">reciveNextBlock</a>(); </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classFilePipe.html#a4c4f415da8f8f4f8b6ca0c749f0c16bc">sendAck</a>(); </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classFilePipe.html#a7f237cdc3fa8cd5b9322de8793a7bcc8">reciveAck</a>(); </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">enum</span> Dir{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        sender,reciver</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }dir;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">enum</span> Role{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        server,client</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }<a class="code" href="classFilePipe.html#a97a47f0c03a9fbf38e924e4bff40cca1">role</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classFilePipe.html">FilePipe</a>(Role pipeRole, Dir pipeDir, std::string filePath);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> setup(<span class="keywordtype">int</span> port);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> endConnection();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> run();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> eventloop();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> getServerFd() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> getDataFd() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> debugDelay();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> getDataPort() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> getUserFd() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setUserFd(<span class="keywordtype">int</span> newUserFd);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setDebugDelay(<span class="keywordtype">int</span> newDebugDelay);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Dir getDir() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// FILEPIPE_H</span></div>
+<div class="ttc" id="aclassFilePipe_html"><div class="ttname"><a href="classFilePipe.html">FilePipe</a></div><div class="ttdoc">file sender between FtpServer and FtpClient this class is generalized and can be used for both server...</div><div class="ttdef"><b>Definition:</b> filepipe.h:11</div></div>
+<div class="ttc" id="aclassFilePipe_html_a0817a45b69cec22c6d7144408da33593"><div class="ttname"><a href="classFilePipe.html#a0817a45b69cec22c6d7144408da33593">FilePipe::setupClient</a></div><div class="ttdeci">bool setupClient()</div><div class="ttdoc">setup file pipe as client</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:92</div></div>
+<div class="ttc" id="aclassFilePipe_html_a21eeeae7243d04867541d1c2f0ac1bbd"><div class="ttname"><a href="classFilePipe.html#a21eeeae7243d04867541d1c2f0ac1bbd">FilePipe::senderRun</a></div><div class="ttdeci">void senderRun()</div><div class="ttdoc">blocking run of sender mode</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:57</div></div>
+<div class="ttc" id="aclassFilePipe_html_a4c4f415da8f8f4f8b6ca0c749f0c16bc"><div class="ttname"><a href="classFilePipe.html#a4c4f415da8f8f4f8b6ca0c749f0c16bc">FilePipe::sendAck</a></div><div class="ttdeci">void sendAck()</div><div class="ttdoc">reciver use this method to ask next block of data from the sender</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:148</div></div>
+<div class="ttc" id="aclassFilePipe_html_a4f049bf6a21ff6ea490e7cb4135f52c5"><div class="ttname"><a href="classFilePipe.html#a4f049bf6a21ff6ea490e7cb4135f52c5">FilePipe::sendNextBlock</a></div><div class="ttdeci">int sendNextBlock()</div><div class="ttdoc">send next block of data in sender mode</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:119</div></div>
+<div class="ttc" id="aclassFilePipe_html_a7f237cdc3fa8cd5b9322de8793a7bcc8"><div class="ttname"><a href="classFilePipe.html#a7f237cdc3fa8cd5b9322de8793a7bcc8">FilePipe::reciveAck</a></div><div class="ttdeci">void reciveAck()</div><div class="ttdoc">a blocking method that sender use it to read request of next block from reciver</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:153</div></div>
+<div class="ttc" id="aclassFilePipe_html_a971d68172bc9e75673cbb6de56358cf5"><div class="ttname"><a href="classFilePipe.html#a971d68172bc9e75673cbb6de56358cf5">FilePipe::setupServer</a></div><div class="ttdeci">bool setupServer()</div><div class="ttdoc">setup file pipe as server</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:65</div></div>
+<div class="ttc" id="aclassFilePipe_html_a97a47f0c03a9fbf38e924e4bff40cca1"><div class="ttname"><a href="classFilePipe.html#a97a47f0c03a9fbf38e924e4bff40cca1">FilePipe::role</a></div><div class="ttdeci">enum FilePipe::Role role</div><div class="ttdoc">FilePipe constructor.</div></div>
+<div class="ttc" id="aclassFilePipe_html_aa0e08432f06663d4f0becbc85638da4a"><div class="ttname"><a href="classFilePipe.html#aa0e08432f06663d4f0becbc85638da4a">FilePipe::reciverRun</a></div><div class="ttdeci">void reciverRun()</div><div class="ttdoc">blocking run of reciver mode</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:49</div></div>
+<div class="ttc" id="aclassFilePipe_html_afa192c5cbf4b309d4d04366656c1186b"><div class="ttname"><a href="classFilePipe.html#afa192c5cbf4b309d4d04366656c1186b">FilePipe::reciveNextBlock</a></div><div class="ttdeci">int reciveNextBlock()</div><div class="ttdoc">recive next block of data in reciver mode</div><div class="ttdef"><b>Definition:</b> filepipe.cpp:137</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

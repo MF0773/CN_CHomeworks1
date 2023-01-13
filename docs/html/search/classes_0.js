@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['error404_25',['Error404',['../classError404.html',1,'']]]
+  ['accountinfo_116',['AccountInfo',['../structAccountInfo.html',1,'']]]
 ];

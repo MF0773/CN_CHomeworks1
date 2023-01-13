@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['statuscode_47',['statusCode',['../structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d',1,'HttpHeader']]],
-  ['statusmessage_48',['statusMessage',['../structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a',1,'HttpHeader']]]
+  ['header_214',['header',['../classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38',1,'HttpMessage']]],
+  ['headerdata_215',['headerData',['../classHttpMessage.html#a3850f4c5116013e917d2c1a5f7fa95b6',1,'HttpMessage']]]
 ];

@@ -70,13 +70,18 @@ $(function() {
 <div class="title">User Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>stores all users information. used in <a class="el" href="classFtpServer.html" title="implemention of fpt server">FtpServer</a> class. we use this class after user login to manage users.  
+ <a href="classUser.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="user_8h_source.html">user.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for User:</div>
 <div class="dyncontent">
 <div class="center"><img src="classUser__coll__graph.png" border="0" usemap="#aUser_coll__map" alt="Collaboration graph"/></div>
 <map name="aUser_coll__map" id="aUser_coll__map">
-<area shape="rect" title=" " alt="" coords="5,189,151,355"/>
-<area shape="rect" href="structAccountInfo.html" title=" " alt="" coords="11,5,145,127"/>
+<area shape="rect" title="stores all users information. used in FtpServer class. we use this class after user login to manage u..." alt="" coords="5,189,151,355"/>
+<area shape="rect" href="structAccountInfo.html" title="a simple structure that FtpServer used it for storing users account information" alt="" coords="11,5,145,127"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -95,10 +100,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getDataPort</b> () con
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDataPort</b> (int newDataPort)</td></tr>
 <tr class="separator:a0aaed865c98b5764767b2af8e59d0564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47901496690758bc0560d0aa55dccba4"><td class="memItemLeft" align="right" valign="top"><a id="a47901496690758bc0560d0aa55dccba4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getSize</b> ()</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a47901496690758bc0560d0aa55dccba4">getSize</a> ()</td></tr>
+<tr class="memdesc:a47901496690758bc0560d0aa55dccba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">get remaining download size. <br /></td></tr>
 <tr class="separator:a47901496690758bc0560d0aa55dccba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56a97925ce6893c07be15517d7533e65"><td class="memItemLeft" align="right" valign="top"><a id="a56a97925ce6893c07be15517d7533e65"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>reduceSize</b> (int value)</td></tr>
+<tr class="memitem:a56a97925ce6893c07be15517d7533e65"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a56a97925ce6893c07be15517d7533e65">reduceSize</a> (int value)</td></tr>
+<tr class="memdesc:a56a97925ce6893c07be15517d7533e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">reduce remaining download size.  <a href="classUser.html#a56a97925ce6893c07be15517d7533e65">More...</a><br /></td></tr>
 <tr class="separator:a56a97925ce6893c07be15517d7533e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c4c51de13186140d20b0cbffed3bdc9"><td class="memItemLeft" align="right" valign="top"><a id="a7c4c51de13186140d20b0cbffed3bdc9"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getUserName</b> ()</td></tr>
@@ -116,6 +122,40 @@ Private Attributes</h2></td></tr>
 <a class="el" href="structAccountInfo.html">AccountInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><b>accountInfo</b></td></tr>
 <tr class="separator:a81ba1a8e836121a8aee5f7ebce87b763"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>stores all users information. used in <a class="el" href="classFtpServer.html" title="implemention of fpt server">FtpServer</a> class. we use this class after user login to manage users. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a56a97925ce6893c07be15517d7533e65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56a97925ce6893c07be15517d7533e65">&#9670;&nbsp;</a></span>reduceSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int User::reduceSize </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>reduce remaining download size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>decreament value by Bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    accountInfo.maxUsageSize -= value;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classUser.html#a47901496690758bc0560d0aa55dccba4">getSize</a>();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="ttc" id="aclassUser_html_a47901496690758bc0560d0aa55dccba4"><div class="ttname"><a href="classUser.html#a47901496690758bc0560d0aa55dccba4">User::getSize</a></div><div class="ttdeci">int getSize()</div><div class="ttdoc">get remaining download size.</div><div class="ttdef"><b>Definition:</b> user.cpp:18</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>FTP/server/<a class="el" href="user_8h_source.html">user.h</a></li>
 <li>FTP/server/user.cpp</li>

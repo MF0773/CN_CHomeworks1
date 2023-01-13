@@ -72,12 +72,17 @@ $(function() {
 <div class="title">FilePipe Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>file sender between <a class="el" href="classFtpServer.html" title="implemention of fpt server">FtpServer</a> and <a class="el" href="classFtpClient.html" title="Implemention of FTP client.">FtpClient</a> this class is generalized and can be used for both server/client and both sender/reciver.  
+ <a href="classFilePipe.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="filepipe_8h_source.html">filepipe.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for FilePipe:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFilePipe__coll__graph.png" border="0" usemap="#aFilePipe_coll__map" alt="Collaboration graph"/></div>
 <map name="aFilePipe_coll__map" id="aFilePipe_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,164,523"/>
+<area shape="rect" title="file sender between FtpServer and FtpClient this class is generalized and can be used for both server..." alt="" coords="5,5,164,523"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -139,35 +144,43 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:afbb81a8fa907fe7263b630c98720cc5e"><td class="memItemLeft" align="right" valign="top"><a id="afbb81a8fa907fe7263b630c98720cc5e"></a>
 enum FilePipe::Dir&#160;</td><td class="memItemRight" valign="bottom"><b>dir</b></td></tr>
 <tr class="separator:afbb81a8fa907fe7263b630c98720cc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97a47f0c03a9fbf38e924e4bff40cca1"><td class="memItemLeft" align="right" valign="top"><a id="a97a47f0c03a9fbf38e924e4bff40cca1"></a>
-enum FilePipe::Role&#160;</td><td class="memItemRight" valign="bottom"><b>role</b></td></tr>
+<tr class="memitem:a97a47f0c03a9fbf38e924e4bff40cca1"><td class="memItemLeft" align="right" valign="top">enum FilePipe::Role&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a97a47f0c03a9fbf38e924e4bff40cca1">role</a></td></tr>
+<tr class="memdesc:a97a47f0c03a9fbf38e924e4bff40cca1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classFilePipe.html" title="file sender between FtpServer and FtpClient this class is generalized and can be used for both server...">FilePipe</a> constructor.  <a href="classFilePipe.html#a97a47f0c03a9fbf38e924e4bff40cca1">More...</a><br /></td></tr>
 <tr class="separator:a97a47f0c03a9fbf38e924e4bff40cca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:aa0e08432f06663d4f0becbc85638da4a"><td class="memItemLeft" align="right" valign="top"><a id="aa0e08432f06663d4f0becbc85638da4a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reciverRun</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#aa0e08432f06663d4f0becbc85638da4a">reciverRun</a> ()</td></tr>
+<tr class="memdesc:aa0e08432f06663d4f0becbc85638da4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">blocking run of reciver mode <br /></td></tr>
 <tr class="separator:aa0e08432f06663d4f0becbc85638da4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21eeeae7243d04867541d1c2f0ac1bbd"><td class="memItemLeft" align="right" valign="top"><a id="a21eeeae7243d04867541d1c2f0ac1bbd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>senderRun</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a21eeeae7243d04867541d1c2f0ac1bbd">senderRun</a> ()</td></tr>
+<tr class="memdesc:a21eeeae7243d04867541d1c2f0ac1bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">blocking run of sender mode <br /></td></tr>
 <tr class="separator:a21eeeae7243d04867541d1c2f0ac1bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971d68172bc9e75673cbb6de56358cf5"><td class="memItemLeft" align="right" valign="top"><a id="a971d68172bc9e75673cbb6de56358cf5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setupServer</b> ()</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a971d68172bc9e75673cbb6de56358cf5">setupServer</a> ()</td></tr>
+<tr class="memdesc:a971d68172bc9e75673cbb6de56358cf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup file pipe as server <br /></td></tr>
 <tr class="separator:a971d68172bc9e75673cbb6de56358cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0817a45b69cec22c6d7144408da33593"><td class="memItemLeft" align="right" valign="top"><a id="a0817a45b69cec22c6d7144408da33593"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setupClient</b> ()</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a0817a45b69cec22c6d7144408da33593">setupClient</a> ()</td></tr>
+<tr class="memdesc:a0817a45b69cec22c6d7144408da33593"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup file pipe as client <br /></td></tr>
 <tr class="separator:a0817a45b69cec22c6d7144408da33593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f049bf6a21ff6ea490e7cb4135f52c5"><td class="memItemLeft" align="right" valign="top"><a id="a4f049bf6a21ff6ea490e7cb4135f52c5"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>sendNextBlock</b> ()</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a4f049bf6a21ff6ea490e7cb4135f52c5">sendNextBlock</a> ()</td></tr>
+<tr class="memdesc:a4f049bf6a21ff6ea490e7cb4135f52c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">send next block of data in sender mode <br /></td></tr>
 <tr class="separator:a4f049bf6a21ff6ea490e7cb4135f52c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa192c5cbf4b309d4d04366656c1186b"><td class="memItemLeft" align="right" valign="top"><a id="afa192c5cbf4b309d4d04366656c1186b"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>reciveNextBlock</b> ()</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#afa192c5cbf4b309d4d04366656c1186b">reciveNextBlock</a> ()</td></tr>
+<tr class="memdesc:afa192c5cbf4b309d4d04366656c1186b"><td class="mdescLeft">&#160;</td><td class="mdescRight">recive next block of data in reciver mode <br /></td></tr>
 <tr class="separator:afa192c5cbf4b309d4d04366656c1186b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c4f415da8f8f4f8b6ca0c749f0c16bc"><td class="memItemLeft" align="right" valign="top"><a id="a4c4f415da8f8f4f8b6ca0c749f0c16bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendAck</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a4c4f415da8f8f4f8b6ca0c749f0c16bc">sendAck</a> ()</td></tr>
+<tr class="memdesc:a4c4f415da8f8f4f8b6ca0c749f0c16bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">reciver use this method to ask next block of data from the sender <br /></td></tr>
 <tr class="separator:a4c4f415da8f8f4f8b6ca0c749f0c16bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f237cdc3fa8cd5b9322de8793a7bcc8"><td class="memItemLeft" align="right" valign="top"><a id="a7f237cdc3fa8cd5b9322de8793a7bcc8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reciveAck</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFilePipe.html#a7f237cdc3fa8cd5b9322de8793a7bcc8">reciveAck</a> ()</td></tr>
+<tr class="memdesc:a7f237cdc3fa8cd5b9322de8793a7bcc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">a blocking method that sender use it to read request of next block from reciver <br /></td></tr>
 <tr class="separator:a7f237cdc3fa8cd5b9322de8793a7bcc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -200,6 +213,33 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>firstBlock</b></td></
 int&#160;</td><td class="memItemRight" valign="bottom"><b>debugDelayInterval</b></td></tr>
 <tr class="separator:a94bac7dcff8a3bfca84c72ce1de275ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>file sender between <a class="el" href="classFtpServer.html" title="implemention of fpt server">FtpServer</a> and <a class="el" href="classFtpClient.html" title="Implemention of FTP client.">FtpClient</a> this class is generalized and can be used for both server/client and both sender/reciver. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a97a47f0c03a9fbf38e924e4bff40cca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a47f0c03a9fbf38e924e4bff40cca1">&#9670;&nbsp;</a></span>role</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum FilePipe::Role FilePipe::role</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classFilePipe.html" title="file sender between FtpServer and FtpClient this class is generalized and can be used for both server...">FilePipe</a> constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pipeRole</td><td>determines being server or client </td></tr>
+    <tr><td class="paramname">pipeDir</td><td>determines being sender or reciver </td></tr>
+    <tr><td class="paramname">file</td><td>path for readinor/storing </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>common/include/<a class="el" href="filepipe_8h_source.html">filepipe.h</a></li>
 <li>common/include/filepipe.cpp</li>
