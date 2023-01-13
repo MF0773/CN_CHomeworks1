@@ -173,10 +173,11 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>serverIp</b></
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">int</span> len = read( clientFd , buffer, SERVER_RECV_BUFFER_SIZE);</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    buffer[len] = 0;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;fetch request:&quot;</span>&lt;&lt;endl&lt;&lt;buffer&lt;&lt;endl;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a> message(buffer);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> message;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a> <a class="code" href="structmessage.html">message</a>(buffer);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structmessage.html">message</a>;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
 <div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdoc">Http message class.</div><div class="ttdef"><b>Definition:</b> httpparser.h:25</div></div>
+<div class="ttc" id="astructmessage_html"><div class="ttname"><a href="structmessage.html">message</a></div><div class="ttdef"><b>Definition:</b> serverMain.cpp:19</div></div>
 </div><!-- fragment -->
 </div>
 </div>
