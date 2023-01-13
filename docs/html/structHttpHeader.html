@@ -68,37 +68,52 @@ $(function() {
 <div class="title">HttpHeader Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>header of http message.  
+ <a href="structHttpHeader.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="httpparser_8h_source.html">httpparser.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for HttpHeader:</div>
 <div class="dyncontent">
 <div class="center"><img src="structHttpHeader__coll__graph.png" border="0" usemap="#aHttpHeader_coll__map" alt="Collaboration graph"/></div>
 <map name="aHttpHeader_coll__map" id="aHttpHeader_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,140,156"/>
+<area shape="rect" title="header of http message." alt="" coords="5,5,140,156"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aa7d38b203453a58f574524a98643c714"><td class="memItemLeft" align="right" valign="top"><a id="aa7d38b203453a58f574524a98643c714"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>method</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#aa7d38b203453a58f574524a98643c714">method</a></td></tr>
+<tr class="memdesc:aa7d38b203453a58f574524a98643c714"><td class="mdescLeft">&#160;</td><td class="mdescRight">HTTP method. e.g. GET,POST,PUT. <br /></td></tr>
 <tr class="separator:aa7d38b203453a58f574524a98643c714"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82d265afdf4cf6eddfb34866f4be2e7e"><td class="memItemLeft" align="right" valign="top"><a id="a82d265afdf4cf6eddfb34866f4be2e7e"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>url</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">url</a></td></tr>
+<tr class="memdesc:a82d265afdf4cf6eddfb34866f4be2e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">request/response url <br /></td></tr>
 <tr class="separator:a82d265afdf4cf6eddfb34866f4be2e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71d377fa4b5b84ed49e289eb72654f63"><td class="memItemLeft" align="right" valign="top"><a id="a71d377fa4b5b84ed49e289eb72654f63"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>version</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#a71d377fa4b5b84ed49e289eb72654f63">version</a></td></tr>
+<tr class="memdesc:a71d377fa4b5b84ed49e289eb72654f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">HTML version. <br /></td></tr>
 <tr class="separator:a71d377fa4b5b84ed49e289eb72654f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2dc431416ae7b5fdd8423f699e0b82d"><td class="memItemLeft" align="right" valign="top"><a id="ab2dc431416ae7b5fdd8423f699e0b82d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>statusCode</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d">statusCode</a></td></tr>
+<tr class="memdesc:ab2dc431416ae7b5fdd8423f699e0b82d"><td class="mdescLeft">&#160;</td><td class="mdescRight">status code of http message e.g. 200-&gt;OK , 404-&gt;Not found <br /></td></tr>
 <tr class="separator:ab2dc431416ae7b5fdd8423f699e0b82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0356ea0d2c69e850b00b03588086162a"><td class="memItemLeft" align="right" valign="top"><a id="a0356ea0d2c69e850b00b03588086162a"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>statusMessage</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a">statusMessage</a></td></tr>
+<tr class="memdesc:a0356ea0d2c69e850b00b03588086162a"><td class="mdescLeft">&#160;</td><td class="mdescRight">status message <br  />
+ <br /></td></tr>
 <tr class="separator:a0356ea0d2c69e850b00b03588086162a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb4d8b73bcd278e876c5a840ef8a3f1b"><td class="memItemLeft" align="right" valign="top"><a id="afb4d8b73bcd278e876c5a840ef8a3f1b"></a>
-std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>metaData</b></td></tr>
+std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHttpHeader.html#afb4d8b73bcd278e876c5a840ef8a3f1b">metaData</a></td></tr>
+<tr class="memdesc:afb4d8b73bcd278e876c5a840ef8a3f1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">a map that stores all information about header in key-value form <br /></td></tr>
 <tr class="separator:afb4d8b73bcd278e876c5a840ef8a3f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>header of http message. </p>
+<p>This header file contains some structure to import Http messages data in useful form. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>web/<a class="el" href="httpparser_8h_source.html">httpparser.h</a></li>
 </ul>
 </div><!-- contents -->

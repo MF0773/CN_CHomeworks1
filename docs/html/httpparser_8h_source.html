@@ -69,33 +69,43 @@ $(function() {
 <div class="title">httpparser.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef HTTPPARSER_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define HTTPPARSER_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="structHttpHeader.html">    6</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structHttpHeader.html">HttpHeader</a>{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    std::string method;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    std::string url;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    std::string version;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">int</span> statusCode;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    std::string statusMessage;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    std::unordered_map&lt;std::string,std::string&gt; metaData;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;};</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classHttpMessage.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHttpMessage.html">HttpMessage</a></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    std::unordered_map&lt;std::string, std::string&gt; headerData;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="structHttpHeader.html">HttpHeader</a> header;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a>(std::string str);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> importData(std::string raw_str);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// HTTPPARSER_H</span></div>
-<div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdef"><b>Definition:</b> httpparser.h:16</div></div>
-<div class="ttc" id="astructHttpHeader_html"><div class="ttname"><a href="structHttpHeader.html">HttpHeader</a></div><div class="ttdef"><b>Definition:</b> httpparser.h:6</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifndef HTTPPARSER_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define HTTPPARSER_H</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structHttpHeader.html">   12</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structHttpHeader.html">HttpHeader</a>{</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structHttpHeader.html#aa7d38b203453a58f574524a98643c714">   13</a></span>&#160;    std::string <a class="code" href="structHttpHeader.html#aa7d38b203453a58f574524a98643c714">method</a>; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">   14</a></span>&#160;    std::string <a class="code" href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">url</a>; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structHttpHeader.html#a71d377fa4b5b84ed49e289eb72654f63">   15</a></span>&#160;    std::string <a class="code" href="structHttpHeader.html#a71d377fa4b5b84ed49e289eb72654f63">version</a>; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d">   16</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d">statusCode</a>; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a">   17</a></span>&#160;    std::string <a class="code" href="structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a">statusMessage</a>; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structHttpHeader.html#afb4d8b73bcd278e876c5a840ef8a3f1b">   18</a></span>&#160;    std::unordered_map&lt;std::string,std::string&gt; <a class="code" href="structHttpHeader.html#afb4d8b73bcd278e876c5a840ef8a3f1b">metaData</a>; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classHttpMessage.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHttpMessage.html">HttpMessage</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classHttpMessage.html#a3850f4c5116013e917d2c1a5f7fa95b6">   27</a></span>&#160;    std::unordered_map&lt;std::string, std::string&gt; <a class="code" href="classHttpMessage.html#a3850f4c5116013e917d2c1a5f7fa95b6">headerData</a>; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38">   28</a></span>&#160;    <a class="code" href="structHttpHeader.html">HttpHeader</a> <a class="code" href="classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38">header</a>; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a>(std::string str); </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classHttpMessage.html#af43bc368628c2dd5fec90c1ca95b32e7">importData</a>(std::string raw_str); </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// HTTPPARSER_H</span></div>
+<div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdoc">Http message class.</div><div class="ttdef"><b>Definition:</b> httpparser.h:25</div></div>
+<div class="ttc" id="aclassHttpMessage_html_a3850f4c5116013e917d2c1a5f7fa95b6"><div class="ttname"><a href="classHttpMessage.html#a3850f4c5116013e917d2c1a5f7fa95b6">HttpMessage::headerData</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; headerData</div><div class="ttdoc">headerData in key-value form</div><div class="ttdef"><b>Definition:</b> httpparser.h:27</div></div>
+<div class="ttc" id="aclassHttpMessage_html_ae2f258dcae65b4ab279091befcbd8d38"><div class="ttname"><a href="classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38">HttpMessage::header</a></div><div class="ttdeci">HttpHeader header</div><div class="ttdoc">header information in form of HttpHeader structure</div><div class="ttdef"><b>Definition:</b> httpparser.h:28</div></div>
+<div class="ttc" id="aclassHttpMessage_html_af43bc368628c2dd5fec90c1ca95b32e7"><div class="ttname"><a href="classHttpMessage.html#af43bc368628c2dd5fec90c1ca95b32e7">HttpMessage::importData</a></div><div class="ttdeci">void importData(std::string raw_str)</div><div class="ttdoc">import http message information</div><div class="ttdef"><b>Definition:</b> httpparser.cpp:11</div></div>
+<div class="ttc" id="astructHttpHeader_html"><div class="ttname"><a href="structHttpHeader.html">HttpHeader</a></div><div class="ttdoc">header of http message.</div><div class="ttdef"><b>Definition:</b> httpparser.h:12</div></div>
+<div class="ttc" id="astructHttpHeader_html_a0356ea0d2c69e850b00b03588086162a"><div class="ttname"><a href="structHttpHeader.html#a0356ea0d2c69e850b00b03588086162a">HttpHeader::statusMessage</a></div><div class="ttdeci">std::string statusMessage</div><div class="ttdoc">status message</div><div class="ttdef"><b>Definition:</b> httpparser.h:17</div></div>
+<div class="ttc" id="astructHttpHeader_html_a71d377fa4b5b84ed49e289eb72654f63"><div class="ttname"><a href="structHttpHeader.html#a71d377fa4b5b84ed49e289eb72654f63">HttpHeader::version</a></div><div class="ttdeci">std::string version</div><div class="ttdoc">HTML version.</div><div class="ttdef"><b>Definition:</b> httpparser.h:15</div></div>
+<div class="ttc" id="astructHttpHeader_html_a82d265afdf4cf6eddfb34866f4be2e7e"><div class="ttname"><a href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">HttpHeader::url</a></div><div class="ttdeci">std::string url</div><div class="ttdoc">request/response url</div><div class="ttdef"><b>Definition:</b> httpparser.h:14</div></div>
+<div class="ttc" id="astructHttpHeader_html_aa7d38b203453a58f574524a98643c714"><div class="ttname"><a href="structHttpHeader.html#aa7d38b203453a58f574524a98643c714">HttpHeader::method</a></div><div class="ttdeci">std::string method</div><div class="ttdoc">HTTP method. e.g. GET,POST,PUT.</div><div class="ttdef"><b>Definition:</b> httpparser.h:13</div></div>
+<div class="ttc" id="astructHttpHeader_html_ab2dc431416ae7b5fdd8423f699e0b82d"><div class="ttname"><a href="structHttpHeader.html#ab2dc431416ae7b5fdd8423f699e0b82d">HttpHeader::statusCode</a></div><div class="ttdeci">int statusCode</div><div class="ttdoc">status code of http message e.g. 200-&gt;OK , 404-&gt;Not found</div><div class="ttdef"><b>Definition:</b> httpparser.h:16</div></div>
+<div class="ttc" id="astructHttpHeader_html_afb4d8b73bcd278e876c5a840ef8a3f1b"><div class="ttname"><a href="structHttpHeader.html#afb4d8b73bcd278e876c5a840ef8a3f1b">HttpHeader::metaData</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; metaData</div><div class="ttdoc">a map that stores all information about header in key-value form</div><div class="ttdef"><b>Definition:</b> httpparser.h:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

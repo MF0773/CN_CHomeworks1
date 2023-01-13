@@ -69,59 +69,43 @@ $(function() {
 <div class="title">HttpServer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implemention of HTTP server.  
+ <a href="classHttpServer.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="httpserver_8h_source.html">httpserver.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for HttpServer:</div>
 <div class="dyncontent">
 <div class="center"><img src="classHttpServer__coll__graph.png" border="0" usemap="#aHttpServer_coll__map" alt="Collaboration graph"/></div>
 <map name="aHttpServer_coll__map" id="aHttpServer_coll__map">
-<area shape="rect" title=" " alt="" coords="5,160,173,472"/>
-<area shape="rect" href="structIpPort.html" title=" " alt="" coords="58,5,121,97"/>
+<area shape="rect" title="Implemention of HTTP server." alt="" coords="5,160,155,413"/>
+<area shape="rect" href="structIpPort.html" title="A simple structure that stores ip as string and port as integer." alt="" coords="49,5,111,97"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aec4851bc2b8705703e38efd8f451446c"><td class="memItemLeft" align="right" valign="top"><a id="aec4851bc2b8705703e38efd8f451446c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> (<a class="el" href="structIpPort.html">IpPort</a> ipPort)</td></tr>
+<tr class="memitem:aec4851bc2b8705703e38efd8f451446c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#aec4851bc2b8705703e38efd8f451446c">setup</a> (<a class="el" href="structIpPort.html">IpPort</a> <a class="el" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a>)</td></tr>
 <tr class="separator:aec4851bc2b8705703e38efd8f451446c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87739c4e055ad49e04954527652b48ee"><td class="memItemLeft" align="right" valign="top"><a id="a87739c4e055ad49e04954527652b48ee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>runLoop</b> ()</td></tr>
-<tr class="separator:a87739c4e055ad49e04954527652b48ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63bc8d6753db30b7d6017ba2a443be3b"><td class="memItemLeft" align="right" valign="top"><a id="a63bc8d6753db30b7d6017ba2a443be3b"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>waitForClient</b> ()</td></tr>
-<tr class="separator:a63bc8d6753db30b7d6017ba2a443be3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e36a39775b89b5a538910a8d223be03"><td class="memItemLeft" align="right" valign="top"><a id="a6e36a39775b89b5a538910a8d223be03"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>scanOnly</b> (int clientFd)</td></tr>
-<tr class="separator:a6e36a39775b89b5a538910a8d223be03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9536fd9795625749c5e0946404e8b6e0"><td class="memItemLeft" align="right" valign="top"><a id="a9536fd9795625749c5e0946404e8b6e0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> ()</td></tr>
+<tr class="memitem:a9536fd9795625749c5e0946404e8b6e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a9536fd9795625749c5e0946404e8b6e0">end</a> ()</td></tr>
 <tr class="separator:a9536fd9795625749c5e0946404e8b6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a981af22db454e3e2b56d63f931ea8e2c"><td class="memItemLeft" align="right" valign="top"><a id="a981af22db454e3e2b56d63f931ea8e2c"></a>
-<a class="el" href="classHttpMessage.html">HttpMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fetchRequest</b> (int clientFd)</td></tr>
+<tr class="memitem:a87739c4e055ad49e04954527652b48ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a87739c4e055ad49e04954527652b48ee">runLoop</a> ()</td></tr>
+<tr class="separator:a87739c4e055ad49e04954527652b48ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63bc8d6753db30b7d6017ba2a443be3b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a63bc8d6753db30b7d6017ba2a443be3b">waitForClient</a> ()</td></tr>
+<tr class="separator:a63bc8d6753db30b7d6017ba2a443be3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a981af22db454e3e2b56d63f931ea8e2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classHttpMessage.html">HttpMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a981af22db454e3e2b56d63f931ea8e2c">fetchRequest</a> (int clientFd)</td></tr>
 <tr class="separator:a981af22db454e3e2b56d63f931ea8e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad61162dadbfaa2b531d16380e81b26f0"><td class="memItemLeft" align="right" valign="top"><a id="ad61162dadbfaa2b531d16380e81b26f0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handleRequest</b> (int clientFd, <a class="el" href="classHttpMessage.html">HttpMessage</a> &amp;request)</td></tr>
+<tr class="memitem:ad61162dadbfaa2b531d16380e81b26f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0">handleRequest</a> (int clientFd, <a class="el" href="classHttpMessage.html">HttpMessage</a> &amp;request)</td></tr>
 <tr class="separator:ad61162dadbfaa2b531d16380e81b26f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa52d786a846640c2d33deaabd989ed60"><td class="memItemLeft" align="right" valign="top"><a id="aa52d786a846640c2d33deaabd989ed60"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendResponse</b> ()</td></tr>
-<tr class="separator:aa52d786a846640c2d33deaabd989ed60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7905dbdedb3a1ec34348ba39b4b59eb8"><td class="memItemLeft" align="right" valign="top"><a id="a7905dbdedb3a1ec34348ba39b4b59eb8"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getContentType</b> (std::string fileName)</td></tr>
+<tr class="memitem:a7905dbdedb3a1ec34348ba39b4b59eb8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8">getContentType</a> (std::string fileName)</td></tr>
 <tr class="separator:a7905dbdedb3a1ec34348ba39b4b59eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1231f2d5a82b4a84be8010be0b31316f"><td class="memItemLeft" align="right" valign="top"><a id="a1231f2d5a82b4a84be8010be0b31316f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendSampleHtml</b> (int clientFd)</td></tr>
-<tr class="separator:a1231f2d5a82b4a84be8010be0b31316f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74419e2daab4277acbdaf2a1c0cc2391"><td class="memItemLeft" align="right" valign="top"><a id="a74419e2daab4277acbdaf2a1c0cc2391"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendSampleImage</b> (int clientFd)</td></tr>
-<tr class="separator:a74419e2daab4277acbdaf2a1c0cc2391"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4cbb5ba90fddff042fe56f15572bd22"><td class="memItemLeft" align="right" valign="top"><a id="aa4cbb5ba90fddff042fe56f15572bd22"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendFile</b> (int clientFd, std::string fileName)</td></tr>
+<tr class="memitem:aa4cbb5ba90fddff042fe56f15572bd22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">sendFile</a> (int clientFd, std::string fileName)</td></tr>
 <tr class="separator:aa4cbb5ba90fddff042fe56f15572bd22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a48bd3d85ba72b180bb6bfa1248bf69a1"><td class="memItemLeft" align="right" valign="top"><a id="a48bd3d85ba72b180bb6bfa1248bf69a1"></a>
-<a class="el" href="structIpPort.html">IpPort</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ipPort</b></td></tr>
+<tr class="memitem:a48bd3d85ba72b180bb6bfa1248bf69a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structIpPort.html">IpPort</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a></td></tr>
 <tr class="separator:a48bd3d85ba72b180bb6bfa1248bf69a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafe0674517658a24df041e860793e87e"><td class="memItemLeft" align="right" valign="top"><a id="aafe0674517658a24df041e860793e87e"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>serverFd</b></td></tr>
@@ -129,16 +113,387 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>serverFd</b></td></tr>
 <tr class="memitem:a981560084d9d9bc04337aa8c9aa54912"><td class="memItemLeft" align="right" valign="top"><a id="a981560084d9d9bc04337aa8c9aa54912"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>serverPort</b></td></tr>
 <tr class="separator:a981560084d9d9bc04337aa8c9aa54912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd23db96833a0aa509fe3b83f4187eb5"><td class="memItemLeft" align="right" valign="top"><a id="afd23db96833a0aa509fe3b83f4187eb5"></a>
-sockaddr&#160;</td><td class="memItemRight" valign="bottom"><b>address</b></td></tr>
+<tr class="memitem:afd23db96833a0aa509fe3b83f4187eb5"><td class="memItemLeft" align="right" valign="top">sockaddr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#afd23db96833a0aa509fe3b83f4187eb5">address</a></td></tr>
 <tr class="separator:afd23db96833a0aa509fe3b83f4187eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4f33074da2f56b604399b522fe9e959"><td class="memItemLeft" align="right" valign="top"><a id="ac4f33074da2f56b604399b522fe9e959"></a>
-socklen_t&#160;</td><td class="memItemRight" valign="bottom"><b>addrlen</b></td></tr>
+<tr class="memitem:ac4f33074da2f56b604399b522fe9e959"><td class="memItemLeft" align="right" valign="top">socklen_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttpServer.html#ac4f33074da2f56b604399b522fe9e959">addrlen</a></td></tr>
 <tr class="separator:ac4f33074da2f56b604399b522fe9e959"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ed26ad03e5fd1b573b1f6ee7476aa25"><td class="memItemLeft" align="right" valign="top"><a id="a9ed26ad03e5fd1b573b1f6ee7476aa25"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>serverIp</b></td></tr>
 <tr class="separator:a9ed26ad03e5fd1b573b1f6ee7476aa25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implemention of HTTP server. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9536fd9795625749c5e0946404e8b6e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9536fd9795625749c5e0946404e8b6e0">&#9670;&nbsp;</a></span>end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HttpServer::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>close server file discripltor and off the server </p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    close(serverFd);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a981af22db454e3e2b56d63f931ea8e2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a981af22db454e3e2b56d63f931ea8e2c">&#9670;&nbsp;</a></span>fetchRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classHttpMessage.html">HttpMessage</a> HttpServer::fetchRequest </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clientFd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>reads client request and extract information of the recived data.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientFd</td><td>file descriptor of the client </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>request information </dd></dl>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">char</span> buffer[SERVER_RECV_BUFFER_SIZE] = {0};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">int</span> len = read( clientFd , buffer, SERVER_RECV_BUFFER_SIZE);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    buffer[len] = 0;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;fetch request:&quot;</span>&lt;&lt;endl&lt;&lt;buffer&lt;&lt;endl;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a> message(buffer);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> message;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdoc">Http message class.</div><div class="ttdef"><b>Definition:</b> httpparser.h:25</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7905dbdedb3a1ec34348ba39b4b59eb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7905dbdedb3a1ec34348ba39b4b59eb8">&#9670;&nbsp;</a></span>getContentType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string HttpServer::getContentType </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>returns content file of the given file. this will be used for response header </p>
+<div class="fragment"><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">if</span> (fileName.find(<span class="stringliteral">&quot;.pdf&quot;</span>) != std::string::npos) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Partial Content&quot;</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&quot;text/html&quot;</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad61162dadbfaa2b531d16380e81b26f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad61162dadbfaa2b531d16380e81b26f0">&#9670;&nbsp;</a></span>handleRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HttpServer::handleRequest </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clientFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classHttpMessage.html">HttpMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>request</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>after fetching http request by <code>fetchRequest</code> this method handles the request by giving suitable response </p>
+<p>&lt; redirect root into index.html</p>
+<p>&lt; otherwise send request url file</p>
+<p>&lt; it's possible that sendFile throw 404 exception. that we here handle it.</p>
+<p>&lt; send 404 page</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">string</span> url = request.<a class="code" href="classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38">header</a>.<a class="code" href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">url</a>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">try</span>{</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span>(url==<span class="stringliteral">&quot;/&quot;</span>){ </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <a class="code" href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">sendFile</a>(clientFd,<span class="stringliteral">&quot;/index.html&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">else</span>{ </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <a class="code" href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">sendFile</a>(clientFd,url);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">catch</span> (<a class="code" href="classError404.html">Error404</a>){ </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        cerr&lt;&lt;<span class="stringliteral">&quot;Error 404&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">sendFile</a>(clientFd,<span class="stringliteral">&quot;/404.html&quot;</span>); </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    shutdown(clientFd, SHUT_RDWR);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    close(clientFd);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="ttc" id="aclassError404_html"><div class="ttname"><a href="classError404.html">Error404</a></div><div class="ttdoc">subclass of std::exception that used to detect 404 exception</div><div class="ttdef"><b>Definition:</b> httpserver.h:23</div></div>
+<div class="ttc" id="aclassHttpMessage_html_ae2f258dcae65b4ab279091befcbd8d38"><div class="ttname"><a href="classHttpMessage.html#ae2f258dcae65b4ab279091befcbd8d38">HttpMessage::header</a></div><div class="ttdeci">HttpHeader header</div><div class="ttdoc">header information in form of HttpHeader structure</div><div class="ttdef"><b>Definition:</b> httpparser.h:28</div></div>
+<div class="ttc" id="aclassHttpServer_html_aa4cbb5ba90fddff042fe56f15572bd22"><div class="ttname"><a href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">HttpServer::sendFile</a></div><div class="ttdeci">void sendFile(int clientFd, std::string fileName)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:123</div></div>
+<div class="ttc" id="astructHttpHeader_html_a82d265afdf4cf6eddfb34866f4be2e7e"><div class="ttname"><a href="structHttpHeader.html#a82d265afdf4cf6eddfb34866f4be2e7e">HttpHeader::url</a></div><div class="ttdeci">std::string url</div><div class="ttdoc">request/response url</div><div class="ttdef"><b>Definition:</b> httpparser.h:14</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a87739c4e055ad49e04954527652b48ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87739c4e055ad49e04954527652b48ee">&#9670;&nbsp;</a></span>runLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HttpServer::runLoop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>run event loop of the server </p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">while</span>(<span class="keyword">true</span>){</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">int</span> clientFd = <a class="code" href="classHttpServer.html#a63bc8d6753db30b7d6017ba2a443be3b">waitForClient</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span>(clientFd &lt; 0){</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            clog&lt;&lt;<span class="stringliteral">&quot;failed to submit client&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        clog&lt;&lt;<span class="stringliteral">&quot;new client:&quot;</span>&lt;&lt;clientFd&lt;&lt;endl;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">auto</span> request = <a class="code" href="classHttpServer.html#a981af22db454e3e2b56d63f931ea8e2c">fetchRequest</a>(clientFd);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0">handleRequest</a>(clientFd,request);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="ttc" id="aclassHttpServer_html_a63bc8d6753db30b7d6017ba2a443be3b"><div class="ttname"><a href="classHttpServer.html#a63bc8d6753db30b7d6017ba2a443be3b">HttpServer::waitForClient</a></div><div class="ttdeci">int waitForClient()</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:63</div></div>
+<div class="ttc" id="aclassHttpServer_html_a981af22db454e3e2b56d63f931ea8e2c"><div class="ttname"><a href="classHttpServer.html#a981af22db454e3e2b56d63f931ea8e2c">HttpServer::fetchRequest</a></div><div class="ttdeci">HttpMessage fetchRequest(int clientFd)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:82</div></div>
+<div class="ttc" id="aclassHttpServer_html_ad61162dadbfaa2b531d16380e81b26f0"><div class="ttname"><a href="classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0">HttpServer::handleRequest</a></div><div class="ttdeci">void handleRequest(int clientFd, HttpMessage &amp;request)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:93</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa4cbb5ba90fddff042fe56f15572bd22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4cbb5ba90fddff042fe56f15572bd22">&#9670;&nbsp;</a></span>sendFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HttpServer::sendFile </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clientFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fileName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>sends a file to the client. Every response will be used this function to send html and media files(like mp3). This method will throw 404 Error if file not found. </p>
+<div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;{</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::string filePath = SERVER_BASE_DIR+fileName;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">if</span>(! isFileExist(filePath)){</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="classError404.html">Error404</a>();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">string</span> contentType = <a class="code" href="classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8">getContentType</a>(fileName);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">string</span> header = <span class="stringliteral">&quot;HTTP/1.1 200 OK\nContent-Type: &quot;</span>+contentType+<span class="stringliteral">&quot;\n\n&quot;</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    send(clientFd,header.c_str(),header.size(),0);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">int</span> len;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    fstream file(filePath,ios_base::in | ios_base::binary);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">if</span>(!file){</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        cerr&lt;&lt;<span class="stringliteral">&quot;cant open file&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">char</span> sendBuffer[SEND_BUFFER_SIZE]={0};</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">do</span>{</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        file.read(sendBuffer,SEND_BUFFER_SIZE);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        len = file.gcount();</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">if</span>(len == 0){</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            sendBuffer[0]=0;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        }</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        send(clientFd,sendBuffer,len,0);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }<span class="keywordflow">while</span>(len&gt;0);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;}</div>
+<div class="ttc" id="aclassHttpServer_html_a7905dbdedb3a1ec34348ba39b4b59eb8"><div class="ttname"><a href="classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8">HttpServer::getContentType</a></div><div class="ttdeci">std::string getContentType(std::string fileName)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:114</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aec4851bc2b8705703e38efd8f451446c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec4851bc2b8705703e38efd8f451446c">&#9670;&nbsp;</a></span>setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool HttpServer::setup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structIpPort.html">IpPort</a>&#160;</td>
+          <td class="paramname"><em>ipPort</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>start server on given ip and port. </p><dl class="section return"><dt>Returns</dt><dd>result of starting server. </dd></dl>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> port  = <a class="code" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a>.port;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    clog&lt;&lt;<span class="stringliteral">&quot;starting server on port &quot;</span>&lt;&lt;port&lt;&lt;endl;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> options = 1;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    sockaddr_in addressIn;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    this-&gt;serverFd = socket(AF_INET, SOCK_STREAM , 0);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    setsockopt( serverFd , SOL_SOCKET, SO_REUSEADDR , &amp;options , <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (serverFd &lt; 0){</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        clog &lt;&lt; <span class="stringliteral">&quot;could not start server&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    addressIn.sin_addr.s_addr = INADDR_ANY;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    addressIn.sin_port = htons(port);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    addressIn.sin_family = AF_INET;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    bind( serverFd, (<span class="keyword">struct</span> sockaddr *)&amp;addressIn, <span class="keyword">sizeof</span>(addressIn));</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    listen(serverFd, 4);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    serverPort = port;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    serverIp = <a class="code" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a>.ip;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="ttc" id="aclassHttpServer_html_a48bd3d85ba72b180bb6bfa1248bf69a1"><div class="ttname"><a href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">HttpServer::ipPort</a></div><div class="ttdeci">IpPort ipPort</div><div class="ttdef"><b>Definition:</b> httpserver.h:34</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a63bc8d6753db30b7d6017ba2a443be3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63bc8d6753db30b7d6017ba2a443be3b">&#9670;&nbsp;</a></span>waitForClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int HttpServer::waitForClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>waits until a new client connects. </p><dl class="section return"><dt>Returns</dt><dd>file descriptor of new client. we call this method in event loop </dd></dl>
+<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span> client_fd;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">struct </span>sockaddr_in client_address;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">int</span> address_len = <span class="keyword">sizeof</span>(client_address);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    client_fd = accept(serverFd, (<span class="keyword">struct</span> sockaddr *)&amp;client_address, (socklen_t*) &amp;address_len);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    printf(<span class="stringliteral">&quot;Client connected!\n&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> client_fd;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="afd23db96833a0aa509fe3b83f4187eb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd23db96833a0aa509fe3b83f4187eb5">&#9670;&nbsp;</a></span>address</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sockaddr HttpServer::address</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>address of server in unix structure </p>
+
+</div>
+</div>
+<a id="ac4f33074da2f56b604399b522fe9e959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4f33074da2f56b604399b522fe9e959">&#9670;&nbsp;</a></span>addrlen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">socklen_t HttpServer::addrlen</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>lenght of server address in unix structure </p>
+
+</div>
+</div>
+<a id="a48bd3d85ba72b180bb6bfa1248bf69a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48bd3d85ba72b180bb6bfa1248bf69a1">&#9670;&nbsp;</a></span>ipPort</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structIpPort.html">IpPort</a> HttpServer::ipPort</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>input ip and port of the server </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>web/<a class="el" href="httpserver_8h_source.html">httpserver.h</a></li>
 <li>web/httpserver.cpp</li>

@@ -79,46 +79,54 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;exception&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define SERVER_RECV_BUFFER_SIZE 8000</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define SERVER_BASE_DIR &quot;disk&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="structIpPort.html">   11</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structIpPort.html">IpPort</a>{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    std::string ip;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">int</span> port;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classError404.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classError404.html">Error404</a>: <span class="keyword">public</span> std::exception{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structIpPort.html">   15</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structIpPort.html">IpPort</a>{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    std::string ip;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> port;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classHttpServer.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHttpServer.html">HttpServer</a></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="structIpPort.html">IpPort</a> ipPort;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> serverFd;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> serverPort;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    sockaddr address;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    socklen_t addrlen;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::string serverIp;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classHttpServer.html">HttpServer</a>();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> setup(<a class="code" href="structIpPort.html">IpPort</a> ipPort);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> runLoop();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">int</span> waitForClient();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> scanOnly(<span class="keywordtype">int</span> clientFd);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> end();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a> fetchRequest(<span class="keywordtype">int</span> clientFd);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> handleRequest(<span class="keywordtype">int</span> clientFd, <a class="code" href="classHttpMessage.html">HttpMessage</a>&amp; request);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> sendResponse();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    std::string getContentType(std::string fileName);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> sendSampleHtml(<span class="keywordtype">int</span> clientFd);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> sendSampleImage(<span class="keywordtype">int</span> clientFd);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> sendFile(<span class="keywordtype">int</span> clientFd, std::string fileName);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// HTTPSERVER_H</span></div>
-<div class="ttc" id="aclassError404_html"><div class="ttname"><a href="classError404.html">Error404</a></div><div class="ttdef"><b>Definition:</b> httpserver.h:16</div></div>
-<div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdef"><b>Definition:</b> httpparser.h:16</div></div>
-<div class="ttc" id="aclassHttpServer_html"><div class="ttname"><a href="classHttpServer.html">HttpServer</a></div><div class="ttdef"><b>Definition:</b> httpserver.h:21</div></div>
-<div class="ttc" id="astructIpPort_html"><div class="ttname"><a href="structIpPort.html">IpPort</a></div><div class="ttdef"><b>Definition:</b> httpserver.h:11</div></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classError404.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classError404.html">Error404</a>: <span class="keyword">public</span> std::exception{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classHttpServer.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHttpServer.html">HttpServer</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">   34</a></span>&#160;    <a class="code" href="structIpPort.html">IpPort</a> <a class="code" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a>; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> serverFd;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> serverPort;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classHttpServer.html#afd23db96833a0aa509fe3b83f4187eb5">   37</a></span>&#160;    sockaddr <a class="code" href="classHttpServer.html#afd23db96833a0aa509fe3b83f4187eb5">address</a>; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classHttpServer.html#ac4f33074da2f56b604399b522fe9e959">   38</a></span>&#160;    socklen_t <a class="code" href="classHttpServer.html#ac4f33074da2f56b604399b522fe9e959">addrlen</a>; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::string serverIp;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classHttpServer.html">HttpServer</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classHttpServer.html#aec4851bc2b8705703e38efd8f451446c">setup</a>(<a class="code" href="structIpPort.html">IpPort</a> <a class="code" href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">ipPort</a>); </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classHttpServer.html#a9536fd9795625749c5e0946404e8b6e0">end</a>(); </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classHttpServer.html#a87739c4e055ad49e04954527652b48ee">runLoop</a>(); </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classHttpServer.html#a63bc8d6753db30b7d6017ba2a443be3b">waitForClient</a>(); </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classHttpMessage.html">HttpMessage</a> <a class="code" href="classHttpServer.html#a981af22db454e3e2b56d63f931ea8e2c">fetchRequest</a>(<span class="keywordtype">int</span> clientFd); </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0">handleRequest</a>(<span class="keywordtype">int</span> clientFd, <a class="code" href="classHttpMessage.html">HttpMessage</a>&amp; request);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std::string <a class="code" href="classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8">getContentType</a>(std::string fileName); </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">sendFile</a>(<span class="keywordtype">int</span> clientFd, std::string fileName); </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// HTTPSERVER_H</span></div>
+<div class="ttc" id="aclassError404_html"><div class="ttname"><a href="classError404.html">Error404</a></div><div class="ttdoc">subclass of std::exception that used to detect 404 exception</div><div class="ttdef"><b>Definition:</b> httpserver.h:23</div></div>
+<div class="ttc" id="aclassHttpMessage_html"><div class="ttname"><a href="classHttpMessage.html">HttpMessage</a></div><div class="ttdoc">Http message class.</div><div class="ttdef"><b>Definition:</b> httpparser.h:25</div></div>
+<div class="ttc" id="aclassHttpServer_html"><div class="ttname"><a href="classHttpServer.html">HttpServer</a></div><div class="ttdoc">Implemention of HTTP server.</div><div class="ttdef"><b>Definition:</b> httpserver.h:32</div></div>
+<div class="ttc" id="aclassHttpServer_html_a48bd3d85ba72b180bb6bfa1248bf69a1"><div class="ttname"><a href="classHttpServer.html#a48bd3d85ba72b180bb6bfa1248bf69a1">HttpServer::ipPort</a></div><div class="ttdeci">IpPort ipPort</div><div class="ttdef"><b>Definition:</b> httpserver.h:34</div></div>
+<div class="ttc" id="aclassHttpServer_html_a63bc8d6753db30b7d6017ba2a443be3b"><div class="ttname"><a href="classHttpServer.html#a63bc8d6753db30b7d6017ba2a443be3b">HttpServer::waitForClient</a></div><div class="ttdeci">int waitForClient()</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:63</div></div>
+<div class="ttc" id="aclassHttpServer_html_a7905dbdedb3a1ec34348ba39b4b59eb8"><div class="ttname"><a href="classHttpServer.html#a7905dbdedb3a1ec34348ba39b4b59eb8">HttpServer::getContentType</a></div><div class="ttdeci">std::string getContentType(std::string fileName)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:114</div></div>
+<div class="ttc" id="aclassHttpServer_html_a87739c4e055ad49e04954527652b48ee"><div class="ttname"><a href="classHttpServer.html#a87739c4e055ad49e04954527652b48ee">HttpServer::runLoop</a></div><div class="ttdeci">void runLoop()</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:49</div></div>
+<div class="ttc" id="aclassHttpServer_html_a9536fd9795625749c5e0946404e8b6e0"><div class="ttname"><a href="classHttpServer.html#a9536fd9795625749c5e0946404e8b6e0">HttpServer::end</a></div><div class="ttdeci">void end()</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:77</div></div>
+<div class="ttc" id="aclassHttpServer_html_a981af22db454e3e2b56d63f931ea8e2c"><div class="ttname"><a href="classHttpServer.html#a981af22db454e3e2b56d63f931ea8e2c">HttpServer::fetchRequest</a></div><div class="ttdeci">HttpMessage fetchRequest(int clientFd)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:82</div></div>
+<div class="ttc" id="aclassHttpServer_html_aa4cbb5ba90fddff042fe56f15572bd22"><div class="ttname"><a href="classHttpServer.html#aa4cbb5ba90fddff042fe56f15572bd22">HttpServer::sendFile</a></div><div class="ttdeci">void sendFile(int clientFd, std::string fileName)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:123</div></div>
+<div class="ttc" id="aclassHttpServer_html_ac4f33074da2f56b604399b522fe9e959"><div class="ttname"><a href="classHttpServer.html#ac4f33074da2f56b604399b522fe9e959">HttpServer::addrlen</a></div><div class="ttdeci">socklen_t addrlen</div><div class="ttdef"><b>Definition:</b> httpserver.h:38</div></div>
+<div class="ttc" id="aclassHttpServer_html_ad61162dadbfaa2b531d16380e81b26f0"><div class="ttname"><a href="classHttpServer.html#ad61162dadbfaa2b531d16380e81b26f0">HttpServer::handleRequest</a></div><div class="ttdeci">void handleRequest(int clientFd, HttpMessage &amp;request)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:93</div></div>
+<div class="ttc" id="aclassHttpServer_html_aec4851bc2b8705703e38efd8f451446c"><div class="ttname"><a href="classHttpServer.html#aec4851bc2b8705703e38efd8f451446c">HttpServer::setup</a></div><div class="ttdeci">bool setup(IpPort ipPort)</div><div class="ttdef"><b>Definition:</b> httpserver.cpp:22</div></div>
+<div class="ttc" id="aclassHttpServer_html_afd23db96833a0aa509fe3b83f4187eb5"><div class="ttname"><a href="classHttpServer.html#afd23db96833a0aa509fe3b83f4187eb5">HttpServer::address</a></div><div class="ttdeci">sockaddr address</div><div class="ttdef"><b>Definition:</b> httpserver.h:37</div></div>
+<div class="ttc" id="astructIpPort_html"><div class="ttname"><a href="structIpPort.html">IpPort</a></div><div class="ttdoc">A simple structure that stores ip as string and port as integer.</div><div class="ttdef"><b>Definition:</b> httpserver.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
