@@ -22,9 +22,13 @@ using namespace std;
 #define RECEIVE_BUFFER_SIZE 1024
 
 class basic_json;
+
+/**
+ * FTP server class
+ */
 class FtpServer{
     private:
-    int controlPort,serverFd;
+    int controlPort,serverFd; /**< controlPort : the port wich control commands will be send */
     int lastFd;
     fd_set fdSet;
     fd_set eventFdSet;

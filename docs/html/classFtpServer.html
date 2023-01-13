@@ -63,11 +63,24 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classFtpServer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">FtpServer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ftpserver_8h_source.html">ftpserver.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for FtpServer:</div>
+<div class="dyncontent">
+<div class="center"><img src="classFtpServer__coll__graph.png" border="0" usemap="#aFtpServer_coll__map" alt="Collaboration graph"/></div>
+<map name="aFtpServer_coll__map" id="aFtpServer_coll__map">
+<area shape="rect" title=" " alt="" coords="5,160,196,589"/>
+<area shape="rect" href="classMyLogger.html" title="Costumized log class." alt="" coords="41,5,160,97"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -130,10 +143,10 @@ template&lt;typename Json &gt; </td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addOnlineUser</b> (int fd, <a class="el" href="structAccountInfo.html">AccountInfo</a> account)</td></tr>
 <tr class="separator:a94526b019b5b57d039cf2d14da871da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ece2ab1b9d05e14ef2504c6a4cdcf4f"><td class="memItemLeft" align="right" valign="top"><a id="a3ece2ab1b9d05e14ef2504c6a4cdcf4f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addFilePipe</b> (FilePipe *pipe)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addFilePipe</b> (<a class="el" href="classFilePipe.html">FilePipe</a> *pipe)</td></tr>
 <tr class="separator:a3ece2ab1b9d05e14ef2504c6a4cdcf4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72558dfda809d3073574401386494876"><td class="memItemLeft" align="right" valign="top"><a id="a72558dfda809d3073574401386494876"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeFilePipe</b> (FilePipe *pipe)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeFilePipe</b> (<a class="el" href="classFilePipe.html">FilePipe</a> *pipe)</td></tr>
 <tr class="separator:a72558dfda809d3073574401386494876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28a909fdc7d4e35ca46b0561dfe16ab5"><td class="memItemLeft" align="right" valign="top"><a id="a28a909fdc7d4e35ca46b0561dfe16ab5"></a>
 <a class="el" href="classUser.html">User</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>findUser</b> (int fd)</td></tr>
@@ -192,7 +205,86 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>onHelpRequest</b> (in
 <tr class="memitem:aaaf5c49670024edd5db61c923165449f"><td class="memItemLeft" align="right" valign="top"><a id="aaaf5c49670024edd5db61c923165449f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>onQuitRequest</b> (int fd, char *buffer, int len)</td></tr>
 <tr class="separator:aaaf5c49670024edd5db61c923165449f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a99924a0c4ebe8bf10454d4617e15ae9b"><td class="memItemLeft" align="right" valign="top"><a id="a99924a0c4ebe8bf10454d4617e15ae9b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addAccountInfo</b> (const <a class="el" href="structAccountInfo.html">AccountInfo</a> &amp;account)</td></tr>
+<tr class="separator:a99924a0c4ebe8bf10454d4617e15ae9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b1fce94f1806c0568e095788c678d6"><td class="memItemLeft" align="right" valign="top"><a id="ae3b1fce94f1806c0568e095788c678d6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addFdSet</b> (int fd)</td></tr>
+<tr class="separator:ae3b1fce94f1806c0568e095788c678d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac5dd9d9b8f9e5ccc5fd979c35d2b770"><td class="memItemLeft" align="right" valign="top"><a id="aac5dd9d9b8f9e5ccc5fd979c35d2b770"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeFdSet</b> (int fd)</td></tr>
+<tr class="separator:aac5dd9d9b8f9e5ccc5fd979c35d2b770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac7911c327dc15c13f66b7e030fc363"><td class="memItemLeft" align="right" valign="top"><a id="abac7911c327dc15c13f66b7e030fc363"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>initLogFile</b> ()</td></tr>
+<tr class="separator:abac7911c327dc15c13f66b7e030fc363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a954d3430486e83395d03bd70626e36da"><td class="memItemLeft" align="right" valign="top"><a id="a954d3430486e83395d03bd70626e36da"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>controlPort</b></td></tr>
+<tr class="separator:a954d3430486e83395d03bd70626e36da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dbc50f4b29694cc6f0bafd08f93f458"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFtpServer.html#a0dbc50f4b29694cc6f0bafd08f93f458">serverFd</a></td></tr>
+<tr class="separator:a0dbc50f4b29694cc6f0bafd08f93f458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad57f124c30cc5592f46b82434fb6f730"><td class="memItemLeft" align="right" valign="top"><a id="ad57f124c30cc5592f46b82434fb6f730"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lastFd</b></td></tr>
+<tr class="separator:ad57f124c30cc5592f46b82434fb6f730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d9a9c546eaf05d1399d8b458a7c40c6"><td class="memItemLeft" align="right" valign="top"><a id="a1d9a9c546eaf05d1399d8b458a7c40c6"></a>
+fd_set&#160;</td><td class="memItemRight" valign="bottom"><b>fdSet</b></td></tr>
+<tr class="separator:a1d9a9c546eaf05d1399d8b458a7c40c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a300edb1f55364c95f439e7ce3a25a8f7"><td class="memItemLeft" align="right" valign="top"><a id="a300edb1f55364c95f439e7ce3a25a8f7"></a>
+fd_set&#160;</td><td class="memItemRight" valign="bottom"><b>eventFdSet</b></td></tr>
+<tr class="separator:a300edb1f55364c95f439e7ce3a25a8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fb2dd6c27a5cae40871eafc1e7f33bc"><td class="memItemLeft" align="right" valign="top"><a id="a8fb2dd6c27a5cae40871eafc1e7f33bc"></a>
+unordered_map&lt; std::string, <a class="el" href="structAccountInfo.html">AccountInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>accountsMap</b></td></tr>
+<tr class="separator:a8fb2dd6c27a5cae40871eafc1e7f33bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f13592f4c0b80fbf2090982f3af4fe"><td class="memItemLeft" align="right" valign="top"><a id="a63f13592f4c0b80fbf2090982f3af4fe"></a>
+unordered_map&lt; int, <a class="el" href="classUser.html">User</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onlineUsers</b></td></tr>
+<tr class="separator:a63f13592f4c0b80fbf2090982f3af4fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3510d1d3b5016cc058576f15bb2dfce5"><td class="memItemLeft" align="right" valign="top"><a id="a3510d1d3b5016cc058576f15bb2dfce5"></a>
+unordered_map&lt; int, <a class="el" href="classFilePipe.html">FilePipe</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>filepipes</b></td></tr>
+<tr class="separator:a3510d1d3b5016cc058576f15bb2dfce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d75a24f38f904eece8c91a2e79ff18c"><td class="memItemLeft" align="right" valign="top"><a id="a1d75a24f38f904eece8c91a2e79ff18c"></a>
+set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>adminFiles</b></td></tr>
+<tr class="separator:a1d75a24f38f904eece8c91a2e79ff18c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d11df479e64cd18449cece1eae945d9"><td class="memItemLeft" align="right" valign="top"><a id="a5d11df479e64cd18449cece1eae945d9"></a>
+unordered_map&lt; int, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>loginReqSet</b></td></tr>
+<tr class="separator:a5d11df479e64cd18449cece1eae945d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaa1264e825492fd0a8118e9d3955e54"><td class="memItemLeft" align="right" valign="top"><a id="adaa1264e825492fd0a8118e9d3955e54"></a>
+<a class="el" href="classMyLogger.html">MyLogger</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mlog</b></td></tr>
+<tr class="separator:adaa1264e825492fd0a8118e9d3955e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39ce002efe9f67241d923dcad5ba8ba9"><td class="memItemLeft" align="right" valign="top"><a id="a39ce002efe9f67241d923dcad5ba8ba9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lastDataPort</b></td></tr>
+<tr class="separator:a39ce002efe9f67241d923dcad5ba8ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>FTP server class </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0dbc50f4b29694cc6f0bafd08f93f458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dbc50f4b29694cc6f0bafd08f93f458">&#9670;&nbsp;</a></span>serverFd</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FtpServer::serverFd</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>controlPort : the port wich control commands will be send </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>FTP/server/<a class="el" href="ftpserver_8h_source.html">ftpserver.h</a></li>
 <li>FTP/server/ftpserver.cpp</li>

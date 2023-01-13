@@ -64,11 +64,20 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classFtpClient-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">FtpClient Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Collaboration diagram for FtpClient:</div>
+<div class="dyncontent">
+<div class="center"><img src="classFtpClient__coll__graph.png" border="0" usemap="#aFtpClient_coll__map" alt="Collaboration graph"/></div>
+<map name="aFtpClient_coll__map" id="aFtpClient_coll__map">
+<area shape="rect" title=" " alt="" coords="5,5,200,347"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -180,6 +189,33 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a3e7bc8c0b78dd50329e4a220ce8b69"><td class="memItemLeft" align="right" valign="top"><a id="a7a3e7bc8c0b78dd50329e4a220ce8b69"></a>
 static bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_ok_code</b> (int code)</td></tr>
 <tr class="separator:a7a3e7bc8c0b78dd50329e4a220ce8b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a831e6c15aa7d5df13dd4efafd4529cf0"><td class="memItemLeft" align="right" valign="top"><a id="a831e6c15aa7d5df13dd4efafd4529cf0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>controlFd</b></td></tr>
+<tr class="separator:a831e6c15aa7d5df13dd4efafd4529cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eeac0272664678aada7f49500591e3f"><td class="memItemLeft" align="right" valign="top"><a id="a7eeac0272664678aada7f49500591e3f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>controlPort</b></td></tr>
+<tr class="separator:a7eeac0272664678aada7f49500591e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c25ab6047d978611f122a2f6c9384d9"><td class="memItemLeft" align="right" valign="top"><a id="a7c25ab6047d978611f122a2f6c9384d9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>dataPort</b></td></tr>
+<tr class="separator:a7c25ab6047d978611f122a2f6c9384d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd756100bf54881815116aeba61aa20c"><td class="memItemLeft" align="right" valign="top"><a id="afd756100bf54881815116aeba61aa20c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>loginned</b></td></tr>
+<tr class="separator:afd756100bf54881815116aeba61aa20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacb079e07eaf25911c3c941f30a9ffd"><td class="memItemLeft" align="right" valign="top"><a id="acacb079e07eaf25911c3c941f30a9ffd"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lastResponse</b></td></tr>
+<tr class="separator:acacb079e07eaf25911c3c941f30a9ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada1fe7063acfb511b1494db5a2f90555"><td class="memItemLeft" align="right" valign="top"><a id="ada1fe7063acfb511b1494db5a2f90555"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>userName</b></td></tr>
+<tr class="separator:ada1fe7063acfb511b1494db5a2f90555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30b3155d9f2ad0cbb9529fcde4e70f4f"><td class="memItemLeft" align="right" valign="top"><a id="a30b3155d9f2ad0cbb9529fcde4e70f4f"></a>
+list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>catchedFileList</b></td></tr>
+<tr class="separator:a30b3155d9f2ad0cbb9529fcde4e70f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99b7842e011fbb470a931c164285fa52"><td class="memItemLeft" align="right" valign="top"><a id="a99b7842e011fbb470a931c164285fa52"></a>
+std::set&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>allCommands</b></td></tr>
+<tr class="separator:a99b7842e011fbb470a931c164285fa52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>FTP/client/<a class="el" href="ftpclient_8h_source.html">ftpclient.h</a></li>

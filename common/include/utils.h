@@ -1,3 +1,8 @@
+/*********************************************************************
+ * @file  utils.h
+ *
+ * @brief Implementation utility functions that dosen't  belong to special class. e.g. logger.
+ *********************************************************************/
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -16,7 +21,9 @@ class MyEndLine{
 
 extern MyEndLine mendl;
 
-
+/**
+ * @brief Costumized log class
+ */
 class MyLogger{
     std::ofstream fileOut;
 public:

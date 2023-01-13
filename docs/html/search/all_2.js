@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['user_4',['User',['../classUser.html',1,'']]]
+  ['myendline_5',['MyEndLine',['../classMyEndLine.html',1,'']]],
+  ['mylogger_6',['MyLogger',['../classMyLogger.html',1,'']]]
 ];
