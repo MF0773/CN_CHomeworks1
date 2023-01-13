@@ -60,7 +60,6 @@ void response(msgStruct &msg, int i)
     switch (msg.M.mess_type)
     {
     case CONNECT:
-
         users.insert({i, msg.M.payload});
 
         initial_CONNACK(msg);
@@ -69,8 +68,6 @@ void response(msgStruct &msg, int i)
         break;
 
     case LIST:
-
-        // printf("%s\n", get_userID().c_str());
         initial_LISTREPLY(msg, users.size(), get_userID().c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
 
@@ -79,6 +76,20 @@ void response(msgStruct &msg, int i)
     case INFO:
         initial_INFOREPLY(msg, users.find(atoi(msg.M.payload)) == users.end() ? "\0" : users[atoi(msg.M.payload)].c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
+
+        break;
+
+    case SEND:
+        // Save
+
+        break;
+
+    case RECEIVE:
+        // onSave initial mess
+        // send(user x, msg.buff, strlen(msg.buff), 0);
+
+        // initial_SENDREPLY(msg, );
+        // send(i, msg.buff, strlen(msg.buff), 0);
 
         break;
 

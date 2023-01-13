@@ -34,6 +34,46 @@ int connectServer(int port)
 
 int _mess_id = FAKE_MESS_ID;
 
+std::vector<std::string> get_list_userID(msgStruct &msg, int fd)
+{
+    std::string line;
+    std::vector<std::string> strs;
+
+    initial_LIST(msg);
+    send(fd, msg.buff, sizeof(msg), 0);
+
+    recv(fd, msg.buff, SIZE_BUFF, 0);
+    if (msg.M.mess_type != LISTREPLY)
+    {
+        printf("Error on reponse from server. listen %d Instead LISTREPLY\n", msg.M.mess_type);
+    }
+
+    std::istringstream iss(msg.M.payload);
+    while (std::getline(iss, line))
+    {
+        strs.push_back(line);
+    }
+    return strs;
+}
+
+std::vector<std::string> get_list_userName(msgStruct &msg, int fd)
+{
+    std::vector<std::string> strs;
+    for (std::string line : get_list_userID(msg, fd))
+    {
+        initial_INFO(msg, line.c_str());
+        send(fd, msg.buff, sizeof(msg), 0);
+
+        recv(fd, msg.buff, SIZE_BUFF, 0);
+        if (msg.M.mess_type != INFOREPLY)
+        {
+            printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
+        }
+        strs.push_back(msg.M.payload);
+    }
+    return strs;
+}
+
 int main(int argc, char const *argv[])
 {
     int fd;
@@ -58,43 +98,19 @@ int main(int argc, char const *argv[])
     while (true)
     {
         std::cin >> order;
-        if (order == "List")
+        if (order == "list")
         {
-            initial_LIST(msg);
-            send(fd, msg.buff, sizeof(msg), 0);
-
-            recv(fd, msg.buff, SIZE_BUFF, 0);
-            if (msg.M.mess_type != LISTREPLY)
+            for (std::string name : get_list_userName(msg, fd))
             {
-                printf("Error on reponse from server. listen %d Instead LISTREPLY\n", msg.M.mess_type);
-            }
-            std::istringstream iss(msg.M.payload);
-            std::string line;
-            std::vector<std::string> strs;
-            // printf("pay%s\n", msg.M.payload);
-
-            while (std::getline(iss, line))
-            {
-                strs.push_back(line);
-            }
-            for (std::string line : strs)
-            {
-                initial_INFO(msg, line.c_str());
-                send(fd, msg.buff, sizeof(msg), 0);
-
-                recv(fd, msg.buff, SIZE_BUFF, 0);
-                if (msg.M.mess_type != INFOREPLY)
-                {
-                    printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
-                }
-                printf("-%s\n", msg.M.payload);
+                printf("-%s\n", name.c_str());
             }
         }
-        else if (order == "Exit")
+        else if (order == "exit")
         {
             close(fd);
+            break;
         }
-        else
+        else if (order == "send")
         {
             std::cin >> usernameRecvi >> message_str;
             // initial_SEND(msg, usernameRecvi.c_str(), ""); // message_str.c_str());
@@ -106,8 +122,11 @@ int main(int argc, char const *argv[])
                 printf("Error on reponse from server. listen %d Instead SENDREPLY\n", msg.M.mess_type);
             }
 
-            printf("Server said: %d\n", msg.M.mess_id);
-            printf("Server said: %d\n", msg.M.length);
+            // printf("Message deliverd: %d\n", atoi(msg.M.payload[0]));
+        }
+        else
+        {
+            printf("Error on input order\n");
         }
         // std::cin >> message_str;
     }
