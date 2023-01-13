@@ -1,6 +1,8 @@
 #include <iostream>
 #include "httpserver.h"
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 HttpServer server;
@@ -39,26 +41,20 @@ void openTestBrowser(int port)
     system(cmd.c_str());
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int main(int argc, char** argv)
 {
-
+    IpPort ipPort;
     string cmd;
+    cout<<"enter ip and port in format: <ip>:<port>"<<endl;
     cin>>cmd;
 
-    increaseTestPort();
-    auto ipPort = importIpPort(cmd);
-    ipPort.port++;
-
+    ipPort = importIpPort(cmd);
     bool result = server.setup(ipPort);
 
     if(!result){
         return -1;
     }
 
-    openTestBrowser(ipPort.port);
     server.runLoop();
     server.end();
 
