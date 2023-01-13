@@ -9,6 +9,7 @@
 #include <sys/time.h>
 
 #include <iostream>
+#include <sstream>
 #include "msgStruct.hpp"
 
 int connectServer(int port)
@@ -34,7 +35,7 @@ int main(int argc, char const *argv[])
 {
     int fd;
     msgStruct msg;
-    std::string username, usernameRecvi, message_str, order;
+    std::string username, usernameRecvi, message_str, order, temp;
 
     if (argc >= 3)
     {
@@ -47,7 +48,7 @@ int main(int argc, char const *argv[])
         recv(fd, msg.buff, SIZE_BUFF, 0);
         if (msg.M.mess_type != CONNACK)
         {
-            printf("Error on reponse from server\n");
+            printf("Error on reponse from server. listen %d Instead CONNACK\n", msg.M.mess_type);
         }
     }
     while (true)
@@ -58,10 +59,19 @@ int main(int argc, char const *argv[])
             initial_LIST(msg);
             send(fd, msg.buff, sizeof(msg), 0);
 
-            // Ack
-            for (int i = 0; i < strlen(msg.M.payload); i++) // size
+            recv(fd, msg.buff, SIZE_BUFF, 0);
+            if (msg.M.mess_type != LISTREPLY)
             {
-                initial_INFO(msg, msg.M.payload);
+                printf("Error on reponse from server. listen %d Instead LISTREPLY\n", msg.M.mess_type);
+            }
+            std::istringstream iss(msg.M.payload);
+            std::string line;
+            while (std::getline(iss, line))
+            {
+                // }
+                // for
+                // {
+                initial_INFO(msg, line.c_str());
                 send(fd, msg.buff, sizeof(msg), 0);
 
                 // recv
@@ -73,14 +83,16 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            // std::cin >> usernameRecvi >> message_str;
-            msg.M.mess_id = 12;
-            msg.M.length = 10;
-            // set_to_buff(usernameRecvi, message_str, buff);
-
+            std::cin >> usernameRecvi >> message_str;
+            initial_SEND(msg, usernameRecvi.c_str(), "");// message_str.c_str());
             send(fd, msg.buff, sizeof(msg), 0);
 
-            // recv(fd, msg.buff, SIZE_BUFF, 0);
+            recv(fd, msg.buff, SIZE_BUFF, 0);
+            if (msg.M.mess_type != SENDREPLY)
+            {
+                printf("Error on reponse from server. listen %d Instead SENDREPLY\n", msg.M.mess_type);
+            }
+
             printf("Server said: %d\n", msg.M.mess_id);
             printf("Server said: %d\n", msg.M.length);
         }

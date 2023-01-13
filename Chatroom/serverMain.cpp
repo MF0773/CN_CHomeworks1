@@ -10,6 +10,7 @@
 
 #include "msgStruct.hpp"
 #include <map>
+#include <sstream>
 
 std::map<int, std::string> users;
 
@@ -44,6 +45,15 @@ int acceptClient(int server_fd)
 
     return client_fd;
 }
+std::string get_userID()
+{
+    std::stringstream ss;
+    for (auto [ID, str] : users)
+    {
+        ss << ID << std::endl;
+    }
+    return ss.str();
+}
 
 void response(msgStruct &msg, int i)
 {
@@ -53,7 +63,13 @@ void response(msgStruct &msg, int i)
         users.insert({(int)msg.M.mess_id, msg.M.payload});
 
         initial_CONNACK(msg);
-        // send(i, msg.buff, strlen(msg.buff), 0);
+        send(i, msg.buff, strlen(msg.buff), 0);
+        break;
+
+    case LIST:
+        initial_LISTREPLY(msg, users.size(), get_userID().c_str());
+        send(i, msg.buff, strlen(msg.buff), 0);
+
         break;
 
     default:
