@@ -67,7 +67,12 @@ void response(msgStruct &msg, int i)
         break;
 
     case LIST:
+        // printf("%s\n", get_userID().c_str());
         initial_LISTREPLY(msg, users.size(), get_userID().c_str());
+        send(i, msg.buff, strlen(msg.buff), 0);
+
+    case INFO:
+        initial_INFOREPLY(msg, users[atoi(msg.M.payload)].c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
 
         break;

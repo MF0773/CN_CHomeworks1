@@ -66,6 +66,8 @@ int main(int argc, char const *argv[])
             }
             std::istringstream iss(msg.M.payload);
             std::string line;
+            // printf("pay%s\n", msg.M.payload);
+
             while (std::getline(iss, line))
             {
                 // }
@@ -74,7 +76,12 @@ int main(int argc, char const *argv[])
                 initial_INFO(msg, line.c_str());
                 send(fd, msg.buff, sizeof(msg), 0);
 
-                // recv
+                recv(fd, msg.buff, SIZE_BUFF, 0);
+                if (msg.M.mess_type != INFOREPLY)
+                {
+                    printf("Error on reponse from server. listen %d Instead INFOREPLY\n", msg.M.mess_type);
+                }
+                printf("-%s\n", msg.M.payload);
             }
         }
         else if (order == "Exit")
@@ -84,7 +91,7 @@ int main(int argc, char const *argv[])
         else
         {
             std::cin >> usernameRecvi >> message_str;
-            initial_SEND(msg, usernameRecvi.c_str(), "");// message_str.c_str());
+            // initial_SEND(msg, usernameRecvi.c_str(), ""); // message_str.c_str());
             send(fd, msg.buff, sizeof(msg), 0);
 
             recv(fd, msg.buff, SIZE_BUFF, 0);

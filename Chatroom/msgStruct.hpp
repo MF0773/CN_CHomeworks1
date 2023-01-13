@@ -53,15 +53,15 @@ void inline initial_LISTREPLY(msgStruct &msg, const int &n, const char *_userID)
 {
     initialMSG(msg, LISTREPLY, FAKE_MESS_ID, 2 + 2 * n, _userID);
 }
-void inline initial_INFO(msgStruct &msg,const char *userID)
+void inline initial_INFO(msgStruct &msg, const char *userID)
 {
     initialMSG(msg, INFO, FAKE_MESS_ID, 2 + 2, userID);
 }
-void inline initial_INFOREPLY(msgStruct &msg, char *username)
+void inline initial_INFOREPLY(msgStruct &msg, const char *username)
 {
     initialMSG(msg, INFOREPLY, FAKE_MESS_ID, 2 + strlen(username), username);
 }
-void inline initial_SEND(msgStruct &msg, const char *_userID,  char *_message)
+void inline initial_SEND(msgStruct &msg, const char *_userID, char *_message)
 {
     initialMSG(msg, SEND, FAKE_MESS_ID, 2 + 2 + strlen(_message), strcat(_message, _userID));
 }
