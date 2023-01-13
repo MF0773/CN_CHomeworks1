@@ -81,21 +81,26 @@ void recive_message(msgStruct &msg, const int &fd)
 {
     std::string senderId, message;
 
-    initial_RECEIVE(msg);
-    send(fd, msg.buff, sizeof(msg), 0);
-
-    recv(fd, msg.buff, SIZE_BUFF, 0);
-    if (msg.M.mess_type != RECEIVEREPLY)
+    while (true)
     {
-        printf("Error on reponse from server. listen %d Instead RECEIVEREPLY\n", msg.M.mess_type);
-    }
+        initial_RECEIVE(msg);
+        send(fd, msg.buff, sizeof(msg), 0);
 
-    std::istringstream iss(msg.M.payload);
-    std::getline(iss, senderId);
-    if (atoi(senderId.c_str()) != 0)
-    {
-        std::getline(iss, message);
-        printf("%s", message.c_str());
+        recv(fd, msg.buff, SIZE_BUFF, 0);
+        if (msg.M.mess_type != RECEIVEREPLY)
+        {
+            printf("Error on reponse from server. listen %d Instead RECEIVEREPLY\n", msg.M.mess_type);
+        }
+
+        std::istringstream iss(msg.M.payload);
+        std::getline(iss, senderId);
+        if (atoi(senderId.c_str()) != 0)
+        {
+            std::getline(iss, message);
+            printf("send %s %s", get_username_from_userID(msg, fd, senderId.c_str()).c_str(), message.c_str());
+        }
+        else
+            break;
     }
 }
 
@@ -122,6 +127,7 @@ int main(int argc, char const *argv[])
     }
     while (true)
     {
+        recive_message(msg, fd);
 
         std::cin >> order;
         if (order == "list")
