@@ -23,11 +23,11 @@ union msgStruct
         unsigned int mess_type : 4;
         unsigned int mess_id : 4;
         unsigned int length : 8;
-        char *payload;
+        char payload[SIZE_BUFF - 2];
     } M;
 };
 
-void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, const int &_length, char *_payload)
+void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, const int &_length, const char *_payload)
 {
     memset(msg.buff, 0, SIZE_BUFF);
     msg.M.mess_type = _mess_type;
@@ -36,7 +36,7 @@ void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, con
     strcpy(msg.M.payload, _payload);
 };
 
-void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, char *name)
+void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, const char *name)
 {
     initialMSG(msg, CONNECT, _mess_id, 2 + strlen(name), name);
 }

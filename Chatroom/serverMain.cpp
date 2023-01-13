@@ -42,25 +42,60 @@ int acceptClient(int server_fd)
     return client_fd;
 }
 
+void event_loop(fd_set &master_set, fd_set &working_set, int &server_fd, int &new_socket, int &max_sd, msgStruct &msg)
+{
+    working_set = master_set;
+    select(max_sd + 1, &working_set, NULL, NULL, NULL);
+
+    for (int i = 0; i <= max_sd; i++)
+    {
+        if (FD_ISSET(i, &working_set))
+        {
+            if (i == server_fd)
+            { // new clinet
+                new_socket = acceptClient(server_fd);
+                FD_SET(new_socket, &master_set);
+                if (new_socket > max_sd)
+                    max_sd = new_socket;
+                printf("New client connected. fd = %d\n", new_socket);
+            }
+            else
+            { // client sending msg
+                int bytes_received;
+                bytes_received = recv(i, msg.buff, SIZE_BUFF, 0);
+
+                printf("MessType recv:%d\n", msg.M.mess_type);
+
+                if (bytes_received == 0)
+                { // EOF
+                    printf("client fd = %d closed\n", i);
+                    close(i);
+                    FD_CLR(i, &master_set);
+                    continue;
+                }
+
+                // printf("client %d: %s\n", i, buffer);
+                // memset(buffer, 0, 1024);
+            }
+        }
+    }
+}
 int main(int argc, char const *argv[])
 {
-    int server_fd, client_fd;
-    // char buff[1024] = {0};
-
+    int server_fd, client_fd, new_socket, max_sd;
     msgStruct msg;
 
+    fd_set master_set, working_set;
+
     server_fd = start_server(8080);
+    // write(1, "Server is running\n", 18);
+
+    FD_ZERO(&master_set);
+    max_sd = server_fd;
+    FD_SET(server_fd, &master_set);
 
     while (true)
     {
-        client_fd = acceptClient(server_fd);
-
-        memset(msg.buff, 0, SIZE_BUFF);
-        recv(client_fd, msg.buff, SIZE_BUFF, 0);
-
-        // send(client_fd, msg.buff, strlen(msg.buff), 0);
-
-        printf("Client said: %d\n", msg.M.mess_id);
-        printf("Client said: %d\n", msg.M.length);
+        event_loop(master_set, working_set, server_fd, new_socket, max_sd, msg);
     }
 }

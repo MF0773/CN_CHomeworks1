@@ -47,11 +47,13 @@ int main(int argc, char const *argv[])
     {
         fd = connectServer(atoi(argv[1]));
         username = argv[2];
-    }
 
+        initial_CONNECT(msg, 10, username.c_str());
+        send(fd, msg.buff, sizeof(msg), 0);
+    }
     // while (true)
     {
-        // std::cin >> order;
+        std::cin >> order;
         if (order == "List")
         {
             initial_LIST(msg, 10);
