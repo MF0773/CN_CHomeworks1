@@ -1,0 +1,4 @@
+<map id="HttpMessage" name="HttpMessage">
+<area shape="rect" id="node1" title="Http message class." alt="" coords="6,219,139,325"/>
+<area shape="rect" id="node2" href="$structHttpHeader.html" title="header of http message." alt="" coords="5,5,140,156"/>
+</map>

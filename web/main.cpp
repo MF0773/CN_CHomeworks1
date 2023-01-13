@@ -1,6 +1,8 @@
 #include <iostream>
 #include "httpserver.h"
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 HttpServer server;
@@ -13,7 +15,7 @@ IpPort importIpPort(std::string str){
 
     return (IpPort){ipPart,port};
 }
-
+/**< @brief we had some problems on running program with old port. and we wrote this function to change port number in each run */
 void increaseTestPort(){
     fstream file("default_input.txt", ios_base::out | ios_base::in);
     if(!file){
@@ -33,32 +35,27 @@ void increaseTestPort(){
     file.close();
 }
 
+/**< @brief open browser for testing */
 void openTestBrowser(int port)
 {
     string cmd = "bash open_browser.sh &";
     system(cmd.c_str());
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int main(int argc, char** argv)
 {
-
+    IpPort ipPort;
     string cmd;
+    cout<<"enter ip and port in format: <ip>:<port>"<<endl;
     cin>>cmd;
 
-    increaseTestPort();
-    auto ipPort = importIpPort(cmd);
-    ipPort.port++;
-
+    ipPort = importIpPort(cmd);
     bool result = server.setup(ipPort);
 
     if(!result){
         return -1;
     }
 
-    openTestBrowser(ipPort.port);
     server.runLoop();
     server.end();
 

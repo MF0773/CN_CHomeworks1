@@ -1,0 +1,4 @@
+<map id="HttpServer" name="HttpServer">
+<area shape="rect" id="node1" title="Implemention of HTTP server." alt="" coords="5,160,155,413"/>
+<area shape="rect" id="node2" href="$structIpPort.html" title="A simple structure that stores ip as string and port as integer." alt="" coords="49,5,111,97"/>
+</map>

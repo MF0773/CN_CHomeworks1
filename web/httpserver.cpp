@@ -73,29 +73,6 @@ int HttpServer::waitForClient()
 }
 
 #define SEND_BUFFER_SIZE 1024
-void HttpServer::scanOnly(int clientFd)
-{
-    char buffer[SERVER_RECV_BUFFER_SIZE] = {0};
-
-    int len = read( clientFd , buffer, SERVER_RECV_BUFFER_SIZE);
-    buffer[len] = 0;
-
-    clog<<"scanning result:"<<endl<<buffer<<endl;
-    HttpMessage parser;
-    parser.importData(buffer);
-
-    if (parser.header.url == "/"){
-        sendSampleHtml(clientFd);
-    }
-
-    if (parser.header.url == "/image.png"){
-        sendSampleImage(clientFd);
-    }
-
-
-    shutdown(clientFd, SHUT_RDWR);
-    close(clientFd);
-}
 
 void HttpServer::end()
 {
@@ -117,69 +94,21 @@ void HttpServer::handleRequest(int clientFd,HttpMessage &request)
 {
     string url = request.header.url;
     try{
-        if(url=="/"){
+        if(url=="/"){ /**< redirect root into index.html */
             sendFile(clientFd,"/index.html");
         }
-        else{
+        else{ /**< otherwise send request url file */
             sendFile(clientFd,url);
         }
     }
-    catch (Error404){
+    catch (Error404){ /**< it's possible that sendFile throw 404 exception. that we here handle it. */
         cerr<<"Error 404"<<endl;
-        sendFile(clientFd,"/404.html");
+        sendFile(clientFd,"/404.html"); /**< send 404 page */
     }
 
+    /**< after that close the current socket to continue fetching request */
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
-}
-
-void HttpServer::sendResponse()
-{
-//    /*
-//        char imageheader[] =
-//        "HTTP/1.1 200 Ok\r\n"
-//        "Content-Type: image/jpeg\r\n\r\n";
-//        */
-//        struct stat stat_buf;  /* hold information about input file */
-
-//        write(fd, head, strlen(head));
-
-//        int fdimg = open(image_path, O_RDONLY);
-
-//        if(fdimg < 0){
-//            printf("Cannot Open file path : %s with error %d\n", image_path, fdimg);
-//        }
-
-//        fstat(fdimg, &stat_buf);
-//        int img_total_size = stat_buf.st_size;
-//        int block_size = stat_buf.st_blksize;
-//        //printf("image block size: %d\n", stat_buf.st_blksize);
-//        //printf("image total byte st_size: %d\n", stat_buf.st_size);
-//        if(fdimg >= 0){
-//            ssize_t sent_size;
-
-//            while(img_total_size > 0){
-//                //if(img_total_size < block_size){
-//                 //   sent_size = sendfile(fd, fdimg, NULL, img_total_size);
-//                //}
-//                //else{
-//                //    sent_size = sendfile(fd, fdimg, NULL, block_size);
-//                //}
-//                //img_total_size = img_total_size - sent_size;
-
-//                //if(sent_size < 0){
-//                 //   printf("send file error --> file: %d, send size: %d , error: %s\n", fdimg, sent_size, strerror(errno));
-//                 //   img_total_size = -1;
-//                  int send_bytes = ((img_total_size < block_size) ? img_total_size : block_size);
-//                  int done_bytes = sendfile(fd, fdimg, NULL, block_size);
-//                  img_total_size = img_total_size - done_bytes;
-//                //}
-//            }
-//            if(sent_size >= 0){
-//                printf("send file: %s \n" , image_path);
-//            }
-//            close(fdimg);
-    //        }
 }
 
 string HttpServer::getContentType(std::string fileName)
@@ -189,58 +118,6 @@ string HttpServer::getContentType(std::string fileName)
     }
 
     return "text/html";
-}
-
-void HttpServer::sendSampleHtml(int clientFd)
-{
-
-    //    string indexStr = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<h1>Ya Mahdi!</h1>";
-        int len;
-        string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
-        send(clientFd,header.c_str(),header.size(),0);
-        fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/html.html",ios_base::in | ios_base::binary);
-        if(!file){
-            cerr<<"cant open file"<<endl;
-            return;
-        }
-    //    int len;
-        char sendBuffer[SEND_BUFFER_SIZE]={0};
-        do{
-        file.read(sendBuffer,SEND_BUFFER_SIZE);
-        len = file.gcount();
-        if(len == 0){
-            sendBuffer[0]=0;
-        }
-        send(clientFd,sendBuffer,len,0);
-        }while(len>0);
-
-        shutdown(clientFd, SHUT_RDWR);
-        close(clientFd);
-}
-
-void HttpServer::sendSampleImage(int clientFd)
-{
-    int len;
-    string header = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
-    send(clientFd,header.c_str(),header.size(),0);
-    fstream file("/media/c0re/driveD/university/network/ca/ca1/code/CN_CHomeworks1/web/disk/image.png",ios_base::in | ios_base::binary);
-    if(!file){
-        cerr<<"cant open file"<<endl;
-        return;
-    }
-//    int len;
-    char sendBuffer[SEND_BUFFER_SIZE]={0};
-    do{
-    file.read(sendBuffer,SEND_BUFFER_SIZE);
-    len = file.gcount();
-    if(len == 0){
-        sendBuffer[0]=0;
-    }
-    send(clientFd,sendBuffer,len,0);
-    }while(len>0);
-
-    shutdown(clientFd, SHUT_RDWR);
-    close(clientFd);
 }
 
 void HttpServer::sendFile(int clientFd, string fileName)
