@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "msgStruct.hpp"
 
 int connectServer(int port)
@@ -41,8 +42,9 @@ int main(int argc, char const *argv[])
     {
         fd = connectServer(atoi(argv[1]));
         username = argv[2];
+        int userIDrand = rand() % (username.size());
 
-        initial_CONNECT(msg, username.c_str());
+        initial_CONNECT(msg, userIDrand, username.c_str());
         send(fd, msg.buff, sizeof(msg), 0);
 
         recv(fd, msg.buff, SIZE_BUFF, 0);
@@ -66,13 +68,15 @@ int main(int argc, char const *argv[])
             }
             std::istringstream iss(msg.M.payload);
             std::string line;
+            std::vector<std::string> strs;
             // printf("pay%s\n", msg.M.payload);
 
             while (std::getline(iss, line))
             {
-                // }
-                // for
-                // {
+                strs.push_back(line);
+            }
+            for (std::string line : strs)
+            {
                 initial_INFO(msg, line.c_str());
                 send(fd, msg.buff, sizeof(msg), 0);
 

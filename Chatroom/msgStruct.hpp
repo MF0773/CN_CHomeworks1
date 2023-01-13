@@ -37,9 +37,9 @@ void initialMSG(msgStruct &msg, MessageType _mess_type, const int &_mess_id, con
     strcpy(msg.M.payload, _payload);
 };
 
-void inline initial_CONNECT(msgStruct &msg, const char *name)
+void inline initial_CONNECT(msgStruct &msg, const int &_mess_id, const char *name)
 {
-    initialMSG(msg, CONNECT, FAKE_MESS_ID, 2 + strlen(name), name);
+    initialMSG(msg, CONNECT, _mess_id, 2 + strlen(name), name);
 }
 void inline initial_CONNACK(msgStruct &msg)
 {

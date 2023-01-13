@@ -70,6 +70,7 @@ void response(msgStruct &msg, int i)
         // printf("%s\n", get_userID().c_str());
         initial_LISTREPLY(msg, users.size(), get_userID().c_str());
         send(i, msg.buff, strlen(msg.buff), 0);
+        break;
 
     case INFO:
         initial_INFOREPLY(msg, users[atoi(msg.M.payload)].c_str());
@@ -110,6 +111,7 @@ void event_loop(fd_set &master_set, fd_set &working_set, int &server_fd, int &ne
                 if (bytes_received == 0)
                 { // EOF
                     printf("client fd = %d closed\n", i);
+                    users.erase(msg.M.mess_id);
                     close(i);
                     FD_CLR(i, &master_set);
                     continue;
