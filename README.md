@@ -69,7 +69,7 @@ cd web
 │   └── server # FTP server source file
 │       └── server_disk # # FTP server files
 └── web # HTTP web server source file
-    └── disk # directory of storing static files e.g. 404.html
+|    └── disk # directory of storing static files e.g. 404.html
 
 ```
 
@@ -94,6 +94,10 @@ The result of main html page:
 
 The result of incorrect url:
 ![404 html page](docs/images/http_404.png)
+
+## Chat room
+![chat1](docs/images/chat1.jpeg)
+![chat2](docs/images/chat2.jpeg)
 
 ## End Notes
 
