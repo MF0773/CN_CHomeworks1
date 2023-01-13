@@ -173,13 +173,12 @@ int main(int argc, char const *argv[])
             {
                 printf("Error on reponse from server. listen %d Instead SENDREPLY\n", msg.M.mess_type);
             }
-
-            // printf("Message deliverd: %d\n", atoi(msg.M.payload[0]));
+            printf("Message deliverd: %d\n", msg.M.payload[0] - '0');
         }
         else
         {
             printf("Error on input order\n");
         }
-        // std::cin >> message_str;
+        // check atoi c_str const &
     }
 }
